@@ -23,7 +23,7 @@ const [wallet, setWallet] = useState(0);
 
 const [user, setUser] = useState(null);
  
-console.log(user)
+console.log(user,spinDuration)
  useEffect(() => {
   const token = localStorage.getItem("token");
 
@@ -94,28 +94,28 @@ useEffect(() => {
   // SOCKET EVENTS
   // ======================
   useEffect(() => {
-    socket.on("sync_state", (state) => {
-  setTime(state.timeLeft);
-  setResult(state.result);
-  setLocked(!state.bettingOpen);
+      socket.on("sync_state", (state) => {
+        setTime(state.timeLeft);
+        setResult(state.result);
+        setLocked(!state.bettingOpen);
 
-  setResultTimer(state.resultHoldTime);
+        setResultTimer(state.resultHoldTime);
 
-  if (state.phase === "locked") {
-    setIsSpinning(true);
-  } else {
-    setIsSpinning(false);
-  }
-});
+        if (state.phase === "locked") {
+          setIsSpinning(true);
+        } else {
+          setIsSpinning(false);
+        }
+      });
 
-    socket.on("bet_count", (d) => {
-      setBetCount(d.total);
-    });
+      socket.on("bet_count", (d) => {
+        setBetCount(d.total);
+      });
 
-    socket.on("spinning", () => {
-      setIsSpinning(true);
-      setResult(null);
-    });
+      socket.on("spinning", () => {
+        setIsSpinning(true);
+        setResult(null);
+      });
 
     socket.on("result", (d) => {
       const rot = calculateRotation(d.result);
@@ -136,7 +136,7 @@ useEffect(() => {
     });
 
     return () => socket.off();
-  }, [currentRotation]);
+  }, [currentRotation,calculateRotation]);
 
   // ======================
   // PLACE BET
