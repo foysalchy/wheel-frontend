@@ -12,7 +12,7 @@ export default function LuxuryNav() {
   const navigate = useNavigate();
 
   return (
-    <nav className="w-[350px] m-auto  fixed bottom-0 left-0 right-0 z-50 px-4 py-3 bg-slate-900 border-t"
+    <nav className="w-[100%] m-auto  fixed bottom-0 left-0 right-0 z-50 px-4 py-3 bg-slate-900 border-t"
       
        style={{
         

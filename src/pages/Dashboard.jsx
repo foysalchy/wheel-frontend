@@ -69,7 +69,7 @@ const summaryCards = [
 ];
 
   return (
-    <div className="min-h-screen w-[350px] bg-[#020814] text-white flex flex-col pb-24 font-sans">
+    <div className="min-h-screen w-[100%] bg-[#020814] text-white flex flex-col pb-24 font-sans">
       <main className="flex-1 px-4 py-5">
         
         {/* Balance Card Section */}
