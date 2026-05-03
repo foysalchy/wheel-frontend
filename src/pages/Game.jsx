@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import socket from "../socket";
 import "./game.css";
 import { Navigate } from "react-router-dom";
@@ -17,7 +17,7 @@ export default function Game() {
   const [wheelRotation, setWheelRotation] = useState(0);
   const [currentRotation, setCurrentRotation] = useState(0);
 
-  const [spinDuration, setSpinDuration] = useState(5);
+  const spinDuration = 5;
   const [betAmount, setBetAmount] = useState(10);
 const [wallet, setWallet] = useState(0);
 
@@ -81,14 +81,22 @@ useEffect(() => {
   // ======================
   // ROTATION CALC
   // ======================
-  const calculateRotation = (num) => {
-    const index = wheelNumbers.indexOf(num);
-    const segmentSize = 360 / wheelNumbers.length;
-    const targetAngle = (index + 0.5) * segmentSize;
-    const base = 360 * 5;
+  // const calculateRotation = (num) => {
+  //   const index = wheelNumbers.indexOf(num);
+  //   const segmentSize = 360 / wheelNumbers.length;
+  //   const targetAngle = (index + 0.5) * segmentSize;
+  //   const base = 360 * 5;
 
-    return base - targetAngle;
-  };
+  //   return base - targetAngle;
+  // };
+  const calculateRotation = useCallback((num) => {
+  const index = wheelNumbers.indexOf(num);
+  const segmentSize = 360 / wheelNumbers.length;
+  const targetAngle = (index + 0.5) * segmentSize;
+  const base = 360 * 5;
+
+  return base - targetAngle;
+}, []);
 
   // ======================
   // SOCKET EVENTS
