@@ -24,7 +24,170 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
+         <script src="https://cdn.tailwindcss.com"></script>
     <title>React App</title>
+    
+<style>
+.btnn {
+  width: 20%;
+  height: 100px;
+  font-size: 28px;
+  font-weight: 800;
+  color: #fff;
+  
+  border: none;
+  border-radius: 12px;
+
+  /* 🔥 Text Shadow */
+  text-shadow: 
+    0 2px 4px rgba(0,0,0,0.5),
+    0 6px 10px rgba(0,0,0,0.4);
+
+  /* 🔥 Stretch / lying effect */
+  transform: scaleY(0.7) skewX(-10deg);
+
+  /* Smooth look */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>
+    <style>
+      body{
+        background: #07101b;
+      }
+      .gold-text {
+  background: linear-gradient(
+    to bottom,
+    #cfc893 0%,
+    #b59c71 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-icon {
+  color: #cfc893;
+  transition: all 0.3s ease;
+}
+.gold-text {
+  background: linear-gradient(to bottom, #cfc893, #b59c71);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-icon {
+  color: #cfc893;
+}
+
+.form-label {
+  color: #cfc893;
+  font-size: 14px;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.gold-input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  background: #07101b;
+  border: 1px solid rgba(207, 200, 147, 0.3);
+  color: white;
+}
+
+.gold-input:focus {
+  outline: none;
+  border-color: #cfc893;
+}
+
+.method-card {
+  border: 1px solid rgba(207, 200, 147, 0.3);
+  border-radius: 14px;
+  padding: 12px;
+  background: #07101b;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.method-card.active {
+  border-color: #cfc893;
+  box-shadow: 0 0 10px rgba(207, 200, 147, 0.4);
+}
+.gold-icon:hover {
+  color: #b59c71;
+  filter: drop-shadow(0 0 6px rgba(207, 200, 147, 0.8));
+}
+        .balance-gradient {
+            background: linear-gradient(135deg, #2a1a3a 0%, #1a1a2e 100%);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #1a3a3a 0%, #1a1a2e 100%);
+            border: 1px solid rgba(79, 172, 254, 0.3);
+        }
+
+        .stat-card-withdraw {
+            background: linear-gradient(135deg, #3a1a3a 0%, #1a1a2e 100%);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+
+        .action-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #1a2a2a 0%, #0a1a1a 100%);
+        }
+
+        .action-btn:hover {
+            background: linear-gradient(135deg, #2a3a3a 0%, #1a2a2a 100%);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 8px;
+            cursor: pointer;
+            color: #888;
+            transition: color 0.3s ease;
+        }
+
+        .nav-item.active {
+            color: #d4af37;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 28rem;
+            margin-left: auto;
+            margin-right: auto;
+            background: rgba(17, 24, 39, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0 20px 0;
+        }
+
+        .container-with-nav {
+            padding-bottom: 100px;
+        }
+    </style>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

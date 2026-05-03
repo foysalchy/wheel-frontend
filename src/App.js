@@ -1,25 +1,59 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import Login from "./pages/Login";
+import Game from "./pages/Game";
+import Dashboard from "./pages/Dashboard";
+import Deposit from "./pages/Deposit";
+import Withdraw from "./pages/Withdraw";
+import BetHistory from "./pages/BetHistory";
+import DepositHistory from "./pages/DepositHistory";
+import WithdrawHistory from "./pages/WithdrawHistory";
 
-function App() {
+export default function App() {
+  const user = localStorage.getItem("user");
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+
+        <Route
+          path="/game"
+          element={user ? <Game /> : <Navigate to="/login" />}
+          
+        />
+        <Route
+          path="/dashboard"
+          element={user ? <Dashboard /> : <Navigate to="/login" />}
+          
+        />
+        <Route
+          path="/deposit"
+          element={user ? <Deposit /> : <Navigate to="/login" />}
+          
+        />
+          <Route
+          path="/deposit-history"
+          element={user ? <DepositHistory /> : <Navigate to="/login" />}
+          
+        />
+          <Route
+          path="/withdraw"
+          element={user ? <Withdraw /> : <Navigate to="/login" />}
+          
+        />
+         <Route
+          path="/withdraw-history"
+          element={user ? <WithdrawHistory /> : <Navigate to="/login" />}
+          
+        />
+          <Route
+          path="/bet-history"
+          element={user ? <BetHistory /> : <Navigate to="/login" />}
+          
+        />
+
+        <Route path="*" element={<Navigate to="/login" />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
-
-export default App;
