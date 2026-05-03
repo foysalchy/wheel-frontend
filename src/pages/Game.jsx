@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import socket from "../socket";
 import "./game.css";
 import { Navigate } from "react-router-dom";
@@ -81,22 +81,16 @@ useEffect(() => {
   // ======================
   // ROTATION CALC
   // ======================
-  // const calculateRotation = (num) => {
-  //   const index = wheelNumbers.indexOf(num);
-  //   const segmentSize = 360 / wheelNumbers.length;
-  //   const targetAngle = (index + 0.5) * segmentSize;
-  //   const base = 360 * 5;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  
+  const calculateRotation = (num) => {
+    const index = wheelNumbers.indexOf(num);
+    const segmentSize = 360 / wheelNumbers.length;
+    const targetAngle = (index + 0.5) * segmentSize;
+    const base = 360 * 5;
 
-  //   return base - targetAngle;
-  // };
-  const calculateRotation = useCallback((num) => {
-  const index = wheelNumbers.indexOf(num);
-  const segmentSize = 360 / wheelNumbers.length;
-  const targetAngle = (index + 0.5) * segmentSize;
-  const base = 360 * 5;
-
-  return base - targetAngle;
-}, []);
+    return base - targetAngle;
+  };
 
   // ======================
   // SOCKET EVENTS
