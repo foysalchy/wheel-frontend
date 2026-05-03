@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import socket from "../socket";
 import "./game.css";
 import { Navigate } from "react-router-dom";
-
+  const wheelNumbers = [0,1, 2, 3, 4, 5, 6, 7, 8, 9];
 export default function Game() {
   const [time, setTime] = useState(60);
   const [betCount, setBetCount] = useState(0);
@@ -62,7 +62,7 @@ useEffect(() => {
 
   return () => socket.off("wallet_update");
 }, []);
-  const wheelNumbers = [0,1, 2, 3, 4, 5, 6, 7, 8, 9];
+
 
   // ======================
   // POSITION CALC
@@ -81,17 +81,24 @@ useEffect(() => {
   // ======================
   // ROTATION CALC
   // ======================
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   
-  const calculateRotation = (num) => {
-    const index = wheelNumbers.indexOf(num);
-    const segmentSize = 360 / wheelNumbers.length;
-    const targetAngle = (index + 0.5) * segmentSize;
-    const base = 360 * 5;
+  // const calculateRotation = (num) => {
+  //   const index = wheelNumbers.indexOf(num);
+  //   const segmentSize = 360 / wheelNumbers.length;
+  //   const targetAngle = (index + 0.5) * segmentSize;
+  //   const base = 360 * 5;
 
-    return base - targetAngle;
-  };
+  //   return base - targetAngle;
+  // };
 
+  const calculateRotation = useCallback((num) => {
+  const index = wheelNumbers.indexOf(num);
+  const segmentSize = 360 / wheelNumbers.length;
+  const targetAngle = (index + 0.5) * segmentSize;
+  const base = 360 * 5;
+
+  return base - targetAngle;
+}, []);
   // ======================
   // SOCKET EVENTS
   // ======================
