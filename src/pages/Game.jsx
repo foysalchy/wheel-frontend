@@ -23,6 +23,7 @@ const [wallet, setWallet] = useState(0);
 
 const [user, setUser] = useState(null);
  
+console.log(user)
  useEffect(() => {
   const token = localStorage.getItem("token");
 
@@ -521,7 +522,7 @@ const placeBet = (num) => {
       alt=""
     />
     <h3 className={`status-text absolute left-0 right-0 m-auto top-[21px] ${locked ? "status-closed" : "status-open"}`}>
-        {isSpinning ? "🌀 Spinning..." : locked ? "🔴 Betting Closed,Witting For Next Bet "+resultTimer+"s" : "🟢 Betting Open"}
+      {betCount}  {isSpinning ? "🌀 Spinning..." : locked ? "🔴 Betting Closed,Witting For Next Bet "+resultTimer+"s" : "🟢 Betting Open"}
       </h3>
   </div>
    <button    onClick={() => Navigate("/dashboard")} className="w-[220px] h-[80px]">

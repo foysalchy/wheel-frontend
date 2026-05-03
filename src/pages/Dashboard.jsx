@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import socket from "../socket";
 import { useNavigate } from "react-router-dom";
 import LuxuryNav from "../components/luxury-nav";
-import { ChevronRight, ArrowDownToLine, ArrowUpFromLine, History, User, Landmark } from "lucide-react";
+import {  ArrowDownToLine, ArrowUpFromLine } from "lucide-react";
 import axios from "axios";
 
 export default function CasinoDashboard() {
   const navigate = useNavigate();
-  const [userStore] = useState(JSON.parse(localStorage.getItem("user")));
+  // const [userStore] = useState(JSON.parse(localStorage.getItem("user")));
   const [wallet, setWallet] = useState(0);
 
   useEffect(() => {

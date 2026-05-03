@@ -14,13 +14,13 @@ export default function Withdraw() {
 
   const [popup, setPopup] = useState({ show: false, type: "", message: "" });
 
-  const user = JSON.parse(localStorage.getItem("user"));
+  
 
   const submitWithdraw = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await axios.post(
+    await axios.post(
         "https://wheel-backend-red.vercel.app/api/auth/withdraw",
         {
           method,
