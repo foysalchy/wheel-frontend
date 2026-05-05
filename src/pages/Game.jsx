@@ -184,33 +184,33 @@ const placeBet = (num) => {
   // ======================
   // UI
   // ======================
- useEffect(() => {
-  const enableFullScreenAndLock = async () => {
-    try {
-      // 1. Fullscreen
-      const elem = document.documentElement;
+//  useEffect(() => {
+//   const enableFullScreenAndLock = async () => {
+//     try {
+//       // 1. Fullscreen
+//       const elem = document.documentElement;
 
-      if (elem.requestFullscreen) {
-        await elem.requestFullscreen();
-      } else if (elem.webkitRequestFullscreen) {
-        await elem.webkitRequestFullscreen();
-      } else if (elem.msRequestFullscreen) {
-        await elem.msRequestFullscreen();
-      }
+//       if (elem.requestFullscreen) {
+//         await elem.requestFullscreen();
+//       } else if (elem.webkitRequestFullscreen) {
+//         await elem.webkitRequestFullscreen();
+//       } else if (elem.msRequestFullscreen) {
+//         await elem.msRequestFullscreen();
+//       }
 
-      // 2. Lock orientation
-      const orientation = window.screen?.orientation;
-      if (orientation?.lock) {
-        await orientation.lock("landscape");
-      }
+//       // 2. Lock orientation
+//       const orientation = window.screen?.orientation;
+//       if (orientation?.lock) {
+//         await orientation.lock("landscape");
+//       }
 
-    } catch (err) {
-      console.log("Fullscreen or orientation not fully supported:", err);
-    }
-  };
+//     } catch (err) {
+//       console.log("Fullscreen or orientation not fully supported:", err);
+//     }
+//   };
 
-  enableFullScreenAndLock();
-}, []);
+//   enableFullScreenAndLock();
+// }, []);
   return (
     <div className="game-container"
         style={{

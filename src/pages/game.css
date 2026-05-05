@@ -349,11 +349,12 @@ body{
     transform: rotate(90deg);
     transform-origin: left top;
     width: 100vh;
-    height: 100vw;
+    height: 46vh !important;
     position: absolute;
     top: 0;
     left: 100%;
     overflow: hidden;
+    min-height: 45vh  !important;
   }
 }
 @media (max-width: 1360px) {
