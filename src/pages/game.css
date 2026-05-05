@@ -355,7 +355,8 @@ body{
     left: 100%;
     overflow: hidden;
   }
-}@media (max-width: 1360px) {
+}
+@media (max-width: 1360px) {
 
   .score {
     height: 110px !important;
@@ -440,4 +441,146 @@ body{
     width: 76px !important;
     height: 89px !important;
   }
+}
+
+
+@media (max-width: 770px) {
+
+  .score {
+    height: 70px !important;
+    background-repeat: no-repeat !important;
+    width: 150px !important;
+    background-size: contain !important;
+  }
+
+  .veiw {
+    height: 47px !important;
+    background-repeat: no-repeat !important;
+    width: 110px !important;
+    background-size: contain !important;
+    margin-top: -40px;
+  }
+
+  .score span {
+   top: -6px !important;
+    font-size: 13px !important;
+  }
+  .timer{
+    margin-top: 5px !important;
+  }
+
+  .timer span {
+    top: -11px !important;
+  }
+
+  .last span {
+    top: -13px !important;
+  }
+
+  .veiw span {
+   top: -34px !important;
+    font-size: 11px !important;
+    width: 104px;
+    display: inline-block;
+    left: -31px;
+  }
+
+  .betamount-tigger img {
+    width: 180px !important;
+  }
+
+  .betamount-tigger .btnn {
+    font-size: 15px !important;
+  }
+
+  .betamount-tigger .number {
+  top: -37px !important;
+    right: 12px !important;
+    left: 15px !important;
+  }
+  .betamount-tigger{
+    margin-top: 0 !important;
+  }
+
+  .last {
+  margin-top: -14px !important;
+    height: 6px !important;
+  }
+
+
+  
+  .wheel-container {
+    width: 220px !important;
+    height: 220px !important;
+    margin-top: -40px;
+  }
+
+  .wheel {
+    width: 200px !important;
+    height: 200px !important;
+  }
+
+  .wheel-border::after {
+width: 80px !important;
+    height: 80px !important;
+    top: 39% !important;
+    left: 39% !important;
+  }
+
+  .wheel-border {
+ height: 262px !important;
+    left: -29px !important;
+    top: -31px !important;
+    width: 270px !important;
+  }
+
+  .pointer {
+ position: absolute !important;
+    top: -30px !important;
+    left: 37% !important;
+    z-index: 20 !important;
+    width: 60px !important;
+    height: 55px !important;
+  }
+  .nm{
+    width: 90% !important;
+  }
+  .nm, .number div{
+    height: 60px !important;
+  }
+  .prev-centl  button,.prev-centl div{
+    height: 30px !important;
+  }
+    .cc{
+      bottom: 25% !important;
+    }
+  .prev-centl  button{
+    width: 100px !important;
+  }
+  .prev-centl div img{
+    display: none;
+  }
+  .prev-centl div {
+    width: 100%;
+    background: white;
+  border-radius: 15px;
+  border: 3px solid #bf7b06;
+  }
+   .prev-centl div h3 {
+    position: static;
+  margin: 0;
+    margin-top: 0px;
+  font-size: 13px;
+  margin-top: 3px;
+
+  }
+  .prev-centl button span {
+    top: 0px !important;
+  font-size: 12px !important;
+  }
+  .bm{
+    top: -3px !important;
+  font-size: 11px !important;
+  }
+ 
 }

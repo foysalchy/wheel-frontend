@@ -76,7 +76,12 @@ useEffect(() => {
   // POSITION CALC
   // ======================
   const getNumberPosition = (index) => {
-    const radius = screenWidth <= 1360 ? 90 : 130;
+ const radius =
+  screenWidth <= 780
+    ? 70
+    : screenWidth <= 1360
+    ? 90
+    : 130;
     const segmentSize = 360 / wheelNumbers.length;
     const angle = ((index + 0.5) * segmentSize - 90) * (Math.PI / 180);
 
@@ -179,19 +184,32 @@ const placeBet = (num) => {
   // ======================
   // UI
   // ======================
-  useEffect(() => {
-  const lockOrientation = async () => {
+ useEffect(() => {
+  const enableFullScreenAndLock = async () => {
     try {
+      // 1. Fullscreen
+      const elem = document.documentElement;
+
+      if (elem.requestFullscreen) {
+        await elem.requestFullscreen();
+      } else if (elem.webkitRequestFullscreen) {
+        await elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) {
+        await elem.msRequestFullscreen();
+      }
+
+      // 2. Lock orientation
       const orientation = window.screen?.orientation;
       if (orientation?.lock) {
         await orientation.lock("landscape");
       }
+
     } catch (err) {
-      console.log("Orientation not supported");
+      console.log("Fullscreen or orientation not fully supported:", err);
     }
   };
 
-  lockOrientation();
+  enableFullScreenAndLock();
 }, []);
   return (
     <div className="game-container"
@@ -461,7 +479,7 @@ const placeBet = (num) => {
      
       </div>
 
-  <div className="prev-centl flex  w-[80%] m-auto px-4 bottom-[20%] absolute left-0 right-0 justify-between">
+  <div className="prev-centl cc flex  w-[80%] m-auto px-4 bottom-[20%] absolute left-0 right-0 justify-between">
   
   <button className="w-[200px] h-[80px]">
     <img
@@ -506,7 +524,7 @@ const placeBet = (num) => {
 
           {/* 👉 যদি bet থাকে তাহলে amount দেখাও */}
           {bet && (
-            <div className="text-sm mt-1 absolute top-[11px] text-[20px] text-black font-[900] ">
+            <div className="text-sm mt-1 absolute top-[11px] text-[20px] text-black font-[900] bm">
                 {bet.amount}
             </div>
           )}
