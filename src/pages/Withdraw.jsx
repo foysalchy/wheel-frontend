@@ -21,7 +21,7 @@ export default function Withdraw() {
 
     try {
     await axios.post(
-        "https://wheel-backend-red.vercel.app/api/auth/withdraw",
+        "http://localhost:5000//api/auth/withdraw",
         {
           method,
           accountNumber,
@@ -58,7 +58,7 @@ export default function Withdraw() {
 
   return (
     <div
-      className="  relative overflow-hidden"
+      className=" w-[100%] lg:w-[350px] m-auto  relative overflow-hidden"
       
     >
        

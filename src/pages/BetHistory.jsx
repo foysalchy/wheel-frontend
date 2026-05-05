@@ -44,7 +44,7 @@ export default function BetHistory() {
 
   return (
     <div
-      className="min-h-screen text-white flex flex-col relative"
+      className="min-h-screen w-[100%] lg:w-[350px] m-auto  text-white flex flex-col relative"
       style={{
         backgroundImage:
           "url('https://static.vecteezy.com/system/resources/previews/024/632/483/large_2x/casino-gambling-background-photo.jpg')",

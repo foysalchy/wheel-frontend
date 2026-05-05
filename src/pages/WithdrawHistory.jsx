@@ -18,7 +18,7 @@ export default function WithdrawHistory() {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get(
-        "https://wheel-backend-red.vercel.app/api/auth/withdraw-history",
+        "http://localhost:5000//api/auth/withdraw-history",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -75,7 +75,7 @@ export default function WithdrawHistory() {
   ];
 
   return (
-    <div className="min-h-screen text-white pb-24 bg-gradient-to-b from-[#020b1a] via-[#06152c] to-[#020814]">
+    <div className="w-[100%] lg:w-[350px] m-auto  min-h-screen text-white pb-24 bg-gradient-to-b from-[#020b1a] via-[#06152c] to-[#020814]">
       <div className="max-w-md mx-auto px-3 py-4">
 
         {/* Header */}

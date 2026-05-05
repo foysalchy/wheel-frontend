@@ -1,16 +1,18 @@
 import { useCallback, useEffect, useState } from "react";
 import socket from "../socket";
 import "./game.css";
-import { Navigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
   const wheelNumbers = [0,1, 2, 3, 4, 5, 6, 7, 8, 9];
 export default function Game() {
+  const navigate = useNavigate();
+
   const [time, setTime] = useState(60);
   const [betCount, setBetCount] = useState(0);
   const [bets, setBets] = useState([]);
 
   const [result, setResult] = useState(null);
   const [resultTimer, setResultTimer] = useState(0);
-
+const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [locked, setLocked] = useState(false);
   const [isSpinning, setIsSpinning] = useState(false);
 
@@ -22,7 +24,13 @@ export default function Game() {
 const [wallet, setWallet] = useState(0);
 
 const [user, setUser] = useState(null);
- 
+ useEffect(() => {
+  const handleResize = () => setScreenWidth(window.innerWidth);
+
+  window.addEventListener("resize", handleResize);
+
+  return () => window.removeEventListener("resize", handleResize);
+}, []);
 console.log(user,spinDuration)
  useEffect(() => {
   const token = localStorage.getItem("token");
@@ -68,7 +76,7 @@ useEffect(() => {
   // POSITION CALC
   // ======================
   const getNumberPosition = (index) => {
-    const radius = 130;
+    const radius = screenWidth <= 1360 ? 90 : 130;
     const segmentSize = 360 / wheelNumbers.length;
     const angle = ((index + 0.5) * segmentSize - 90) * (Math.PI / 180);
 
@@ -230,7 +238,7 @@ const placeBet = (num) => {
         }}
         >💰 Wallet: {wallet}</span>
     </div>
-     <div className="score mt-6 w-[360px]  h-[175px]  m-auto"
+     <div className="score timer mt-6 w-[360px]  h-[175px]  m-auto"
     style={{
           backgroundImage:
             "url('/images/use/timmer.png')",
@@ -369,7 +377,7 @@ const placeBet = (num) => {
          )}
         </span>
     </div>
-     <div className="score mt-12 w-[360px]  h-[100px]  m-auto"
+     <div className="score last mt-12 w-[360px]  h-[100px]  m-auto"
     style={{
           backgroundImage:
             "url('/images/use/result pad.png')",
@@ -389,9 +397,9 @@ const placeBet = (num) => {
   textAlign: "center",
   fontSize:"22px"
         }}
-        > Last Winner 1,4,2,6,3,6,9</span>
+        >  1,4,2,6,3,6,9</span>
     </div>
-    <div className="score  w-[160px]  h-[50px]  m-auto"
+    <div className="score veiw  w-[160px]  h-[50px]  m-auto"
     style={{
           backgroundImage:
             "url('/images/use/result pad.png')",
@@ -534,7 +542,7 @@ const placeBet = (num) => {
       {betCount}  {isSpinning ? "🌀 Spinning..." : locked ? "🔴 Betting Closed,Witting For Next Bet "+resultTimer+"s" : "🟢 Betting Open"}
       </h3>
   </div>
-   <button    onClick={() => Navigate("/dashboard")} className="w-[220px] h-[80px]">
+   <button    onClick={() => navigate("/dashboard")} className="w-[220px] h-[80px]">
     <img
       src="/images/use/exit.png"
       className="w-full h-full object-contain"

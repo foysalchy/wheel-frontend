@@ -1,10 +1,10 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { Home, Gamepad2, Settings } from "lucide-react";
+import { Home, Gamepad2, Settings, User } from "lucide-react";
 
 const navItems = [
   { href: "/dashboard", label: "Home", icon: <Home size={28} /> },
   { href: "/game", label: "Game", icon: <Gamepad2 size={28} /> },
-  { href: "/settings", label: "Settings", icon: <Settings size={28} /> },
+  { href: "/profile", label: "Profile", icon: <User size={28} /> },
 ];
 
 export default function LuxuryNav() {
@@ -12,7 +12,7 @@ export default function LuxuryNav() {
   const navigate = useNavigate();
 
   return (
-    <nav className="w-[100%] m-auto  fixed bottom-0 left-0 right-0 z-50 px-4 py-3 bg-slate-900 border-t"
+    <nav className="w-[100%] lg:w-[350px] m-auto  m-auto  fixed bottom-0 left-0 right-0 z-50 px-4 py-3 bg-slate-900 border-t"
       
        style={{
         

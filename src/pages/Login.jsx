@@ -11,14 +11,14 @@ export default function Login() {
   const login = async () => {
     try {
       setLoading(true);
-      const res = await axios.post("https://wheel-backend-red.vercel.app/api/auth/login", {
+      const res = await axios.post("http://localhost:5000/api/auth/login", {
       username,
       password,
     });
 
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
-      nav("dashboard");
+          nav("/dashboard"); // ✅ FIXED
     } catch (error) {
       alert(error.response?.data?.message || "Login failed!");
     } finally {

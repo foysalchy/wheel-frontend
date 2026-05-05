@@ -27,7 +27,7 @@ export default function Deposit() {
       formData.append("screenshot", screenshot);
 
      await axios.post(
-  "https://wheel-backend-red.vercel.app/api/auth/deposit",
+  "http://localhost:5000//api/auth/deposit",
   formData,
   {
     headers: {
@@ -60,7 +60,7 @@ export default function Deposit() {
   };
 
   return (
-    <div className="  text-white flex flex-col overflow-hidden">
+    <div className="w-[100%] lg:w-[350px] m-auto   text-white flex flex-col overflow-hidden">
 
       {/* HEADER */}
       <div className="flex items-center justify-between px-3 py-3">

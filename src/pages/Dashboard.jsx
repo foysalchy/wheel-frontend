@@ -36,7 +36,7 @@ const fetchSummary = async () => {
     const token = localStorage.getItem("token");
 
     const res = await axios.get(
-      "https://wheel-backend-red.vercel.app/api/auth/dashboard-summary",
+      "http://localhost:5000//api/auth/dashboard-summary",
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -69,7 +69,7 @@ const summaryCards = [
 ];
 
   return (
-    <div className="min-h-screen w-[100%] bg-[#020814] text-white flex flex-col pb-24 font-sans">
+    <div className="min-h-screen w-[100%] lg:w-[350px] m-auto  bg-[#020814] text-white flex flex-col pb-24 font-sans">
       <main className="flex-1 px-4 py-5">
         
         {/* Balance Card Section */}

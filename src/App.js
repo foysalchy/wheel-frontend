@@ -5,8 +5,11 @@ import Dashboard from "./pages/Dashboard";
 import Deposit from "./pages/Deposit";
 import Withdraw from "./pages/Withdraw";
 import BetHistory from "./pages/BetHistory";
+import Profile from "./pages/Profile";
 import DepositHistory from "./pages/DepositHistory";
 import WithdrawHistory from "./pages/WithdrawHistory";
+import Register from "./pages/Register";
+import Privacy from "./pages/Privacy";
 
 export default function App() {
   const user = localStorage.getItem("user");
@@ -15,10 +18,16 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
+         <Route path="/register" element={<Register />} />
 
         <Route
           path="/game"
           element={user ? <Game /> : <Navigate to="/login" />}
+          
+        />
+         <Route
+          path="/privacy"
+          element={user ? <Privacy /> : <Navigate to="/login" />}
           
         />
         <Route
@@ -49,6 +58,11 @@ export default function App() {
           <Route
           path="/bet-history"
           element={user ? <BetHistory /> : <Navigate to="/login" />}
+          
+        />
+         <Route
+          path="/profile"
+          element={user ? <Profile /> : <Navigate to="/login" />}
           
         />
 

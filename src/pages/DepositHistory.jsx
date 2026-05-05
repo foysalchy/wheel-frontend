@@ -18,7 +18,7 @@ export default function DepositHistory() {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get(
-        "https://wheel-backend-red.vercel.app/api/auth/deposit-history",
+        "http://localhost:5000//api/auth/deposit-history",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -74,7 +74,7 @@ export default function DepositHistory() {
   ];
 
   return (
-    <div className="min-h-screen text-white pb-24 bg-gradient-to-b from-[#020b1a] via-[#06152c] to-[#020814]">
+    <div className="min-h-screen w-[100%] lg:w-[350px] m-auto  text-white pb-24 bg-gradient-to-b from-[#020b1a] via-[#06152c] to-[#020814]">
       <div className="max-w-md mx-auto px-3 py-4">
         {/* Header */}
          <div className="flex items-center justify-between px-3 py-3">
