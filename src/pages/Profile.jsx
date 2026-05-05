@@ -1,6 +1,6 @@
  import { useEffect, useState } from 'react';
-import { ChevronRight, ArrowLeft, Shield, Lock, Bell, FileText, LogOut, User, Banknote, Landmark, Smartphone, ChevronLeft } from 'lucide-react';
-import {Link, useNavigate } from "react-router-dom";
+import { ChevronRight, Lock, FileText, LogOut, ChevronLeft } from 'lucide-react';
+import {useNavigate } from "react-router-dom";
 import socket from '../socket';
 import axios from 'axios';
 

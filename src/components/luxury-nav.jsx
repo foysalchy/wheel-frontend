@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { Home, Gamepad2, Settings, User } from "lucide-react";
+import { Home, Gamepad2, User } from "lucide-react";
 
 const navItems = [
   { href: "/dashboard", label: "Home", icon: <Home size={28} /> },
