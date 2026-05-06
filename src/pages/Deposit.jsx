@@ -27,7 +27,7 @@ export default function Deposit() {
       formData.append("screenshot", screenshot);
 
      await axios.post(
-  "https://wheel-backend-red.vercel.app/api/auth/deposit",
+  "https://lite.fenixcoder.com/api/auth/deposit",
   formData,
   {
     headers: {
