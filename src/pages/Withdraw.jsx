@@ -21,7 +21,7 @@ export default function Withdraw() {
 
     try {
     await axios.post(
-        "https://lite.fenixcoder.com/api/auth/withdraw",
+        "http://localhost:5000/api/auth/withdraw",
         {
           method,
           accountNumber,

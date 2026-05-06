@@ -36,7 +36,7 @@ const fetchSummary = async () => {
     const token = localStorage.getItem("token");
 
     const res = await axios.get(
-      "https://lite.fenixcoder.com/api/auth/dashboard-summary",
+      "http://localhost:5000/api/auth/dashboard-summary",
       {
         headers: {
           Authorization: `Bearer ${token}`,

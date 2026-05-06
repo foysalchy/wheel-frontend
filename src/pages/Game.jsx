@@ -15,7 +15,7 @@ export default function Game() {
 const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [locked, setLocked] = useState(false);
   const [isSpinning, setIsSpinning] = useState(false);
-
+const [lastResults, setLastResults] = useState([]);
   const [wheelRotation, setWheelRotation] = useState(0);
   const [currentRotation, setCurrentRotation] = useState(0);
 
@@ -51,6 +51,15 @@ console.log(user,spinDuration)
     socket.off("user_data");
     socket.off("bet_count");
   };
+}, []);
+useEffect(() => {
+  socket.emit("get_last_results");
+
+  socket.on("last_results", (data) => {
+    setLastResults(data);
+  });
+
+  return () => socket.off("last_results");
 }, []);
 useEffect(() => {
   socket.on("wallet_update", (data) => {
@@ -194,24 +203,49 @@ const cancelBet = () => {
 };
 const repeatBet = () => {
   if (locked) return;
-  if (!lastBets.length) return;
+ 
+  socket.emit("repeat_bet", {
+    token: localStorage.getItem("token"),
+  });
+ 
 
+};
+
+useEffect(() => {
+ 
+
+  const handler = (data) => {
+    console.log(data,'data')
+    setBets(
+      data.map(b => ({
+        num: b.number,
+        amount: b.amount
+      }))
+    );
+  };
+
+  socket.on("repeat_done", handler);
+
+  return () => socket.off("repeat_done", handler);
+}, []);
+useEffect(() => {
   const token = localStorage.getItem("token");
 
-  const newBets = [];
+  socket.emit("get_current_bets", { token });
 
-  lastBets.forEach((b) => {
-    socket.emit("place_bet", {
-      token,
-      number: b.num,
-      amount: b.amount,
-    });
-
-    newBets.push(b);
+  socket.on("current_bets", (data) => {
+    setBets(
+      data.map((b) => ({
+        num: b.number,
+        amount: b.amount,
+      }))
+    );
   });
+  console.log(bets,'bets')
 
-  setBets(newBets);
-};
+  return () => socket.off("current_bets");
+}, []);
+ 
   // ======================
   // UI
   // ======================
@@ -447,7 +481,9 @@ const repeatBet = () => {
   textAlign: "center",
   fontSize:"22px"
         }}
-        >  1,4,2,6,3,6,9</span>
+        >  <span>
+  {lastResults.join(", ")}
+</span></span>
     </div>
     <div className="score veiw  w-[160px]  h-[50px]  m-auto"
     style={{
@@ -541,7 +577,10 @@ const repeatBet = () => {
     {wheelNumbers.map((n) => {
       
       // 👉 এই নাম্বারের জন্য bet খুঁজতেছি
-      const bet = bets.find((b) => b.num === n);
+     const totalAmount = bets
+  .filter((b) => b.num === n)
+  .reduce((sum, b) => sum + b.amount, 0);
+   const bet = bets.find((b) => b.num === n);
 
       return (
         <div
@@ -557,7 +596,7 @@ const repeatBet = () => {
           {/* 👉 যদি bet থাকে তাহলে amount দেখাও */}
           {bet && (
             <div className="text-sm mt-1 absolute top-[11px] text-[20px] text-black font-[900] bm">
-                {bet.amount}
+               {totalAmount}
             </div>
           )}
         </div>
