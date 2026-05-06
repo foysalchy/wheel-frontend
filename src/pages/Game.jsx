@@ -54,10 +54,11 @@ console.log(user,spinDuration)
 }, []);
 useEffect(() => {
   socket.on("wallet_update", (data) => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
+    const storedUser = user;
 
     if (data.userId === storedUser?.id) {
       if (data.wallet !== null) {
+        console.log(data.wallet,'data.wallet')
         setWallet(data.wallet);
       } else {
         // fallback refresh from server
@@ -182,6 +183,7 @@ const placeBet = (num) => {
   ]);
 };
 const cancelBet = () => {
+   if (locked) return;
   socket.emit("cancel_bet", {
     token: localStorage.getItem("token"),
   });
@@ -190,16 +192,23 @@ const cancelBet = () => {
 };
 const repeatBet = () => {
   if (locked) return;
+  if (!lastBets.length) return;
+
+  const token = localStorage.getItem("token");
+
+  const newBets = [];
 
   lastBets.forEach((b) => {
     socket.emit("place_bet", {
-      token: localStorage.getItem("token"),
+      token,
       number: b.num,
       amount: b.amount,
     });
+
+    newBets.push(b);
   });
 
-  setBets(lastBets);
+  setBets(newBets);
 };
   // ======================
   // UI
