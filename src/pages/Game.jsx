@@ -22,7 +22,7 @@ const [lastResults, setLastResults] = useState([]);
   const spinDuration = 5;
   const [betAmount, setBetAmount] = useState(10);
 const [wallet, setWallet] = useState(0);
-const [lastBets, setLastBets] = useState([]);
+ 
 const [user, setUser] = useState(null);
  useEffect(() => {
   const handleResize = () => setScreenWidth(window.innerWidth);
@@ -150,7 +150,7 @@ useEffect(() => {
       });
 
     socket.on("result", (d) => {
-       setLastBets(bets); // save last round bets
+     
       const rot = calculateRotation(d.result);
       const newRot = currentRotation + rot;
 
