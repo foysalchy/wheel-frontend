@@ -443,7 +443,7 @@ const placeBet = (num) => {
     </div>
 
      <div 
-   className="flex betamount-tigger mt-9  m-auto"
+   className="flex betamount-tigger betamount-tigger2 mt-9  m-auto"
     >
      
       <div className="relative  m-auto">
@@ -490,7 +490,7 @@ const placeBet = (num) => {
     />
   </button>
 
-  <button className="w-[250px] h-[80px]">
+  <button className="w-[250px] h-[80px] ccn">
     <img
       src="/images/use/Cancel.png"
       className="w-full h-full object-contain"

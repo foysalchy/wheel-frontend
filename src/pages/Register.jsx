@@ -40,7 +40,7 @@ export default function Register() {
       formData.append("photo", photo);
 
       const res = await axios.post(
-        "https://wheel-backend-red.vercel.app/api/auth/register",
+        "http://localhost:5000/api/auth/register",
         formData,
         {
           headers: {

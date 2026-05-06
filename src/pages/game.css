@@ -457,7 +457,7 @@ body{
     width: 110px !important;
     background-repeat: no-repeat !important;
     background-size: contain !important;
-    margin-top: -40px !important;
+    margin-top: -50px !important;
   }
 
   .score span {
@@ -504,7 +504,7 @@ body{
   }
 
   .last {
-    margin-top: -14px !important;
+    margin-top: -30px !important;
     height: auto !important; /* FIXED (6px was breaking UI) */
   }
 
@@ -513,7 +513,12 @@ body{
     height: 220px !important;
     margin-top: -40px !important;
   }
-
+.betamount-tigger2{
+  margin-top: -13px !important;
+}
+.ccn{
+  width: 125px !important;
+}
   .wheel {
     width: 200px !important;
     height: 200px !important;
@@ -587,7 +592,7 @@ body{
   }
 
   .bm {
-    top: -3px !important;
+    top: -4px !important;
     font-size: 11px !important;
   }
 }
