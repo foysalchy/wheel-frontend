@@ -183,10 +183,12 @@ const placeBet = (num) => {
   ]);
 };
 const cancelBet = () => {
+  console.log('go')
    if (locked) return;
   socket.emit("cancel_bet", {
     token: localStorage.getItem("token"),
   });
+  console.log('end')
 
   setBets([]); // UI clear
 };
