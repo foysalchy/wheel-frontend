@@ -22,7 +22,7 @@ const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const spinDuration = 5;
   const [betAmount, setBetAmount] = useState(10);
 const [wallet, setWallet] = useState(0);
-
+const [lastBets, setLastBets] = useState([]);
 const [user, setUser] = useState(null);
  useEffect(() => {
   const handleResize = () => setScreenWidth(window.innerWidth);
@@ -140,6 +140,7 @@ useEffect(() => {
       });
 
     socket.on("result", (d) => {
+       setLastBets(bets); // save last round bets
       const rot = calculateRotation(d.result);
       const newRot = currentRotation + rot;
 
@@ -180,7 +181,26 @@ const placeBet = (num) => {
     { num, amount, time: new Date().toLocaleTimeString() },
   ]);
 };
+const cancelBet = () => {
+  socket.emit("cancel_bet", {
+    token: localStorage.getItem("token"),
+  });
 
+  setBets([]); // UI clear
+};
+const repeatBet = () => {
+  if (locked) return;
+
+  lastBets.forEach((b) => {
+    socket.emit("place_bet", {
+      token: localStorage.getItem("token"),
+      number: b.num,
+      amount: b.amount,
+    });
+  });
+
+  setBets(lastBets);
+};
   // ======================
   // UI
   // ======================
@@ -482,7 +502,7 @@ const placeBet = (num) => {
 
   <div className="prev-centl cc flex  w-[80%] m-auto px-4 bottom-[20%] absolute left-0 right-0 justify-between">
   
-  <button className="w-[200px] h-[80px]">
+  <button onClick={repeatBet} className="w-[200px] h-[80px]">
     <img
       src="/images/use/placebet.png"
       className="w-full h-full object-contain"
@@ -490,7 +510,7 @@ const placeBet = (num) => {
     />
   </button>
 
-  <button className="w-[250px] h-[80px] ccn">
+  <button onClick={cancelBet} className="w-[250px] h-[80px] ccn">
     <img
       src="/images/use/Cancel.png"
       className="w-full h-full object-contain"
