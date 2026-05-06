@@ -63,7 +63,7 @@ useEffect(() => {
 }, []);
 useEffect(() => {
   socket.on("wallet_update", (data) => {
-    const storedUser = user;
+    const storedUser = localStorage.getItem("user");
 
     if (data.userId === storedUser?.id) {
       if (data.wallet !== null) {
@@ -241,7 +241,7 @@ useEffect(() => {
       }))
     );
   });
-  console.log(bets,'bets')
+  
 
   return () => socket.off("current_bets");
 }, []);
