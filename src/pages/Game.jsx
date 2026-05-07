@@ -5,6 +5,7 @@ import {  useNavigate } from "react-router-dom";
   const wheelNumbers = [0,1, 2, 3, 4, 5, 6, 7, 8, 9];
 export default function Game() {
   const navigate = useNavigate();
+  
 const rotationRef = useRef(0);
   const [time, setTime] = useState(60);
   const [betCount, setBetCount] = useState(0);
@@ -19,9 +20,9 @@ const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [isSpinningWheel, setIsSpinningWheel] = useState(false);
 const [lastResults, setLastResults] = useState([]);
   const [wheelRotation, setWheelRotation] = useState(0);
-  const [currentRotation, setCurrentRotation] = useState(0);
+  
 
-  const spinDuration = 5;
+  const spinDuration = 3;
   const [betAmount, setBetAmount] = useState(10);
 const [wallet, setWallet] = useState(0);
  
@@ -127,10 +128,15 @@ useEffect(() => {
   const calculateRotation = useCallback((num) => {
   const index = wheelNumbers.indexOf(num);
   const segmentSize = 360 / wheelNumbers.length;
-  const targetAngle = (index + 0.5) * segmentSize;
-  const base = 360 * 5;
 
-  return base - targetAngle;
+  // 🎯 EXACT CENTER POSITION FIX
+  const targetAngle = index * segmentSize + segmentSize / 2;
+
+  // full spins
+  const fullSpins = 360 * 5;
+
+  // 🎯 pointer top = 0 degree fix
+  return fullSpins + (360 - targetAngle);
 }, []);
   // ======================
   // SOCKET EVENTS
@@ -160,29 +166,39 @@ useEffect(() => {
       });
 
    socket.on("result", (d) => {
-  const rot = calculateRotation(d.result);
+    const rot = calculateRotation(d.result);
 
-  const newRot = rotationRef.current + rot;
+  // ❌ don't use ref add directly for casino wheel
+  const newRot = rot; // RESET each round (IMPORTANT)
+
   rotationRef.current = newRot;
-
-  setIsSpinningWheel(true);
+setIsSpinningWheel(true)
   setIsSpinning(false);
   setResult(d.result);
+console.log(d,'result')
 
-  const storedUser = JSON.parse(localStorage.getItem("user"));
+    const storedUser = JSON.parse(localStorage.getItem("user"));
   const uid = String(storedUser?.id);
+ 
   const myWinx = d.userWins?.[uid] || 0;
+
   setmyWin(myWinx);
+
+  console.log("UID:", uid,);
+  console.log("userWins:", d.userWins);
+  console.log("myWin:", myWinx);
+
+  console.log(uid,myWinx,d.userWins,'userWins')
 
   setBets([]);
 
-  setTimeout(() => {
+ requestAnimationFrame(() => {
     setWheelRotation(newRot);
-  }, 100);
+  });
 
   setTimeout(() => {
     setIsSpinningWheel(false);
-  }, 5000);
+  }, 3000);
 });
 
     socket.on("result_timer", (d) => {
@@ -190,7 +206,7 @@ useEffect(() => {
     });
 
     return () => socket.off();
-  }, [currentRotation,calculateRotation]);
+  }, [calculateRotation]);
 
   // ======================
   // PLACE BET
@@ -415,6 +431,7 @@ useEffect(() => {
           style={{
             transform: `rotate(${wheelRotation}deg)`,
             transition: `transform ${spinDuration}s cubic-bezier(0.15,0.83,0.66,1)`,
+              willChange: "transform",
           }}
         >
           <div className="wheel-numbers">
@@ -640,7 +657,7 @@ useEffect(() => {
   isSpinning
     ? "🔴 Betting Closed"
     : locked
-      ? (resultTimer < 5
+      ? (resultTimer < 7
           ? "🔴 Betting Closed, Waiting For Next Bet " + resultTimer + "s"
           : "🔴 Betting Closed")
       : "🟢 Betting Open"

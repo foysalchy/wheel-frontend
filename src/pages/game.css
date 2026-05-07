@@ -656,3 +656,6 @@ left: -24px;
     filter: drop-shadow(0 0 5px rgba(255,215,0,0.2));
   }
 }
+.wheel {
+  will-change: transform;
+}
