@@ -305,7 +305,7 @@ useEffect(() => {
   textAlign: "center",
   fontSize:"22px"
         }}
-        >💰 Wallet: {wallet}</span>
+        > {wallet}</span>
     </div>
      <div className="score timer mt-6 w-[360px]  h-[175px]  m-auto"
     style={{
