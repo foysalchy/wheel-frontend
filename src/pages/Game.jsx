@@ -188,7 +188,7 @@ setIsSpinningWheel(true)
   }, 100);
   setTimeout(() => {
    setIsSpinningWheel(false)
-  }, 500);
+  }, 5000);
 });
 
     socket.on("result_timer", (d) => {
