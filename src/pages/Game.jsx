@@ -1,11 +1,11 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import socket from "../socket";
 import "./game.css";
 import {  useNavigate } from "react-router-dom";
   const wheelNumbers = [0,1, 2, 3, 4, 5, 6, 7, 8, 9];
 export default function Game() {
   const navigate = useNavigate();
-
+const rotationRef = useRef(0);
   const [time, setTime] = useState(60);
   const [betCount, setBetCount] = useState(0);
   const [bets, setBets] = useState([]);
@@ -161,33 +161,27 @@ useEffect(() => {
 
    socket.on("result", (d) => {
   const rot = calculateRotation(d.result);
-  const newRot = currentRotation + rot;
-setIsSpinningWheel(true)
+
+  const newRot = rotationRef.current + rot;
+  rotationRef.current = newRot;
+
+  setIsSpinningWheel(true);
   setIsSpinning(false);
   setResult(d.result);
 
-
-    const storedUser = JSON.parse(localStorage.getItem("user"));
+  const storedUser = JSON.parse(localStorage.getItem("user"));
   const uid = String(storedUser?.id);
- 
   const myWinx = d.userWins?.[uid] || 0;
-
   setmyWin(myWinx);
-
-  console.log("UID:", uid,);
-  console.log("userWins:", d.userWins);
-  console.log("myWin:", myWinx);
-
-  console.log(uid,myWinx,d.userWins,'userWins')
 
   setBets([]);
 
   setTimeout(() => {
     setWheelRotation(newRot);
-    setCurrentRotation(newRot);
   }, 100);
+
   setTimeout(() => {
-   setIsSpinningWheel(false)
+    setIsSpinningWheel(false);
   }, 5000);
 });
 
