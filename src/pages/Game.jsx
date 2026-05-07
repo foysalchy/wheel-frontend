@@ -255,19 +255,12 @@ useEffect(() => {
   // UI
   // ======================
 useEffect(() => {
-  const tryFullscreen = () => {
-    const elem = document.documentElement;
-
-    const req =
-      elem.requestFullscreen ||
-      elem.webkitRequestFullscreen ||
-      elem.msRequestFullscreen;
-
-    req?.call(elem);
+  const handler = () => {
+    document.documentElement.requestFullscreen?.();
+    document.removeEventListener("click", handler);
   };
 
-  // auto attempt
-  setTimeout(tryFullscreen, 300);
+  document.addEventListener("click", handler);
 }, []);
   return (
     <div className="game-container"
