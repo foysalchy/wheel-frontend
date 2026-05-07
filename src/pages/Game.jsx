@@ -642,7 +642,15 @@ useEffect(() => {
     />
     <h3 className={`status-text absolute left-0 right-0 m-auto top-[21px] ${locked ? "status-closed" : "status-open"}`}>
           <span className="d-none hidden">  {betCount} </span>
- {isSpinning ? "🔴 Betting Closed" : locked ? "🔴 Betting Closed,Witting For Next Bet "+resultTimer+"s" : "🟢 Betting Open"}
+ {
+  isSpinning
+    ? "🔴 Betting Closed"
+    : locked
+      ? (resultTimer < 5
+          ? "🔴 Betting Closed, Waiting For Next Bet " + resultTimer + "s"
+          : "🔴 Betting Closed")
+      : "🟢 Betting Open"
+}
  {/* {isSpinning ? "🔴 Betting Closed" : locked ? "🔴 Betting Closed" : "🟢 Betting Open"} */}
 
       </h3>
