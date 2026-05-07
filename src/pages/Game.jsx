@@ -639,7 +639,7 @@ useEffect(() => {
       alt=""
     />
     <h3 className={`status-text absolute left-0 right-0 m-auto top-[21px] ${locked ? "status-closed" : "status-open"}`}>
-            {/* {betCount}  */}
+          <span className="d-none none">  {betCount} </span>
  {/* {isSpinning ? "🌀 Spinning..." : locked ? "🔴 Betting Closed,Witting For Next Bet "+resultTimer+"s" : "🟢 Betting Open"} */}
  {isSpinning ? "🔴 Betting Closed" : locked ? "🔴 Betting Closed" : "🟢 Betting Open"}
 
