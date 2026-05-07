@@ -254,33 +254,28 @@ useEffect(() => {
   // ======================
   // UI
   // ======================
-//  useEffect(() => {
-//   const enableFullScreenAndLock = async () => {
-//     try {
-//       // 1. Fullscreen
-//       const elem = document.documentElement;
+useEffect(() => {
 
-//       if (elem.requestFullscreen) {
-//         await elem.requestFullscreen();
-//       } else if (elem.webkitRequestFullscreen) {
-//         await elem.webkitRequestFullscreen();
-//       } else if (elem.msRequestFullscreen) {
-//         await elem.msRequestFullscreen();
-//       }
+  const goFullscreen = () => {
+    const elem = document.documentElement;
 
-//       // 2. Lock orientation
-//       const orientation = window.screen?.orientation;
-//       if (orientation?.lock) {
-//         await orientation.lock("landscape");
-//       }
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.webkitRequestFullscreen) {
+      elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) {
+      elem.msRequestFullscreen();
+    }
+  };
 
-//     } catch (err) {
-//       console.log("Fullscreen or orientation not fully supported:", err);
-//     }
-//   };
+  // user interaction এ trigger
+  document.addEventListener("click", goFullscreen, { once: true });
 
-//   enableFullScreenAndLock();
-// }, []);
+  return () => {
+    document.removeEventListener("click", goFullscreen);
+  };
+
+}, []);
   return (
     <div className="game-container"
         style={{
