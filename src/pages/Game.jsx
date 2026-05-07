@@ -213,12 +213,11 @@ const repeatBet = () => {
     token: localStorage.getItem("token"),
   });
  
+ 
 
 };
 
 useEffect(() => {
- 
-
   const handler = (data) => {
     console.log(data,'data')
     setBets(
@@ -228,11 +227,11 @@ useEffect(() => {
       }))
     );
   };
-
   socket.on("repeat_done", handler);
-
   return () => socket.off("repeat_done", handler);
 }, []);
+
+
 useEffect(() => {
   const token = localStorage.getItem("token");
 
@@ -254,14 +253,14 @@ useEffect(() => {
   // ======================
   // UI
   // ======================
-useEffect(() => {
-  const handler = () => {
-    document.documentElement.requestFullscreen?.();
-    document.removeEventListener("click", handler);
-  };
+// useEffect(() => {
+//   const handler = () => {
+//     document.documentElement.requestFullscreen?.();
+//     document.removeEventListener("click", handler);
+//   };
 
-  document.addEventListener("click", handler);
-}, []);
+//   document.addEventListener("click", handler);
+// }, []);
   return (
     <div className="game-container"
         style={{

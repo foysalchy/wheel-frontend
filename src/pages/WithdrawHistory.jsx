@@ -18,7 +18,7 @@ export default function WithdrawHistory() {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get(
-        "https://lite.fenixcoder.com/api/auth/withdraw-history",
+        "http://localhost:5000/api/auth/withdraw-history",
         {
           headers: {
             Authorization: `Bearer ${token}`,
