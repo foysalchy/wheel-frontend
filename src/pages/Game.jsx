@@ -16,6 +16,7 @@ export default function Game() {
 const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [locked, setLocked] = useState(false);
   const [isSpinning, setIsSpinning] = useState(false);
+  const [isSpinningWheel, setIsSpinningWheel] = useState(false);
 const [lastResults, setLastResults] = useState([]);
   const [wheelRotation, setWheelRotation] = useState(0);
   const [currentRotation, setCurrentRotation] = useState(0);
@@ -161,7 +162,7 @@ useEffect(() => {
    socket.on("result", (d) => {
   const rot = calculateRotation(d.result);
   const newRot = currentRotation + rot;
-
+setIsSpinningWheel(true)
   setIsSpinning(false);
   setResult(d.result);
 
@@ -185,6 +186,9 @@ useEffect(() => {
     setWheelRotation(newRot);
     setCurrentRotation(newRot);
   }, 100);
+  setTimeout(() => {
+   setIsSpinningWheel(false)
+  }, 500);
 });
 
     socket.on("result_timer", (d) => {
@@ -413,7 +417,7 @@ useEffect(() => {
         />
 
         <div
-          className={`wheel ${isSpinning ? "spinning" : ""}`}
+          className={`wheel ${isSpinningWheel ? "spinning" : ""}`}
           style={{
             transform: `rotate(${wheelRotation}deg)`,
             transition: `transform ${spinDuration}s cubic-bezier(0.15,0.83,0.66,1)`,
@@ -638,8 +642,8 @@ useEffect(() => {
     />
     <h3 className={`status-text absolute left-0 right-0 m-auto top-[21px] ${locked ? "status-closed" : "status-open"}`}>
           <span className="d-none hidden">  {betCount} </span>
- {/* {isSpinning ? "🌀 Spinning..." : locked ? "🔴 Betting Closed,Witting For Next Bet "+resultTimer+"s" : "🟢 Betting Open"} */}
- {isSpinning ? "🔴 Betting Closed" : locked ? "🔴 Betting Closed" : "🟢 Betting Open"}
+ {isSpinning ? "🔴 Betting Closed" : locked ? "🔴 Betting Closed,Witting For Next Bet "+resultTimer+"s" : "🟢 Betting Open"}
+ {/* {isSpinning ? "🔴 Betting Closed" : locked ? "🔴 Betting Closed" : "🟢 Betting Open"} */}
 
       </h3>
   </div>
