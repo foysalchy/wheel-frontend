@@ -10,7 +10,7 @@ const rotationRef = useRef(0);
   const [time, setTime] = useState(60);
   const [betCount, setBetCount] = useState(0);
   const [bets, setBets] = useState([]);
-
+const walletRef = useRef(0);
   const [result, setResult] = useState(null);
   const [myWin, setmyWin] = useState(0);
   const [resultTimer, setResultTimer] = useState(0);
@@ -63,13 +63,40 @@ useEffect(() => {
     // 4 second delay
     setTimeout(() => {
       setLastResults(data);
-    }, 5000);
+    }, 6000);
 
   });
 
   return () => socket.off("last_results");
 }, []);
+const animateWallet = (end, duration = 2000) => {
+  const start = walletRef.current;
 
+  let startTime = null;
+
+  const animate = (currentTime) => {
+    if (!startTime) startTime = currentTime;
+
+    const progress = Math.min(
+      (currentTime - startTime) / duration,
+      1
+    );
+
+    const currentValue = Math.floor(
+      start + (end - start) * progress
+    );
+
+    setWallet(currentValue);
+
+    if (progress < 1) {
+      requestAnimationFrame(animate);
+    } else {
+      walletRef.current = end;
+    }
+  };
+
+  requestAnimationFrame(animate);
+};
 useEffect(() => {
   socket.on("wallet_update", (data) => {
    
@@ -80,7 +107,10 @@ useEffect(() => {
 
     if (data.userId === storedUser?.id) {
       if (data.wallet !== null) {
-        setWallet(data.wallet);
+         setTimeout(() => {
+     animateWallet(data.wallet, 1500);
+        }, 5000);
+        
       } else {
         // fallback refresh from server
         socket.emit("get_user", {
@@ -92,7 +122,9 @@ useEffect(() => {
  
 }, []);
 
-
+useEffect(() => {
+  walletRef.current = wallet;
+}, [wallet]);
   // ======================
   // POSITION CALC
   // ======================
@@ -182,7 +214,7 @@ console.log(d,'result')
  
   const myWinx = d.userWins?.[uid] || 0;
 
-  setmyWin(myWinx);
+  
 
   console.log("UID:", uid,);
   console.log("userWins:", d.userWins);
@@ -198,12 +230,18 @@ console.log(d,'result')
 
   setTimeout(() => {
     setIsSpinningWheel(false);
+     
   }, 3000);
-});
-
-    socket.on("result_timer", (d) => {
+   setTimeout(() => {
+    
+    setmyWin(myWinx);
+     socket.on("result_timer", (d) => {
       setResultTimer(d.timeLeft);
     });
+  }, 6000);
+});
+
+   
 
     return () => socket.off();
   }, [calculateRotation]);
