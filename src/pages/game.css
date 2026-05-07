@@ -511,7 +511,14 @@ left: -24px;
   }
 
   .last span {
-    top: -2px !important;
+   top: 0px !important;
+    width: 144px;
+    display: inline-block;
+    left: -13px;
+    font-size: 12px !important;
+  }
+  .last{
+    padding:15px !important
   }
 
   .veiw span {
