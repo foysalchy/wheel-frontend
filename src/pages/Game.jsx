@@ -5,6 +5,8 @@ import {  useNavigate } from "react-router-dom";
   const wheelNumbers = [0,1, 2, 3, 4, 5, 6, 7, 8, 9];
 export default function Game() {
   const navigate = useNavigate();
+const wheelSoundRef = useRef(null);
+const soundUnlockedRef = useRef(false);
   const firstLoadRef = useRef(true);
 const rotationRef = useRef(0);
   const [time, setTime] = useState(60);
@@ -33,6 +35,33 @@ const [user, setUser] = useState(null);
   window.addEventListener("resize", handleResize);
 
   return () => window.removeEventListener("resize", handleResize);
+}, []);
+useEffect(() => {
+  wheelSoundRef.current = new Audio("/wheel.mp3");
+  wheelSoundRef.current.volume = 0.5;
+
+  const unlockAudio = () => {
+    if (!soundUnlockedRef.current) {
+      wheelSoundRef.current
+        .play()
+        .then(() => {
+          wheelSoundRef.current.pause();
+          wheelSoundRef.current.currentTime = 0;
+
+          soundUnlockedRef.current = true;
+          console.log("🔊 Audio unlocked");
+        })
+        .catch((e) => console.log(e));
+    }
+
+    document.removeEventListener("click", unlockAudio);
+  };
+
+  document.addEventListener("click", unlockAudio);
+
+  return () => {
+    document.removeEventListener("click", unlockAudio);
+  };
 }, []);
 console.log(user,spinDuration)
  useEffect(() => {
@@ -211,7 +240,10 @@ useEffect(() => {
   const newRot = rot; // RESET each round (IMPORTANT)
 
   rotationRef.current = newRot;
-setIsSpinningWheel(true)
+setIsSpinningWheel(true);
+// 🔊 play wheel sound
+wheelSoundRef.current.currentTime = 0;
+wheelSoundRef.current.play();
   setIsSpinning(false);
   setResult(d.result);
 console.log(d,'result')
@@ -237,7 +269,9 @@ console.log(d,'result')
 
   setTimeout(() => {
     setIsSpinningWheel(false);
-     
+      // 🔇 stop sound
+  wheelSoundRef.current.pause();
+  wheelSoundRef.current.currentTime = 0;
   }, 3000);
    setTimeout(() => {
     
