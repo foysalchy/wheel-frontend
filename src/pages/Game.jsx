@@ -5,7 +5,7 @@ import {  useNavigate } from "react-router-dom";
   const wheelNumbers = [0,1, 2, 3, 4, 5, 6, 7, 8, 9];
 export default function Game() {
   const navigate = useNavigate();
-  
+  const firstLoadRef = useRef(true);
 const rotationRef = useRef(0);
   const [time, setTime] = useState(60);
   const [betCount, setBetCount] = useState(0);
@@ -60,10 +60,17 @@ useEffect(() => {
 
   socket.on("last_results", (data) => {
 
-    // 4 second delay
-    setTimeout(() => {
+    // ✅ First page load = instant show
+    if (firstLoadRef.current) {
       setLastResults(data);
-    }, 6000);
+      firstLoadRef.current = false;
+    } 
+    // ✅ Next socket updates = delay
+    else {
+      setTimeout(() => {
+        setLastResults(data);
+      }, 6000);
+    }
 
   });
 
