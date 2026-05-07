@@ -11,6 +11,7 @@ export default function Game() {
   const [bets, setBets] = useState([]);
 
   const [result, setResult] = useState(null);
+  const [myWin, setmyWin] = useState(0);
   const [resultTimer, setResultTimer] = useState(0);
 const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [locked, setLocked] = useState(false);
@@ -66,13 +67,17 @@ useEffect(() => {
 
   return () => socket.off("last_results");
 }, []);
+
 useEffect(() => {
   socket.on("wallet_update", (data) => {
-    const storedUser = localStorage.getItem("user");
+   
+   const storedUser = JSON.parse(localStorage.getItem("user"));
+
+    console.log(data, "dhit1");
+    console.log(storedUser, "storedUser");
 
     if (data.userId === storedUser?.id) {
       if (data.wallet !== null) {
-        console.log(data.wallet,'data.wallet')
         setWallet(data.wallet);
       } else {
         // fallback refresh from server
@@ -82,8 +87,7 @@ useEffect(() => {
       }
     }
   });
-
-  return () => socket.off("wallet_update");
+ 
 }, []);
 
 
@@ -154,20 +158,34 @@ useEffect(() => {
         setResult(null);
       });
 
-    socket.on("result", (d) => {
-     
-      const rot = calculateRotation(d.result);
-      const newRot = currentRotation + rot;
+   socket.on("result", (d) => {
+  const rot = calculateRotation(d.result);
+  const newRot = currentRotation + rot;
 
-      setIsSpinning(false);
-      setResult(d.result);
-      setBets([]);
+  setIsSpinning(false);
+  setResult(d.result);
 
-      setTimeout(() => {
-        setWheelRotation(newRot);
-        setCurrentRotation(newRot);
-      }, 100);
-    });
+
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+  const uid = String(storedUser?.id);
+ 
+  const myWinx = d.userWins?.[uid] || 0;
+
+  setmyWin(myWinx);
+
+  console.log("UID:", uid,);
+  console.log("userWins:", d.userWins);
+  console.log("myWin:", myWinx);
+
+  console.log(uid,myWinx,d.userWins,'userWins')
+
+  setBets([]);
+
+  setTimeout(() => {
+    setWheelRotation(newRot);
+    setCurrentRotation(newRot);
+  }, 100);
+});
 
     socket.on("result_timer", (d) => {
       setResultTimer(d.timeLeft);
@@ -446,9 +464,9 @@ useEffect(() => {
   textAlign: "center",
   fontSize:"22px"
         }}
-        > Winner: 
+        >  
          {result !== null && resultTimer > 0 &&  resultTimer < 8 && (
-       <span> {result ?  result:''}</span>
+       <span> {result ?  myWin:'0'}</span>
          )}
         </span>
     </div>
@@ -619,7 +637,7 @@ useEffect(() => {
       alt=""
     />
     <h3 className={`status-text absolute left-0 right-0 m-auto top-[21px] ${locked ? "status-closed" : "status-open"}`}>
-          <span className="d-none none">  {betCount} </span>
+          <span className="d-none hidden">  {betCount} </span>
  {/* {isSpinning ? "🌀 Spinning..." : locked ? "🔴 Betting Closed,Witting For Next Bet "+resultTimer+"s" : "🟢 Betting Open"} */}
  {isSpinning ? "🔴 Betting Closed" : locked ? "🔴 Betting Closed" : "🟢 Betting Open"}
 

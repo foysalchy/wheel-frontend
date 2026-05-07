@@ -27,7 +27,7 @@ export default function Deposit() {
       formData.append("screenshot", screenshot);
 
      await axios.post(
-  "https://lite.fenixcoder.com/api/auth/deposit",
+  "http://localhost:5000/api/auth/deposit",
   formData,
   {
     headers: {
