@@ -62,7 +62,7 @@ useEffect(() => {
     // 4 second delay
     setTimeout(() => {
       setLastResults(data);
-    }, 2000);
+    }, 5000);
 
   });
 
