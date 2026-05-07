@@ -56,7 +56,12 @@ useEffect(() => {
   socket.emit("get_last_results");
 
   socket.on("last_results", (data) => {
-    setLastResults(data);
+
+    // 4 second delay
+    setTimeout(() => {
+      setLastResults(data);
+    }, 2000);
+
   });
 
   return () => socket.off("last_results");
@@ -352,24 +357,24 @@ useEffect(() => {
           <div className="number flex absolute left-[19px] top-[-26px] gap-4 right-0 z-999 index-999 ">
            <button
            className="btnn w-[20%] h-[100px]"
-        onClick={(e) => setBetAmount(1)}
-      >
-        1
-      </button>
-       <button    className="btnn w-[20%] h-[100px]"
-        onClick={(e) => setBetAmount(5)}
-       >
-        5
-      </button>
-       <button    className="btnn w-[20%] h-[100px]"
         onClick={(e) => setBetAmount(10)}
-       >
-      10
+      >
+        10
       </button>
        <button    className="btnn w-[20%] h-[100px]"
         onClick={(e) => setBetAmount(20)}
        >
-       20
+        20
+      </button>
+       <button    className="btnn w-[20%] h-[100px]"
+        onClick={(e) => setBetAmount(50)}
+       >
+      50
+      </button>
+       <button    className="btnn w-[20%] h-[100px]"
+        onClick={(e) => setBetAmount(100)}
+       >
+       100
       </button>
         </div>
       </div>
@@ -393,7 +398,13 @@ useEffect(() => {
       {/* WHEEL */}
       <div className="wheel-container relative">
         <div className="wheel-border"></div>
-        <div className="pointer"
+      <div className={`pointer ${
+    result !== null &&
+    resultTimer > 0 &&
+    resultTimer < 8
+      ? "glow"
+      : ""
+  }`}
         style={{
           backgroundImage:
             "url('/images/use/pointer.png')",
@@ -456,7 +467,7 @@ useEffect(() => {
   fontSize:"22px"
         }}
         > Winner: 
-         {result !== null && resultTimer > 0 &&  resultTimer < 29 && (
+         {result !== null && resultTimer > 0 &&  resultTimer < 8 && (
        <span> {result ?  result:''}</span>
          )}
         </span>
@@ -518,24 +529,24 @@ useEffect(() => {
           <div className="number flex absolute left-[19px] top-[-26px] gap-4 right-0 z-999 index-999 ">
            <button
            className="btnn w-[20%] h-[100px]"
-        onClick={(e) => setBetAmount(40)}
-      >
-        40
-      </button>
-       <button    className="btnn w-[20%] h-[100px]"
-        onClick={(e) => setBetAmount(50)}
-       >
-        50
-      </button>
-       <button    className="btnn w-[20%] h-[100px]"
-        onClick={(e) => setBetAmount(100)}
-       >
-      100
-      </button>
-       <button    className="btnn w-[20%] h-[100px]"
         onClick={(e) => setBetAmount(200)}
+      >
+        200
+      </button>
+       <button    className="btnn w-[20%] h-[100px]"
+        onClick={(e) => setBetAmount(500)}
        >
-       200
+        500
+      </button>
+       <button    className="btnn w-[20%] h-[100px]"
+        onClick={(e) => setBetAmount(1000)}
+       >
+      1000
+      </button>
+       <button    className="btnn w-[20%] h-[100px]"
+        onClick={(e) => setBetAmount(2000)}
+       >
+       2000
       </button>
         </div>
       </div>
@@ -628,7 +639,10 @@ useEffect(() => {
       alt=""
     />
     <h3 className={`status-text absolute left-0 right-0 m-auto top-[21px] ${locked ? "status-closed" : "status-open"}`}>
-      {betCount}  {isSpinning ? "🌀 Spinning..." : locked ? "🔴 Betting Closed,Witting For Next Bet "+resultTimer+"s" : "🟢 Betting Open"}
+            {/* {betCount}  */}
+ {/* {isSpinning ? "🌀 Spinning..." : locked ? "🔴 Betting Closed,Witting For Next Bet "+resultTimer+"s" : "🟢 Betting Open"} */}
+ {isSpinning ? "🔴 Betting Closed" : locked ? "🔴 Betting Closed" : "🟢 Betting Open"}
+
       </h3>
   </div>
    <button    onClick={() => navigate("/dashboard")} className="w-[220px] h-[80px]">

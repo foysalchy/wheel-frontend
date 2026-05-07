@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ChevronLeft } from "lucide-react";
 
 export default function Register() {
   const nav = useNavigate();
@@ -32,6 +33,7 @@ export default function Register() {
       setLoading(true);
 
       const formData = new FormData();
+
       formData.append("name", form.name);
       formData.append("username", form.username);
       formData.append("email", form.email);
@@ -51,7 +53,6 @@ export default function Register() {
 
       alert("Registration successful!");
 
-      // auto login after register (optional)
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
 
@@ -63,58 +64,144 @@ export default function Register() {
       setLoading(false);
     }
   };
+  
+
 
   return (
-    <div style={{ minHeight: "100vh", display: "flex", justifyContent: "center", alignItems: "center", background: "#1a1a1a" }}>
-      <div style={{ width: "100%", maxWidth: "420px", padding: "30px", background: "#111", borderRadius: "15px" }}>
+    <div className="min-h-screen bg-[#07101b] text-white flex items-center justify-center  overflow-hidden relative">
+
+      {/* BG GLOW */}
+      <div className="absolute w-[350px] h-[350px] bg-yellow-500/10 blur-[120px]   top-[-100px] left-[-100px]" />
+      <div className="absolute w-[300px] h-[300px] bg-yellow-500/10 blur-[120px]   bottom-[-100px] right-[-100px]" />
+
+      {/* CARD */}
+      <div className="w-full max-w-md relative z-10">
+
+        {/* TOP */}
+       
+
+        {/* FORM CARD */}
+        <div className="bg-[#0d1725]   pt-0 p-6 shadow-[0_0_50px_rgba(255,215,0,0.08)]">
+  <div className="flex items-center justify-between px-3 py-3">
         
-        <h2 style={{ color: "gold", textAlign: "center", marginBottom: "20px" }}>
-          Create Account
-        </h2>
+          
+             <button
+              onClick={() => nav("/login")}
+             className="gold-icon"
+            >
+               <ChevronLeft size={32} />
+            </button>
 
-        {/* Inputs */}
-        <input name="name" placeholder="Full Name" onChange={handleChange} style={inputStyle} />
-        <input name="username" placeholder="Username" onChange={handleChange} style={inputStyle} />
-        <input name="email" placeholder="Email" onChange={handleChange} style={inputStyle} />
-        <input name="phone" placeholder="Phone" onChange={handleChange} style={inputStyle} />
-        <input type="password" name="password" placeholder="Password" onChange={handleChange} style={inputStyle} />
+          <h1 className="text-2xl font-semibold gold-text flex-1 text-center">
+              Create Account
+          </h1>
 
-        {/* File */}
-        <input type="file" onChange={handleFile} style={{ marginBottom: "20px", color: "white" }} />
+          <div className="w-6" />
+      </div>
+          
+ 
+          {/* DIVIDER */}
+          <div className="divider mb-6">
+            <img src="/images/top.png" alt="" />
+          </div>
 
-        {/* Button */}
-        <button onClick={register} disabled={loading} style={btnStyle}>
-          {loading ? "Registering..." : "Register"}
-        </button>
+          {/* FULL NAME */}
+          <div className="mb-4">
+            <label className="form-label">Full Name</label>
 
-        <p style={{ color: "#aaa", marginTop: "15px", textAlign: "center" }}>
-          Already have account?{" "}
-          <span onClick={() => nav("/")} style={{ color: "gold", cursor: "pointer" }}>
-            Login
-          </span>
-        </p>
+            <input
+              type="text"
+              name="name"
+              placeholder="Enter full name"
+              onChange={handleChange}
+              className="gold-input"
+            />
+          </div>
+
+          {/* USERNAME */}
+          <div className="mb-4">
+            <label className="form-label">Username</label>
+
+            <input
+              type="text"
+              name="username"
+              placeholder="Enter username"
+              onChange={handleChange}
+              className="gold-input"
+            />
+          </div>
+
+          {/* EMAIL */}
+          <div className="mb-4">
+            <label className="form-label">Email</label>
+
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter email"
+              onChange={handleChange}
+              className="gold-input"
+            />
+          </div>
+
+          {/* PHONE */}
+          <div className="mb-4">
+            <label className="form-label">Phone Number</label>
+
+            <input
+              type="text"
+              name="phone"
+              placeholder="01XXXXXXXXX"
+              onChange={handleChange}
+              className="gold-input"
+            />
+          </div>
+
+          {/* PASSWORD */}
+          <div className="mb-4">
+            <label className="form-label">Password</label>
+
+            <input
+              type="password"
+              name="password"
+              placeholder="Enter password"
+              onChange={handleChange}
+              className="gold-input"
+            />
+          </div>
+
+          {/* PHOTO */}
+          <div className="mb-5">
+            <label className="form-label">Profile Photo</label>
+
+            <input
+              type="file"
+              onChange={handleFile}
+              className="gold-input file:bg-yellow-500 file:border-0 file:px-3 file:py-2 file:rounded-lg file:text-black"
+            />
+          </div>
+
+          {/* BUTTON */}
+          <button
+            onClick={register}
+            disabled={loading}
+            className="w-full py-3 rounded-2xl bg-gradient-to-b from-[#d8c48f] to-[#9c7b45] text-black font-bold text-lg hover:scale-[1.02] active:scale-[0.98] transition duration-200 shadow-[0_10px_25px_rgba(255,215,0,0.25)]"
+          >
+            {loading ? "Creating Account..." : "🎰 Register Now"}
+          </button>
+
+          {/* LOGIN */}
+          <p className="text-center text-gray-400 mt-5 text-sm">
+            Already have an account?{" "}
+            <span
+              onClick={() => nav("/")}
+              className="text-yellow-400 cursor-pointer hover:underline"
+            >
+              Login
+            </span>
+          </p>
+        </div>
       </div>
     </div>
   );
 }
-
-// styles
-const inputStyle = {
-  width: "100%",
-  padding: "12px",
-  marginBottom: "12px",
-  borderRadius: "8px",
-  border: "1px solid #444",
-  background: "#222",
-  color: "white",
-};
-
-const btnStyle = {
-  width: "100%",
-  padding: "14px",
-  border: "none",
-  borderRadius: "10px",
-  background: "gold",
-  fontWeight: "bold",
-  cursor: "pointer",
-};

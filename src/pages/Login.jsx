@@ -6,19 +6,25 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
   const nav = useNavigate();
 
   const login = async () => {
     try {
       setLoading(true);
-      const res = await axios.post("https://lite.fenixcoder.com/api/auth/login", {
-      username,
-      password,
-    });
+
+      const res = await axios.post(
+        "https://lite.fenixcoder.com/api/auth/login",
+        {
+          username,
+          password,
+        }
+      );
 
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
-          nav("/dashboard"); // ✅ FIXED
+
+      nav("/dashboard");
     } catch (error) {
       alert(error.response?.data?.message || "Login failed!");
     } finally {
@@ -27,135 +33,71 @@ export default function Login() {
   };
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-       backgroundColor: "#634e23",
-background: "linear-gradient(90deg, #634e23 0%, #a88e5b 50%, #634e23 100%)",
-        fontFamily: "Arial, sans-serif",
-        padding: "20px",
-      }}
-    >
-      <div
-        style={{
-          width: "100%",
-          maxWidth: "420px",
-          padding: "3px",
-          borderRadius: "28px",
-         backgroundColor: "#634e23",
-background: "linear-gradient(90deg, #634e23 0%, #a88e5b 50%, #634e23 100%)",
-          boxShadow:
-            "0 0 20px rgba(255,215,0,0.5), 0 20px 50px rgba(0,0,0,0.7)",
-        }}
-      >
-        <div
-          style={{
-            background:
-              "linear-gradient(145deg, rgba(107, 65, 0, 0.96), rgba(39, 22, 0, 0.98))",
-            borderRadius: "25px",
-            padding: "40px 35px",
-            boxShadow:
-              "inset 0 2px 8px rgba(255,255,255,0.08), inset 0 -2px 8px rgba(0,0,0,0.5)",
-            transform: "perspective(1000px) rotateX(2deg)",
-          }}
-        >
-          <div style={{ textAlign: "center", marginBottom: "30px" }}>
-            <div style={{ fontSize: "60px", marginBottom: "10px" }}>🎰</div>
-            <h1
-              style={{
-                margin: 0,
-                fontSize: "34px",
-                fontWeight: "bold",
-                background:
-                  "linear-gradient(180deg, #fff8dc, #ffd700, #ffb700)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                textShadow: "0 2px 10px rgba(255,215,0,0.4)",
-              }}
-            >
-              Casino Royale
-            </h1>
-            <p
-              style={{
-                color: "#d1d5db",
-                marginTop: "8px",
-                fontSize: "15px",
-              }}
-            >
-              Enter the game and test your luck
-            </p>
+    <div className="min-h-screen bg-[#07101b] text-white flex items-center justify-center px-5 overflow-hidden relative">
+
+      {/* BACKGROUND GLOW */}
+      <div className="absolute w-[350px] h-[350px] bg-yellow-500/10 blur-[120px] rounded-full top-[-100px] left-[-100px]" />
+      <div className="absolute w-[300px] h-[300px] bg-yellow-500/10 blur-[120px] rounded-full bottom-[-100px] right-[-100px]" />
+
+      {/* LOGIN CARD */}
+      <div className="w-full max-w-md relative z-10">
+
+        {/* TOP ICON */}
+      
+<div className="text-center mb-6">
+         <img className="w-[240px] m-auto" src="/logo.png" alt="" />
+
+         
+        </div>
+        {/* CARD */}
+        <div className="bg-[#0d1725] border border-yellow-500/20 rounded-[30px] p-6 shadow-[0_0_50px_rgba(255,215,0,0.08)]">
+       <h1 className="text-2xl mb-4 font-semibold gold-text flex-1 text-center">
+          Login
+        </h1>
+          {/* DIVIDER */}
+          <div className="divider mb-6">
+            <img src="/images/top.png" alt="" />
           </div>
 
-          <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            style={{
-              width: "100%",
-              padding: "16px",
-              marginBottom: "18px",
-              borderRadius: "14px",
-              border: "2px solid rgba(255,215,0,0.35)",
-              background: "rgba(255,255,255,0.06)",
-              color: "white",
-              fontSize: "16px",
-              outline: "none",
-              boxSizing: "border-box",
-              boxShadow: "inset 0 2px 6px rgba(0,0,0,0.4)",
-            }}
-          />
+          {/* USERNAME */}
+          <div className="mb-4">
+            <label className="form-label">Username</label>
 
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={{
-              width: "100%",
-              padding: "16px",
-              marginBottom: "25px",
-              borderRadius: "14px",
-              border: "2px solid rgba(255,215,0,0.35)",
-              background: "rgba(255,255,255,0.06)",
-              color: "white",
-              fontSize: "16px",
-              outline: "none",
-              boxSizing: "border-box",
-              boxShadow: "inset 0 2px 6px rgba(0,0,0,0.4)",
-            }}
-          />
+            <input
+              type="text"
+              placeholder="Enter username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="gold-input"
+            />
+          </div>
 
+          {/* PASSWORD */}
+          <div className="mb-5">
+            <label className="form-label">Password</label>
+
+            <input
+              type="password"
+              placeholder="Enter password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="gold-input"
+            />
+          </div>
+
+          {/* LOGIN BUTTON */}
           <button
             onClick={login}
             disabled={loading}
-            style={{
-              width: "100%",
-              padding: "16px",
-              border: "none",
-              borderRadius: "14px",
-              background:
-                "linear-gradient(180deg, #ffe27a 0%, #ffd700 40%, #ffb700 100%)",
-              color: "#111827",
-              fontSize: "18px",
-              fontWeight: "bold",
-              cursor: loading ? "not-allowed" : "pointer",
-              boxShadow:
-                "0 8px 0 #b8860b, 0 12px 25px rgba(255,215,0,0.4)",
-              transition: "all 0.2s ease",
-            }}
-            onMouseDown={(e) =>
-              (e.currentTarget.style.transform = "translateY(4px)")
-            }
-            onMouseUp={(e) =>
-              (e.currentTarget.style.transform = "translateY(0)")
-            }
+            className="w-full py-3 rounded-2xl bg-gradient-to-b from-[#d8c48f] to-[#9c7b45] text-black font-bold text-lg hover:scale-[1.02] active:scale-[0.98] transition duration-200 shadow-[0_10px_25px_rgba(255,215,0,0.25)]"
           >
             {loading ? "Logging in..." : "🎮 Play Now"}
           </button>
+
+          {/* BOTTOM TEXT */}
+          <p className="text-center text-gray-500 text-sm mt-5">
+            <button   onClick={() => nav("/register")} >Register New Account</button>
+          </p>
         </div>
       </div>
     </div>

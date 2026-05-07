@@ -357,8 +357,33 @@ body{
     min-height: 45vh  !important;
   }
 }
-@media (max-width: 1360px) {
+.pointer.glow::before{
+  content: '';
+  position: absolute;
+  width: 156px;
+  height: 155px;
+  background: url("../../public/images/use/light.webp");
+  background-size: contain;
+  background-repeat: no-repeat;
+  left: -30px;
+  top: -35px;
 
+  animation: glowBlink 1s ease-in-out infinite;
+}
+@media (max-width: 1360px) {
+.pointer.glow::before{
+  content: '';
+  position: absolute;
+  width: 156px;
+  height: 155px;
+  background: url("../../public/images/use/light.webp");
+  background-size: contain;
+  background-repeat: no-repeat;
+ left: -43px;
+    top: -39px;
+
+  animation: glowBlink 1s ease-in-out infinite;
+}
   .score {
     height: 110px !important;
     background-repeat: no-repeat !important;
@@ -444,7 +469,19 @@ body{
   }
 }
 @media (max-width: 770px) {
+.pointer.glow::before{
+  content: '';
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background: url("../../public/images/use/light.webp");
+  background-size: contain;
+  background-repeat: no-repeat;
+left: -24px;
+    top: -25px;
 
+  animation: glowBlink 1s ease-in-out infinite;
+}
   .score {
     height: 70px !important;
     width: 150px !important;
@@ -594,5 +631,28 @@ body{
   .bm {
     top: -4px !important;
     font-size: 11px !important;
+  }
+}
+
+
+/* Glow Animation */
+@keyframes glowBlink {
+
+  0%{
+    opacity: 0.2;
+    transform: scale(0.95);
+    filter: drop-shadow(0 0 5px rgba(255,215,0,0.2));
+  }
+
+  50%{
+    opacity: 1;
+    transform: scale(1.08);
+    filter: drop-shadow(0 0 25px rgba(255,215,0,0.9));
+  }
+
+  100%{
+    opacity: 0.2;
+    transform: scale(0.95);
+    filter: drop-shadow(0 0 5px rgba(255,215,0,0.2));
   }
 }
