@@ -255,26 +255,19 @@ useEffect(() => {
   // UI
   // ======================
 useEffect(() => {
-
-  const goFullscreen = () => {
+  const tryFullscreen = () => {
     const elem = document.documentElement;
 
-    if (elem.requestFullscreen) {
-      elem.requestFullscreen();
-    } else if (elem.webkitRequestFullscreen) {
-      elem.webkitRequestFullscreen();
-    } else if (elem.msRequestFullscreen) {
-      elem.msRequestFullscreen();
-    }
+    const req =
+      elem.requestFullscreen ||
+      elem.webkitRequestFullscreen ||
+      elem.msRequestFullscreen;
+
+    req?.call(elem);
   };
 
-  // user interaction এ trigger
-  document.addEventListener("click", goFullscreen, { once: true });
-
-  return () => {
-    document.removeEventListener("click", goFullscreen);
-  };
-
+  // auto attempt
+  setTimeout(tryFullscreen, 300);
 }, []);
   return (
     <div className="game-container"
