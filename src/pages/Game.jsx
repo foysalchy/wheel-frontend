@@ -6,6 +6,8 @@ import {  useNavigate } from "react-router-dom";
 export default function Game() {
   const navigate = useNavigate();
 const wheelSoundRef = useRef(null);
+const placeBetSoundRef = useRef(null);
+const timerSoundRef = useRef(null);
 const soundUnlockedRef = useRef(false);
   const firstLoadRef = useRef(true);
 const rotationRef = useRef(0);
@@ -36,17 +38,41 @@ const [user, setUser] = useState(null);
 
   return () => window.removeEventListener("resize", handleResize);
 }, []);
+
 useEffect(() => {
   wheelSoundRef.current = new Audio("/wheel.mp3");
+
+  // ✅ place bet sound
+  placeBetSoundRef.current = new Audio("/placebet.mp3");
+
+  // ✅ timer sound
+  timerSoundRef.current = new Audio("/timmer.mp3");
+
   wheelSoundRef.current.volume = 0.5;
+  placeBetSoundRef.current.volume = 0.7;
+  timerSoundRef.current.volume = 0.3;
+
+  // timer loop
+  timerSoundRef.current.loop = true;
 
   const unlockAudio = () => {
     if (!soundUnlockedRef.current) {
-      wheelSoundRef.current
-        .play()
+
+      Promise.all([
+        wheelSoundRef.current.play(),
+        placeBetSoundRef.current.play(),
+        timerSoundRef.current.play()
+      ])
         .then(() => {
+          // reset all
           wheelSoundRef.current.pause();
           wheelSoundRef.current.currentTime = 0;
+
+          placeBetSoundRef.current.pause();
+          placeBetSoundRef.current.currentTime = 0;
+
+          timerSoundRef.current.pause();
+          timerSoundRef.current.currentTime = 0;
 
           soundUnlockedRef.current = true;
           console.log("🔊 Audio unlocked");
@@ -63,6 +89,7 @@ useEffect(() => {
     document.removeEventListener("click", unlockAudio);
   };
 }, []);
+
 console.log(user,spinDuration)
  useEffect(() => {
   const token = localStorage.getItem("token");
@@ -241,9 +268,12 @@ useEffect(() => {
 
   rotationRef.current = newRot;
 setIsSpinningWheel(true);
-// 🔊 play wheel sound
-wheelSoundRef.current.currentTime = 0;
-wheelSoundRef.current.play();
+
+
+  // 🔊 play wheel sound
+  wheelSoundRef.current.currentTime = 0;
+  wheelSoundRef.current.play();
+
   setIsSpinning(false);
   setResult(d.result);
 console.log(d,'result')
@@ -268,13 +298,30 @@ console.log(d,'result')
   });
 
   setTimeout(() => {
-    setIsSpinningWheel(false);
+      setIsSpinningWheel(false);
       // 🔇 stop sound
-  wheelSoundRef.current.pause();
-  wheelSoundRef.current.currentTime = 0;
+      
   }, 3000);
-   setTimeout(() => {
-    
+setTimeout(() => {
+  let volume = wheelSoundRef.current.volume;
+
+  const fadeOut = setInterval(() => {
+    if (volume > 0.05) {
+      volume -= 0.05;
+      wheelSoundRef.current.volume = volume;
+    } else {
+      clearInterval(fadeOut);
+
+      wheelSoundRef.current.pause();
+      wheelSoundRef.current.currentTime = 0;
+
+      // reset volume for next spin
+      wheelSoundRef.current.volume = 0.5;
+    }
+  }, 80);
+}, 4000);
+  
+  setTimeout(() => {
     setmyWin(myWinx);
      socket.on("result_timer", (d) => {
       setResultTimer(d.timeLeft);
@@ -290,9 +337,28 @@ console.log(d,'result')
   // ======================
   // PLACE BET
   // ======================
+  useEffect(() => {
+
+  // ✅ betting open থাকলে timer sound play
+  if (time > 1) {
+
+    if (timerSoundRef.current.paused) {
+      timerSoundRef.current.play().catch(() => {});
+    }
+
+  } else {
+
+    // ❌ betting closed হলে stop
+    timerSoundRef.current.pause();
+    timerSoundRef.current.currentTime = 0;
+  }
+
+}, [locked, time]);
 const placeBet = (num) => {
   if (locked) return;
-
+  // 🔊 play sound
+  placeBetSoundRef.current.currentTime = 0;
+  placeBetSoundRef.current.play();
   const amount = Number(betAmount);
   if (!amount || amount <= 0) return;
 
@@ -360,6 +426,28 @@ useEffect(() => {
 
   return () => socket.off("current_bets");
 }, []);
+
+const toggleFullscreen = () => {
+  const elem = document.documentElement;
+
+  if (!document.fullscreenElement) {
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.webkitRequestFullscreen) {
+      elem.webkitRequestFullscreen(); // iOS Safari
+    } else if (elem.msRequestFullscreen) {
+      elem.msRequestFullscreen(); // old IE
+    }
+  } else {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) {
+      document.msExitFullscreen();
+    }
+  }
+};
  
   // ======================
   // UI
@@ -395,6 +483,53 @@ useEffect(() => {
 
    <div className="grid grid-cols-3 gap-3 mb-6">
         <div>
+       <div
+  onClick={toggleFullscreen}
+  style={{
+    position: "absolute",
+    top: "15px",
+    right: "15px",
+    zIndex: 9999,
+    cursor: "pointer",
+  }}
+>
+  <svg
+    width="42"
+    height="42"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M4 9V4H9"
+      stroke="white"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M20 9V4H15"
+      stroke="white"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M4 15V20H9"
+      stroke="white"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M20 15V20H15"
+      stroke="white"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+</div>
 
        
     <div className="score w-[360px]  h-[175px]  m-auto"
@@ -490,9 +625,9 @@ useEffect(() => {
       <div className="wheel-container relative">
         <div className="wheel-border"></div>
       <div className={`pointer ${
-    result !== null &&
-    resultTimer > 0 &&
-    resultTimer < 8
+    result == null &&
+   
+    time > 11
       ? "glow"
       : ""
   }`}
@@ -736,12 +871,12 @@ useEffect(() => {
   isSpinning
     ? "🔴 Betting Closed"
     : locked
-      ? (resultTimer < 7
+      ? (resultTimer < 8
           ? "🔴 Betting Closed, Waiting For Next Bet " + resultTimer + "s"
           : "🔴 Betting Closed")
       : "🟢 Betting Open"
 }
- {/* {isSpinning ? "🔴 Betting Closed" : locked ? "🔴 Betting Closed" : "🟢 Betting Open"} */}
+ {/* { isSpinning ? "🔴 Betting Closed" : locked ? "🔴 Betting Closed" : "🟢 Betting Open"} */}
 
       </h3>
   </div>
