@@ -29,7 +29,7 @@ const [lastResults, setLastResults] = useState([]);
   const spinDuration = 3;
   const [betAmount, setBetAmount] = useState(10);
 const [wallet, setWallet] = useState(0);
- 
+ const [showFsAlert, setShowFsAlert] = useState(false);
 const [user, setUser] = useState(null);
  useEffect(() => {
   const handleResize = () => setScreenWidth(window.innerWidth);
@@ -447,8 +447,11 @@ const toggleFullscreen = () => {
       document.msExitFullscreen();
     }
   }
+   setShowFsAlert(false);
 };
- 
+ useEffect(() => {
+ setShowFsAlert(true);
+}, []);
   // ======================
   // UI
   // ======================
@@ -483,6 +486,41 @@ const toggleFullscreen = () => {
 
    <div className="grid grid-cols-3 gap-3 mb-6">
         <div>
+          {showFsAlert && (
+  <div
+    style={{
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      background: "rgba(0,0,0,0.85)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      zIndex: 99999,
+    }}
+  >
+    <div
+      onClick={toggleFullscreen}
+      style={{
+        background: "#111",
+        padding: "30px 40px",
+        borderRadius: "12px",
+        textAlign: "center",
+        cursor: "pointer",
+        border: "2px solid #fff",
+      }}
+    >
+      <h2 style={{ color: "white", marginBottom: "10px" }}>
+        🔳 Enter Fullscreen Mode
+      </h2>
+      <p style={{ color: "#aaa" }}>
+        Click to continue
+      </p>
+    </div>
+  </div>
+)}
        <div
   onClick={toggleFullscreen}
   style={{
