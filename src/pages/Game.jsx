@@ -486,6 +486,11 @@ const toggleFullscreen = () => {
 
    <div className="grid grid-cols-3 gap-3 mb-6">
         <div>
+          {/* <div className="light-group-left">
+            <div className="light-1"><img src="/images/use/light.webp" alt="" /> </div>
+            <div className="light-2"><img src="/images/use/light.webp" alt="" /> </div>
+            <div className="light-3"><img src="/images/use/light.webp" alt="" /> </div>
+          </div> */}
           {showFsAlert && (
   <div
     style={{

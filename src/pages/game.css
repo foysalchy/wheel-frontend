@@ -448,8 +448,8 @@ body{
   .wheel-border::after {
     width: 100px !important;
     height: 100px !important;
-    top: 36% !important;
-    left: 37% !important;
+    top: 38% !important;
+    left: 38% !important;
   }
 
   .wheel-border {
@@ -665,4 +665,27 @@ left: -24px;
 }
 .wheel {
   will-change: transform;
+}
+.light-group-left{
+position: absolute;
+  left: 5%;
+  top: 42%;
+  width: 460px;
+  display: flex;
+}
+.light-group-left img{
+  width: 100px;
+  height:100px;
+  animation: glowBlink 1s ease-in-out infinite;
+}
+
+.light-group-left .light-2{
+ position: absolute;
+  top: 36%;
+  left: 47%;
+}
+.light-group-left .light-3{
+position: absolute;
+  top: 50%;
+  left: 78%;
 }
