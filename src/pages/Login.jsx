@@ -14,7 +14,7 @@ export default function Login() {
       setLoading(true);
 
       const res = await axios.post(
-        "https://lite.fenixcoder.com/api/auth/login",
+        "https://api.fenixcoder.com/api/auth/login",
         {
           username,
           password,

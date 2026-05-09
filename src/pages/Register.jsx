@@ -42,7 +42,7 @@ export default function Register() {
       formData.append("photo", photo);
 
       const res = await axios.post(
-        "https://lite.fenixcoder.com/api/auth/register",
+        "https://api.fenixcoder.com/api/auth/register",
         formData,
         {
           headers: {

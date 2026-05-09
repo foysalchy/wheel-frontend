@@ -18,7 +18,7 @@ export default function DepositHistory() {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get(
-        "https://lite.fenixcoder.com/api/auth/deposit-history",
+        "https://api.fenixcoder.com/api/auth/deposit-history",
         {
           headers: {
             Authorization: `Bearer ${token}`,
