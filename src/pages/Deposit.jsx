@@ -27,7 +27,7 @@ export default function Deposit() {
       formData.append("screenshot", screenshot);
 
      await axios.post(
-  "http://206.72.199.216:5000/api/auth/deposit",
+  "http://206.72.199.216/api/auth/deposit",
   formData,
   {
     headers: {

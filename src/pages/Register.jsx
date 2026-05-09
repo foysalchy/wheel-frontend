@@ -42,7 +42,7 @@ export default function Register() {
       formData.append("photo", photo);
 
       const res = await axios.post(
-        "http://206.72.199.216:5000/api/auth/register",
+        "http://206.72.199.216/api/auth/register",
         formData,
         {
           headers: {

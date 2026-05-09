@@ -36,7 +36,7 @@ const fetchSummary = async () => {
     const token = localStorage.getItem("token");
 
     const res = await axios.get(
-      "http://206.72.199.216:5000/api/auth/dashboard-summary",
+      "http://206.72.199.216/api/auth/dashboard-summary",
       {
         headers: {
           Authorization: `Bearer ${token}`,
