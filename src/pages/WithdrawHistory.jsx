@@ -18,7 +18,7 @@ export default function WithdrawHistory() {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get(
-        "https://wheel-backend-omega.vercel.app/api/auth/withdraw-history",
+        "http://206.72.199.216:5000/api/auth/withdraw-history",
         {
           headers: {
             Authorization: `Bearer ${token}`,

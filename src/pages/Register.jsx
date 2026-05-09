@@ -42,7 +42,7 @@ export default function Register() {
       formData.append("photo", photo);
 
       const res = await axios.post(
-        "https://wheel-backend-omega.vercel.app/api/auth/register",
+        "http://206.72.199.216:5000/api/auth/register",
         formData,
         {
           headers: {

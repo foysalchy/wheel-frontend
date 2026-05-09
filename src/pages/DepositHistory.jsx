@@ -18,7 +18,7 @@ export default function DepositHistory() {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get(
-        "https://wheel-backend-omega.vercel.app/api/auth/deposit-history",
+        "http://206.72.199.216:5000/api/auth/deposit-history",
         {
           headers: {
             Authorization: `Bearer ${token}`,

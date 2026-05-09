@@ -14,7 +14,7 @@ export default function Login() {
       setLoading(true);
 
       const res = await axios.post(
-        "https://localhost:5000/api/auth/login",
+        "http://206.72.199.216:5000/api/auth/login",
         {
           username,
           password,
