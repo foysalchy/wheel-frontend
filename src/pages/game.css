@@ -571,8 +571,8 @@ left: -24px;
   .wheel-border::after {
     width: 80px !important;
     height: 80px !important;
-    top: 39% !important;
-    left: 39% !important;
+    top: 37% !important;
+    left: 37% !important;
   }
 
   .wheel-border {

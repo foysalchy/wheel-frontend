@@ -319,7 +319,7 @@ setTimeout(() => {
       wheelSoundRef.current.volume = 0.5;
     }
   }, 80);
-}, 4000);
+}, 3000);
   
   setTimeout(() => {
     setmyWin(myWinx);
