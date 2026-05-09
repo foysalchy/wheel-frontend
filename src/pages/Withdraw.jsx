@@ -21,7 +21,7 @@ export default function Withdraw() {
 
     try {
     await axios.post(
-        "http://206.72.199.216/api/auth/withdraw",
+        "https://origensoft.com/api/auth/withdraw",
         {
           method,
           accountNumber,

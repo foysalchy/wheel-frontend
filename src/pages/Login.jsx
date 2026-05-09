@@ -14,7 +14,7 @@ export default function Login() {
       setLoading(true);
 
       const res = await axios.post(
-        "http://206.72.199.216/api/auth/login",
+        "https://origensoft.com/api/auth/login",
         {
           username,
           password,
