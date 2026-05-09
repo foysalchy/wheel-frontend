@@ -14,7 +14,7 @@ export default function Login() {
       setLoading(true);
 
       const res = await axios.post(
-        "https://api.fenixcoder.com/api/auth/login",
+        "https://wheel-backend-omega.vercel.app/api/auth/login",
         {
           username,
           password,

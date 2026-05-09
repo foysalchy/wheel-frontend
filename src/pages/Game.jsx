@@ -31,6 +31,7 @@ const [lastResults, setLastResults] = useState([]);
 const [wallet, setWallet] = useState(0);
  const [showFsAlert, setShowFsAlert] = useState(false);
 const [user, setUser] = useState(null);
+
  useEffect(() => {
   const handleResize = () => setScreenWidth(window.innerWidth);
 
@@ -262,7 +263,7 @@ useEffect(() => {
 
    socket.on("result", (d) => {
     const rot = calculateRotation(d.result);
-
+console.log(d,'resultx')
   // ❌ don't use ref add directly for casino wheel
   const newRot = rot; // RESET each round (IMPORTANT)
 
@@ -327,6 +328,11 @@ setTimeout(() => {
       setResultTimer(d.timeLeft);
     });
   }, 6000);
+  setTimeout(() => {
+    setmyWin(0);
+    
+    
+  }, 12000);
 });
 
    
@@ -737,9 +743,9 @@ const toggleFullscreen = () => {
   fontSize:"22px"
         }}
         >  
-         {result !== null && resultTimer > 0 &&  resultTimer < 8 && (
-       <span> {result ?  myWin:'0'}</span>
-         )}
+         
+       <span> {myWin ?? ''}</span>
+        
         </span>
     </div>
      <div className="score last mt-12 w-[360px]  h-[100px]  m-auto"
@@ -914,8 +920,8 @@ const toggleFullscreen = () => {
   isSpinning
     ? "🔴 Betting Closed"
     : locked
-      ? (resultTimer < 8
-          ? "🔴 Betting Closed, Waiting For Next Bet " + resultTimer + "s"
+      ? (resultTimer < 3
+          ? "🔴 Betting Closed, Waiting For Next Bet  "
           : "🔴 Betting Closed")
       : "🟢 Betting Open"
 }

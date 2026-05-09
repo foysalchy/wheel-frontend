@@ -67,7 +67,7 @@ const [newPassword, setNewPassword] = useState("");
 const passChange = async () => {
   try {
     const res = await axios.post(
-      "https://api.fenixcoder.com/api/auth/change-password",
+      "https://wheel-backend-omega.vercel.app/api/auth/change-password",
       {
         userId: profile.id,
         oldPassword,
@@ -120,7 +120,7 @@ const passChange = async () => {
             <div className="flex-shrink-0">
               <div className="  flex items-center justify-center shadow-lg">
              <img className='w-16 h-16 rounded-full'
-  src={`https://api.fenixcoder.com/uploads/deposits/${profile.photo}`}
+  src={`https://wheel-backend-omega.vercel.app/uploads/deposits/${profile.photo}`}
   alt=""
 />
               </div>

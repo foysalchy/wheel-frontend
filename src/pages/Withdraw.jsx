@@ -21,7 +21,7 @@ export default function Withdraw() {
 
     try {
     await axios.post(
-        "https://api.fenixcoder.com/api/auth/withdraw",
+        "https://wheel-backend-omega.vercel.app/api/auth/withdraw",
         {
           method,
           accountNumber,
