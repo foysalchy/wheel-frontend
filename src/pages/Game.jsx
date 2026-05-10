@@ -10,6 +10,7 @@ const placeBetSoundRef = useRef(null);
 const timerSoundRef = useRef(null);
 const soundUnlockedRef = useRef(false);
   const firstLoadRef = useRef(true);
+  const [isPageActive, setIsPageActive] = useState(true);
 const rotationRef = useRef(0);
   const [time, setTime] = useState(60);
   const [betCount, setBetCount] = useState(0);
@@ -39,64 +40,81 @@ const [user, setUser] = useState(null);
 
   return () => window.removeEventListener("resize", handleResize);
 }, []);
-useEffect(() => {
-
-  const stopSounds = () => {
-    [wheelSoundRef, placeBetSoundRef, timerSoundRef].forEach((ref) => {
-      if (ref.current) {
-        ref.current.pause();
-        ref.current.currentTime = 0;
-      }
-    });
-  };
-
-  const resumeTimer = () => {
-    // game active থাকলে আবার timer চালু
-    if (time > 1 && !locked) {
-      timerSoundRef.current?.play().catch(() => {});
-    }
-  };
-
-  // ✅ tab switch
-  const handleVisibility = () => {
-    if (document.hidden) {
-      stopSounds();
-    } else {
-      resumeTimer();
-    }
-  };
-
-  // ✅ mobile app switch / chrome minimize
-  const handleBlur = () => {
-    stopSounds();
-  };
-
-  // ✅ mobile background / close
-  const handlePageHide = () => {
-    stopSounds();
-  };
-
-  document.addEventListener("visibilitychange", handleVisibility);
-  window.addEventListener("blur", handleBlur);
-  window.addEventListener("pagehide", handlePageHide);
-
-  return () => {
-    document.removeEventListener("visibilitychange", handleVisibility);
-    window.removeEventListener("blur", handleBlur);
-    window.removeEventListener("pagehide", handlePageHide);
-
-    stopSounds();
-  };
-
-}, [time, locked]);
+ 
 const stopAllSounds = () => {
   [wheelSoundRef, placeBetSoundRef, timerSoundRef].forEach((ref) => {
     if (ref.current) {
       ref.current.pause();
+
+      // fully reset
       ref.current.currentTime = 0;
+
+      // mobile chrome fix
+      ref.current.src = ref.current.src;
+      ref.current.load();
     }
   });
 };
+useEffect(() => {
+
+  const handleHide = () => {
+    setIsPageActive(false);
+    stopAllSounds();
+  };
+
+  const handleShow = () => {
+    setIsPageActive(true);
+  };
+
+  const visibilityHandler = () => {
+    if (document.hidden) {
+      handleHide();
+    } else {
+      handleShow();
+    }
+  };
+
+  document.addEventListener("visibilitychange", visibilityHandler);
+
+  window.addEventListener("blur", handleHide);
+  window.addEventListener("focus", handleShow);
+
+  window.addEventListener("pagehide", handleHide);
+  window.addEventListener("pageshow", handleShow);
+
+  return () => {
+    document.removeEventListener("visibilitychange", visibilityHandler);
+
+    window.removeEventListener("blur", handleHide);
+    window.removeEventListener("focus", handleShow);
+
+    window.removeEventListener("pagehide", handleHide);
+    window.removeEventListener("pageshow", handleShow);
+  };
+
+}, []);
+useEffect(() => {
+
+  // ❌ page inactive হলে কিছুই play হবে না
+  if (!isPageActive) {
+    stopAllSounds();
+    return;
+  }
+
+  // ✅ only active page
+  if (time > 1 && !locked) {
+
+    if (timerSoundRef.current?.paused) {
+      timerSoundRef.current.play().catch(() => {});
+    }
+
+  } else {
+
+    timerSoundRef.current?.pause();
+    timerSoundRef.current.currentTime = 0;
+  }
+
+}, [locked, time, isPageActive]);
 useEffect(() => {
   wheelSoundRef.current = new Audio("/wheel.mp3");
 
@@ -400,23 +418,23 @@ setTimeout(() => {
   // ======================
   // PLACE BET
   // ======================
-  useEffect(() => {
+//   useEffect(() => {
 
-  // ✅ betting open থাকলে timer sound play
-  if (time > 1) {
+//   // ✅ betting open থাকলে timer sound play
+//   if (time > 1) {
 
-    if (timerSoundRef.current.paused) {
-      timerSoundRef.current.play().catch(() => {});
-    }
+//     if (timerSoundRef.current.paused) {
+//       timerSoundRef.current.play().catch(() => {});
+//     }
 
-  } else {
+//   } else {
 
-    // ❌ betting closed হলে stop
-    timerSoundRef.current.pause();
-    timerSoundRef.current.currentTime = 0;
-  }
+//     // ❌ betting closed হলে stop
+//     timerSoundRef.current.pause();
+//     timerSoundRef.current.currentTime = 0;
+//   }
 
-}, [locked, time]);
+// }, [locked, time]);
 const placeBet = (num) => {
   if (locked) return;
   // 🔊 play sound
