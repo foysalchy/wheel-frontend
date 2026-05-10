@@ -39,7 +39,42 @@ const [user, setUser] = useState(null);
 
   return () => window.removeEventListener("resize", handleResize);
 }, []);
+useEffect(() => {
+  const handleVisibility = () => {
+    // tab change করলে pause
+    if (document.hidden) {
+      wheelSoundRef.current?.pause();
+      timerSoundRef.current?.pause();
+    } else {
+      // আবার ফিরে আসলে timer চললে play
+      if (time > 1) {
+        timerSoundRef.current?.play().catch(() => {});
+      }
+    }
+  };
 
+  document.addEventListener("visibilitychange", handleVisibility);
+
+  return () => {
+    document.removeEventListener("visibilitychange", handleVisibility);
+
+    // ✅ component destroy হলে সব sound stop
+    [wheelSoundRef, placeBetSoundRef, timerSoundRef].forEach((ref) => {
+      if (ref.current) {
+        ref.current.pause();
+        ref.current.currentTime = 0;
+      }
+    });
+  };
+}, [time]);
+const stopAllSounds = () => {
+  [wheelSoundRef, placeBetSoundRef, timerSoundRef].forEach((ref) => {
+    if (ref.current) {
+      ref.current.pause();
+      ref.current.currentTime = 0;
+    }
+  });
+};
 useEffect(() => {
   wheelSoundRef.current = new Audio("/wheel.mp3");
 
@@ -929,7 +964,10 @@ const toggleFullscreen = () => {
 
       </h3>
   </div>
-   <button    onClick={() => navigate("/dashboard")} className="w-[220px] h-[80px]">
+   <button     onClick={() => {
+    stopAllSounds();
+    navigate("/dashboard");
+  }} className="w-[220px] h-[80px]">
     <img
       src="/images/use/exit.png"
       className="w-full h-full object-contain"
