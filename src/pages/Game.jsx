@@ -40,25 +40,8 @@ const [user, setUser] = useState(null);
   return () => window.removeEventListener("resize", handleResize);
 }, []);
 useEffect(() => {
-  const handleVisibility = () => {
-    // tab change করলে pause
-    if (document.hidden) {
-      wheelSoundRef.current?.pause();
-      timerSoundRef.current?.pause();
-    } else {
-      // আবার ফিরে আসলে timer চললে play
-      if (time > 1) {
-        timerSoundRef.current?.play().catch(() => {});
-      }
-    }
-  };
 
-  document.addEventListener("visibilitychange", handleVisibility);
-
-  return () => {
-    document.removeEventListener("visibilitychange", handleVisibility);
-
-    // ✅ component destroy হলে সব sound stop
+  const stopSounds = () => {
     [wheelSoundRef, placeBetSoundRef, timerSoundRef].forEach((ref) => {
       if (ref.current) {
         ref.current.pause();
@@ -66,7 +49,46 @@ useEffect(() => {
       }
     });
   };
-}, [time]);
+
+  const resumeTimer = () => {
+    // game active থাকলে আবার timer চালু
+    if (time > 1 && !locked) {
+      timerSoundRef.current?.play().catch(() => {});
+    }
+  };
+
+  // ✅ tab switch
+  const handleVisibility = () => {
+    if (document.hidden) {
+      stopSounds();
+    } else {
+      resumeTimer();
+    }
+  };
+
+  // ✅ mobile app switch / chrome minimize
+  const handleBlur = () => {
+    stopSounds();
+  };
+
+  // ✅ mobile background / close
+  const handlePageHide = () => {
+    stopSounds();
+  };
+
+  document.addEventListener("visibilitychange", handleVisibility);
+  window.addEventListener("blur", handleBlur);
+  window.addEventListener("pagehide", handlePageHide);
+
+  return () => {
+    document.removeEventListener("visibilitychange", handleVisibility);
+    window.removeEventListener("blur", handleBlur);
+    window.removeEventListener("pagehide", handlePageHide);
+
+    stopSounds();
+  };
+
+}, [time, locked]);
 const stopAllSounds = () => {
   [wheelSoundRef, placeBetSoundRef, timerSoundRef].forEach((ref) => {
     if (ref.current) {
