@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import axios from "axios";
 import LuxuryNav from "../components/luxury-nav";
 import {  useNavigate } from "react-router-dom";
@@ -13,23 +13,23 @@ export default function VipHistory() {
 
   const token = localStorage.getItem("token");
 
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      const res = await axios.get(
-        "https://origensoft.com/api/auth/vip-history",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-          params: { from, to },
-        }
-      );
-      setData(res.data);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
+const fetchData = useCallback(async () => {
+  setLoading(true);
+  try {
+    const res = await axios.get(
+      "https://origensoft.com/api/auth/vip-history",
+      {
+        headers: { Authorization: `Bearer ${token}` },
+        params: { from, to },
+      }
+    );
+    setData(res.data);
+  } catch (err) {
+    console.error(err);
+  } finally {
+    setLoading(false);
+  }
+}, [from, to, token]);
 
   const groupedData = useMemo(() => {
     const map = {};
@@ -67,7 +67,7 @@ export default function VipHistory() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   return (
     <div className="min-h-screen w-[100%] lg:w-[350px] m-auto bg-[#020814] text-white flex flex-col pb-24">
