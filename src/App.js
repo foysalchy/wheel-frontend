@@ -6,6 +6,7 @@ import Deposit from "./pages/Deposit";
 import Withdraw from "./pages/Withdraw";
 import BetHistory from "./pages/BetHistory";
 import Profile from "./pages/Profile";
+import Vip from "./pages/Vip";
 import DepositHistory from "./pages/DepositHistory";
 import WithdrawHistory from "./pages/WithdrawHistory";
 import Register from "./pages/Register";
@@ -33,6 +34,11 @@ export default function App() {
         <Route
           path="/dashboard"
           element={user ? <Dashboard /> : <Navigate to="/login" />}
+          
+        />
+         <Route
+          path="/vip"
+          element={user ? <Vip /> : <Navigate to="/login" />}
           
         />
         <Route

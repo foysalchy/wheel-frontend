@@ -8,7 +8,7 @@ export default function Deposit() {
   const navigate = useNavigate();
 
   const [amount, setAmount] = useState("");
-  const [method, setMethod] = useState("bkash");
+  const [method, setMethod] = useState("upi");
   const [accountNumber, setAccountNumber] = useState("");
   const [trxId, setTrxId] = useState("");
   const [screenshot, setScreenshot] = useState(null);
@@ -47,7 +47,7 @@ export default function Deposit() {
       setAccountNumber("");
       setTrxId("");
       setScreenshot(null);
-      setMethod("bkash");
+      setMethod("upi");
 
     } catch (err) {
       setPopup({
@@ -106,17 +106,17 @@ export default function Deposit() {
 
             <div className="grid grid-cols-3 gap-3">
               <div
-                onClick={() => setMethod("bkash")}
-                className={`method-card ${method === "bkash" ? "active" : ""}`}
+                onClick={() => setMethod("upi")}
+                className={`method-card ${method === "upi" ? "active" : ""}`}
               >
-                <img src="/images/bkash.png" alt="bkash" />
+                <img src="/images/upi.png" alt="UPI" />
               </div>
 
               <div
-                onClick={() => setMethod("nagad")}
-                className={`method-card ${method === "nagad" ? "active" : ""}`}
+                onClick={() => setMethod("bank")}
+                className={`method-card ${method === "bank" ? "active" : ""}`}
               >
-                <img src="/images/nagad.png" alt="nagad" />
+                <img src="/images/bank.png" alt="bank" />
               </div>
 
               <div

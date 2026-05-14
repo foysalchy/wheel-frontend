@@ -9,12 +9,15 @@ export default function CasinoDashboard() {
   const navigate = useNavigate();
   // const [userStore] = useState(JSON.parse(localStorage.getItem("user")));
   const [wallet, setWallet] = useState(0);
+  const [isVip, setIsVip] = useState(0);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     socket.emit("get_user", { token });
     socket.on("user_data", (data) => {
       setWallet(data.wallet || 0);
+      setIsVip(data.data.is_vip || 0);
+      console.log(data,'datdad')
     });
     return () => socket.off("user_data");
   }, []);
@@ -136,14 +139,25 @@ const summaryCards = [
             </button>
           ))}
         </div>
-
+ <button
+      onClick={() => navigate('/profile')}
+      className="mt-6 w-full active:scale-[0.98] transition-transform"
+    >
+      <img src="/images/use/profilenav.png" alt="" />
+    </button>
         {/* Profile Card Section */}
-        <button
-          onClick={() => navigate('/profile')}
-          className="mt-6 w-full active:scale-[0.98] transition-transform"
-        >
-          <img src="/images/use/profilenav.png" alt="" />
-        </button>
+      {isVip == 1 ? (
+  <>
+   
+
+    <button
+      onClick={() => navigate('/vip')}
+      className="mt-6 w-full active:scale-[0.98] transition-transform"
+    >
+      <img src="/images/use/vip-portal.png" alt="" />
+    </button>
+  </>
+) : null}
       </main>
 
       <LuxuryNav />

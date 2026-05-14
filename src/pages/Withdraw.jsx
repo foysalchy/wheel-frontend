@@ -7,7 +7,7 @@ import LuxuryNav from "../components/luxury-nav";
 export default function Withdraw() {
   const navigate = useNavigate();
 
-  const [method, setMethod] = useState("bkash");
+  const [method, setMethod] = useState("upi");
   const [accountNumber, setAccountNumber] = useState("");
   const [accountName, setAccountName] = useState("");
   const [amount, setAmount] = useState("");
@@ -42,7 +42,7 @@ export default function Withdraw() {
         message: "Withdraw request submitted successfully!",
       });
 
-      setMethod("bkash");
+      setMethod("upi");
       setAccountNumber("");
       setAccountName("");
       setAmount("");
@@ -99,25 +99,20 @@ export default function Withdraw() {
 
             <div className="grid grid-cols-3 gap-3">
               <div
-                onClick={() => setMethod("bkash")}
-              className={`method-card text-white ${method === "bkash" ? "active" : ""}`}
+                onClick={() => setMethod("upi")}
+              className={`method-card text-white ${method === "upi" ? "active" : ""}`}
               >
-                <img src="/images/bkash.png" alt="bkash" />
+                <img src="/images/upi.png" alt="upi" />
               </div>
 
               <div
-                onClick={() => setMethod("nagad")}
-                className={`method-card text-white ${method === "nagad" ? "active" : ""}`}
+                onClick={() => setMethod("bank")}
+                className={`method-card text-white ${method === "bank" ? "active" : ""}`}
               >
-                <img src="/images/nagad.png" alt="nagad" />
+                <img src="/images/bank.png" alt="bank" />
               </div>
 
-              <div
-                onClick={() => setMethod("rocket")}
-                className={`method-card text-white ${method === "rocket" ? "active" : ""}`}
-              >
-                <img src="/images/rocket.png" alt="rocket" />
-              </div>
+              
             </div>
           </div>
            <div className="mb-4">
