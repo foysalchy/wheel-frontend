@@ -17,7 +17,7 @@ export default function Register() {
   const [photo, setPhoto] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // handle input
+  //  handle input
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
