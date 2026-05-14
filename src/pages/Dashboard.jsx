@@ -146,7 +146,7 @@ const summaryCards = [
       <img src="/images/use/profilenav.png" alt="" />
     </button>
         {/* Profile Card Section */}
-      {isVip == 1 ? (
+      {isVip === 1 ? (
   <>
    
 

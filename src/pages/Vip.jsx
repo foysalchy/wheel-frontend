@@ -64,6 +64,7 @@ export default function VipHistory() {
     );
   }, [data]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     fetchData();
   }, []);

@@ -45,13 +45,13 @@ const stopAllSounds = () => {
   [wheelSoundRef, placeBetSoundRef, timerSoundRef].forEach((ref) => {
     if (ref.current) {
       ref.current.pause();
-
-      // fully reset
       ref.current.currentTime = 0;
 
-      // mobile chrome fix
-      ref.current.src = ref.current.src;
+      // force reload without self-assign warning
+      const src = ref.current.src;
+      ref.current.src = "";
       ref.current.load();
+      ref.current.src = src;
     }
   });
 };
