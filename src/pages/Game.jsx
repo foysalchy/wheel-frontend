@@ -435,7 +435,7 @@ setTimeout(() => {
 //   }
 
 // }, [locked, time]);
-const updated_at = (num) => {
+const placeBet = (num) => {
   if (locked) return;
   // 🔊 play sound
   placeBetSoundRef.current.currentTime = 0;
