@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import socket from "../socket";
 import "./game.css";
 import {  useNavigate } from "react-router-dom";
-  const wheelNumbers = [0,1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const wheelNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9,0];
 export default function Game() {
   const navigate = useNavigate();
 const wheelSoundRef = useRef(null);
@@ -435,7 +435,7 @@ setTimeout(() => {
 //   }
 
 // }, [locked, time]);
-const placeBet = (num) => {
+const updated_at = (num) => {
   if (locked) return;
   // 🔊 play sound
   placeBetSoundRef.current.currentTime = 0;
