@@ -1,5 +1,16 @@
  import { useEffect, useState } from 'react';
-import { ChevronRight, Lock, FileText, LogOut, ChevronLeft } from 'lucide-react';
+import {
+  Lock,
+  FileText,
+  LogOut,
+  ArrowDownCircle,
+  ArrowUpCircle,
+  History,
+  KeyRound,
+  ShieldCheck,
+  ChevronLeft,
+  ChevronRight
+} from "lucide-react";
 import {useNavigate } from "react-router-dom";
 import socket from '../socket';
 import axios from 'axios';
@@ -9,29 +20,43 @@ import axios from 'axios';
 export default function ProfilePage() {
  
   const navigate = useNavigate();
- const menuItems = [
+const menuItems = [
   {
-    icon: Lock,
-    label: 'Change Password',
-    path: '/change-password',
-    badge: null,
+    icon: KeyRound,
+    label: "Change Password",
+    path: "/change-password",
   },
-//   {
-//     icon: Shield,
-//     label: 'KYC Verification',
-//     path: '/kyc',
-//     badge: 'Verified',
-//   },
   {
-    icon: FileText,
-    label: 'Privacy Policy',
-    path: '/privacy',
-    badge: null,
+    icon: ShieldCheck,
+    label: "Privacy Policy",
+    path: "/privacy",
   },
+
+  // 💰 Finance section
+  {
+    icon: ArrowDownCircle,
+    label: "Deposit",
+    path: "/deposit",
+  },
+  {
+    icon: History,
+    label: "Deposit History",
+    path: "/deposit-history",
+  },
+  {
+    icon: ArrowUpCircle,
+    label: "Withdraw",
+    path: "/withdraw",
+  },
+  {
+    icon: History,
+    label: "Withdraw History",
+    path: "/withdraw-history",
+  },
+
   {
     icon: LogOut,
-    label: 'Logout',
-    badge: null,
+    label: "Logout",
     isLogout: true,
   },
 ];
@@ -39,15 +64,13 @@ export default function ProfilePage() {
   const [wallet, setWallet] = useState(0);
   const [profile, setProfile] = useState(0);
 const handleLogout = () => {
-  // remove auth data
+
   localStorage.removeItem("token");
   localStorage.removeItem("user");
 
-  // disconnect socket
-  socket.disconnect();
+  window.dispatchEvent(new Event("authChange"));
 
-  // redirect to login
-  navigate("/");
+  window.location.replace("/login");
 };
   useEffect(() => {
     const token = localStorage.getItem("token");

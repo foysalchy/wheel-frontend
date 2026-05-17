@@ -9,7 +9,9 @@ export default function Login() {
 
   const nav = useNavigate();
 
-  const login = async () => {
+  const login = async (e) => {
+    e.preventDefault();
+
     try {
       setLoading(true);
 
@@ -21,10 +23,17 @@ export default function Login() {
         }
       );
 
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
+      // SAVE AUTH DATA
+    localStorage.setItem("token", res.data.token);
+localStorage.setItem("user", JSON.stringify(res.data.user));
 
-      nav("/dashboard");
+window.dispatchEvent(new Event("authChange"));
+
+      // SMALL DELAY ENSURES STORAGE IS READY
+      setTimeout(() => {
+        window.location.replace("/dashboard");
+      }, 100);
+
     } catch (error) {
       alert(error.response?.data?.message || "Login failed!");
     } finally {
@@ -34,7 +43,7 @@ export default function Login() {
 
   return (
     <div className="min-h-screen bg-[#07101b] text-white flex items-center justify-center px-5 overflow-hidden relative">
-
+      
       {/* BACKGROUND GLOW */}
       <div className="absolute w-[350px] h-[350px] bg-yellow-500/10 blur-[120px] rounded-full top-[-100px] left-[-100px]" />
       <div className="absolute w-[300px] h-[300px] bg-yellow-500/10 blur-[120px] rounded-full bottom-[-100px] right-[-100px]" />
@@ -42,62 +51,84 @@ export default function Login() {
       {/* LOGIN CARD */}
       <div className="w-full max-w-md relative z-10">
 
-        {/* TOP ICON */}
-      
-<div className="text-center mb-6">
-         <img className="w-[240px] m-auto" src="/logo.png" alt="" />
-
-         
+        {/* LOGO */}
+        <div className="text-center mb-6">
+          <img
+            className="w-[240px] m-auto"
+            src="/logo.png"
+            alt="Logo"
+          />
         </div>
+
         {/* CARD */}
         <div className="bg-[#0d1725] border border-yellow-500/20 rounded-[30px] p-6 shadow-[0_0_50px_rgba(255,215,0,0.08)]">
-       <h1 className="text-2xl mb-4 font-semibold gold-text flex-1 text-center">
-          Login
-        </h1>
+
+          {/* TITLE */}
+          <h1 className="text-2xl mb-4 font-semibold gold-text text-center">
+            Login
+          </h1>
+
           {/* DIVIDER */}
           <div className="divider mb-6">
             <img src="/images/top.png" alt="" />
           </div>
 
-          {/* USERNAME */}
-          <div className="mb-4">
-            <label className="form-label">Username</label>
+          {/* FORM */}
+          <form onSubmit={login}>
 
-            <input
-              type="text"
-              placeholder="Enter username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="gold-input"
-            />
-          </div>
+            {/* USERNAME */}
+            <div className="mb-4">
+              <label className="form-label block mb-2">
+                Username
+              </label>
 
-          {/* PASSWORD */}
-          <div className="mb-5">
-            <label className="form-label">Password</label>
+              <input
+                type="text"
+                placeholder="Enter username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="gold-input w-full"
+                required
+              />
+            </div>
 
-            <input
-              type="password"
-              placeholder="Enter password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="gold-input"
-            />
-          </div>
+            {/* PASSWORD */}
+            <div className="mb-5">
+              <label className="form-label block mb-2">
+                Password
+              </label>
 
-          {/* LOGIN BUTTON */}
-          <button
-            onClick={login}
-            disabled={loading}
-            className="w-full py-3 rounded-2xl bg-gradient-to-b from-[#d8c48f] to-[#9c7b45] text-black font-bold text-lg hover:scale-[1.02] active:scale-[0.98] transition duration-200 shadow-[0_10px_25px_rgba(255,215,0,0.25)]"
-          >
-            {loading ? "Logging in..." : "🎮 Play Now"}
-          </button>
+              <input
+                type="password"
+                placeholder="Enter password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="gold-input w-full"
+                required
+              />
+            </div>
 
-          {/* BOTTOM TEXT */}
+            {/* LOGIN BUTTON */}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-3 rounded-2xl bg-gradient-to-b from-[#d8c48f] to-[#9c7b45] text-black font-bold text-lg hover:scale-[1.02] active:scale-[0.98] transition duration-200 shadow-[0_10px_25px_rgba(255,215,0,0.25)] disabled:opacity-60"
+            >
+              {loading ? "Logging in..." : "🎮 Play Now"}
+            </button>
+
+          </form>
+
+          {/* REGISTER */}
           <p className="text-center text-gray-500 text-sm mt-5">
-            <button   onClick={() => nav("/register")} >Register New Account</button>
+            <button
+              onClick={() => nav("/register")}
+              className="hover:text-yellow-400 transition"
+            >
+              Register New Account
+            </button>
           </p>
+
         </div>
       </div>
     </div>

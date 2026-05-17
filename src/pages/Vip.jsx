@@ -159,8 +159,13 @@ const fetchData = useCallback(async () => {
                 <p className="text-gray-400">Total Bets</p>
                 <p className="text-white font-bold">{group.totalBets}</p>
               </div>
+              {group.totalPaid > 0 ? (
+                <>Paid</>
+              ) : (
+                <>Unpaid</>
+              )}
 
-              <div className="bg-green-900/30 p-2 rounded">
+              {/* <div className="bg-green-900/30 p-2 rounded">
                 <p className="text-gray-400">Paid</p>
                 <p className="text-green-400 font-bold">
                   ₹ {group.totalPaid.toLocaleString()}
@@ -172,7 +177,7 @@ const fetchData = useCallback(async () => {
                 <p className="text-red-400 font-bold">
                   ₹ {group.totalUnpaid.toLocaleString()}
                 </p>
-              </div>
+              </div> */}
             </div>
           </div>
         ))}
