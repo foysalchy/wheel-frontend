@@ -1,7 +1,7 @@
  import { useEffect, useState } from 'react';
 import {
-  Lock,
-  FileText,
+ 
+ 
   LogOut,
   ArrowDownCircle,
   ArrowUpCircle,
