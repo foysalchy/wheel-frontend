@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import socket from "../socket";
 import { useNavigate } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
@@ -17,44 +17,52 @@ export default function BetHistory() {
 
   const limit = 20;
 
-  const fetchBets = async (page = 1) => {
-    try {
-      setLoading(true);
+  // ✅ FIXED: memoized fetch function
+  const fetchBets = useCallback(
+    async (page = 1) => {
+      try {
+        setLoading(true);
 
-      const token = localStorage.getItem("token");
+        const token = localStorage.getItem("token");
 
-      const res = await fetch(
-        `https://origensoft.com/api/auth/bet-history?page=${page}&limit=${limit}&status=${filterStatus}&from=${filterDate}&to=${filterDate}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+        const res = await fetch(
+          `https://origensoft.com/api/auth/bet-history?page=${page}&limit=${limit}&status=${filterStatus}&from=${filterDate}&to=${filterDate}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-      const data = await res.json();
+        const data = await res.json();
 
-      setBets(data.data || []);
-      setCurrentPage(data.pagination.page);
-      setTotalPages(data.pagination.totalPages);
+        setBets(data.data || []);
+        setCurrentPage(data.pagination.page);
+        setTotalPages(data.pagination.totalPages);
 
-      setLoading(false);
-    } catch (err) {
-      console.log(err);
-      setLoading(false);
-    }
-  };
+        setLoading(false);
+      } catch (err) {
+        console.log(err);
+        setLoading(false);
+      }
+    },
+    [filterStatus, filterDate]
+  );
 
-  // INITIAL LOAD + FILTER CHANGE
+  // ✅ FIXED: socket + initial load
   useEffect(() => {
     fetchBets(1);
 
-    socket.on("bet_history", () => {
-      fetchBets(currentPage);
-    });
+    const handler = () => {
+      fetchBets(1); // always safe (no stale page issue)
+    };
 
-    return () => socket.off("bet_history");
-  }, [filterStatus, filterDate]);
+    socket.on("bet_history", handler);
+
+    return () => {
+      socket.off("bet_history", handler);
+    };
+  }, [fetchBets]);
 
   return (
     <div className="min-h-screen w-full lg:w-[350px] m-auto text-white flex flex-col relative">
@@ -118,7 +126,6 @@ export default function BetHistory() {
 
       {/* TABLE */}
       <main className="relative z-10 flex-1 px-4 py-4 pb-24 overflow-x-auto">
-
         <div className="bg-black/70 border border-yellow-500/30 rounded-2xl p-4">
 
           {loading ? (
@@ -130,16 +137,15 @@ export default function BetHistory() {
 
               <thead className="text-yellow-400 border-b border-yellow-500/20">
                 <tr>
-                  <th className="py-3">Bet  </th>
+                  <th className="py-3">Bet</th>
                   <th>Amount</th>
-                 
                 </tr>
               </thead>
 
               <tbody>
                 {bets.length === 0 ? (
                   <tr>
-                    <td colSpan="4" className="text-center py-10 text-gray-400">
+                    <td colSpan="2" className="text-center py-10 text-gray-400">
                       No bets found
                     </td>
                   </tr>
@@ -151,11 +157,12 @@ export default function BetHistory() {
                     >
                       <td className="py-3">
                         #{bet.id}
-                        <p>  {new Date(bet.created_at).toLocaleString()}</p>
-                        </td>
+                        <p>{new Date(bet.created_at).toLocaleString()}</p>
+                      </td>
 
                       <td className="text-yellow-400 text-right">
-                       <p> ₹{bet.amount}</p>
+                        <p>₹{bet.amount}</p>
+
                         <span
                           className={`px-2 py-1 rounded-lg text-xs font-bold ${
                             bet.status === 1
@@ -176,15 +183,10 @@ export default function BetHistory() {
                             : "CANCEL"}
                         </span>
                       </td>
-
-                      
-
-                       
                     </tr>
                   ))
                 )}
               </tbody>
-
             </table>
           )}
 
@@ -214,12 +216,10 @@ export default function BetHistory() {
           </div>
 
         </div>
-
       </main>
 
       {/* FOOTER */}
       <LuxuryNav />
-
     </div>
   );
 }
