@@ -211,6 +211,8 @@ useEffect(() => {
   return () => socket.off("last_results");
 }, []);
 useEffect(() => {
+  if (!calculateRotation) return;
+
   if (lastResults.length > 0) {
     const lastWin = lastResults[0];
     const rot = calculateRotation(lastWin);
@@ -218,17 +220,17 @@ useEffect(() => {
     setResult(lastWin);
 
     if (isFirstLoad.current) {
-      // 🚀 refresh / first load → NO animation
-      setspinDuration(0.01)
+      // 🚀 first load → no animation
+      setspinDuration(0.01);
       setWheelRotation(rot);
       isFirstLoad.current = false;
     } else {
-      // 🎯 normal spin → animation
+      // 🎯 normal spin
       setspinDuration(3);
       setWheelRotation(rot);
     }
   }
-}, [lastResults]);
+}, [lastResults, calculateRotation]);
 const animateWallet = (end, duration = 2000) => {
   const start = walletRef.current;
 
