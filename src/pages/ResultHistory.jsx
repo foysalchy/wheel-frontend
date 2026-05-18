@@ -22,11 +22,11 @@ export default function ResultHistory() {
 
       const data = res.data;
 
-      if (data.game_time_mode == 1) {
-        setType("1min");
-      } else {
-        setType("15min");
-      }
+     if (data.game_time_mode === "1") {
+  setType("1min");
+} else {
+  setType("15min");
+}
     } catch (err) {
       console.log(err);
     }
