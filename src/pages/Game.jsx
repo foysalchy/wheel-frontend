@@ -210,27 +210,7 @@ useEffect(() => {
 
   return () => socket.off("last_results");
 }, []);
-useEffect(() => {
-  if (!calculateRotation) return;
 
-  if (lastResults.length > 0) {
-    const lastWin = lastResults[0];
-    const rot = calculateRotation(lastWin);
-
-    setResult(lastWin);
-
-    if (isFirstLoad.current) {
-      // 🚀 first load → no animation
-      setspinDuration(0.01);
-      setWheelRotation(rot);
-      isFirstLoad.current = false;
-    } else {
-      // 🎯 normal spin
-      setspinDuration(3);
-      setWheelRotation(rot);
-    }
-  }
-}, [lastResults, calculateRotation]);
 const animateWallet = (end, duration = 2000) => {
   const start = walletRef.current;
 
@@ -332,6 +312,27 @@ useEffect(() => {
   // 🎯 pointer top = 0 degree fix
   return fullSpins + (360 - targetAngle);
 }, []);
+useEffect(() => {
+  if (!calculateRotation) return;
+
+  if (lastResults.length > 0) {
+    const lastWin = lastResults[0];
+    const rot = calculateRotation(lastWin);
+
+    setResult(lastWin);
+
+    if (isFirstLoad.current) {
+      // 🚀 first load → no animation
+      setspinDuration(0.01);
+      setWheelRotation(rot);
+      isFirstLoad.current = false;
+    } else {
+      // 🎯 normal spin
+      setspinDuration(3);
+      setWheelRotation(rot);
+    }
+  }
+}, [lastResults, calculateRotation]);
   // ======================
   // SOCKET EVENTS
   // ======================
