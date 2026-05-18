@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import socket from "../socket";
+import Swal from "sweetalert2";
 import "./game.css";
 import {  useNavigate } from "react-router-dom";
   const wheelNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9,0];
@@ -461,6 +462,17 @@ setTimeout(() => {
 // }, [locked, time]);
 const placeBet = (num) => {
   if (locked) return;
+    if (wallet <= 0) {
+    Swal.fire({
+      icon: "error",
+      title: "Insufficient Balance",
+      text: "You don't have enough balance to place a bet.",
+      confirmButtonColor: "#d33",
+      background: "#111",
+      color: "#fff",
+    });
+    return;
+  }
   // 🔊 play sound
   placeBetSoundRef.current.currentTime = 0;
   placeBetSoundRef.current.play();
