@@ -213,8 +213,9 @@ useEffect(() => {
 }, []);
 
 const animateWallet = (end, duration = 2000) => {
+  if(walletRef.current === end) return; // no change
   const start = walletRef.current;
-
+console.log(start,end,'sdfsdfsd')
   let startTime = null;
 
   const animate = (currentTime) => {
@@ -251,7 +252,7 @@ useEffect(() => {
     if (data.userId === storedUser?.id) {
       if (data.wallet !== null) {
          setTimeout(() => {
-     animateWallet(data.wallet, 1500);
+     animateWallet(data.wallet, 300);
         }, 5000);
         
       } else {
@@ -484,11 +485,15 @@ const placeBet = (num) => {
     number: num,
     amount,
   });
+ 
 
   setBets((prev) => [
     ...prev,
     { num, amount, time: new Date().toLocaleTimeString() },
   ]);
+    setTimeout(() => {
+    animateWallet(wallet - amount, 300); // UI animation
+        }, 200);
 };
 const cancelBet = () => {
   console.log('go')

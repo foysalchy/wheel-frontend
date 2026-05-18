@@ -23,10 +23,10 @@ export default function ResultHistory() {
       const data = res.data;
 
      if (data.game_time_mode === "1") {
-  setType("1min");
-} else {
-  setType("15min");
-}
+      setType("1min");
+    } else {
+      setType("15min");
+    }
     } catch (err) {
       console.log(err);
     }
@@ -43,7 +43,7 @@ export default function ResultHistory() {
     async (newPage = 1, newType = type) => {
       try {
         const res = await axios.get(
-          `https://origensoft.com/api/auth/round-history?type=${newType}&page=${newPage}&limit=20`
+          `https://origensoft.com/api/auth/round-history?type=${newType}&page=${newPage}&limit=30`
         );
 
         const allRounds = res.data.data.flat();
@@ -137,16 +137,18 @@ export default function ResultHistory() {
             </div>
 
             {/* RESULTS GRID */}
-            <div className="flex flex-wrap gap-3 lg:gap-4 justify-start">
+            <div className="lg:flex flex-wrap grid grid-cols-5 gap-3 lg:gap-4 justify-start">
 
               {group.rounds.map((round) => (
                 <div
                   key={round.id}
-                  className="text-sm text-center flex flex-col items-center w-[13%] lg:w-[5.55%]"
+                  className="text-sm text-center flex flex-col items-center   lg:w-[5.55%]"
                 >
-                  <div className="mb-1 text-xs">
-                    {formatTime(round.created_at)}
-                  </div>
+                 {type !== "1min" && (
+  <div className="mb-1 text-xs">
+    {formatTime(round.created_at)}
+  </div>
+)}
 
                   <div className="bg-white/5 rounded-full w-[30px] h-[30px] border border-yellow-500 flex items-center justify-center text-green-400 text-lg">
                     {round.result}
