@@ -142,8 +142,15 @@ const fetchData = useCallback(async () => {
             }}
           >
             {/* DATE */}
-            <h3 className="text-center text-yellow-300 font-bold text-sm mb-3">
-              {group.date}
+            <h3 className="flex justify-between text-center text-yellow-300 font-bold text-sm mb-3">
+             <span> {group.date}</span>
+              <span>
+                 {group.totalPaid > 0 ? (
+               <span className="text-green-400">Paid</span>
+              ) : (
+                <span className="text-red-400">Unpaid</span>
+              )}
+              </span>
             </h3>
 
             {/* GRID */}
@@ -159,11 +166,8 @@ const fetchData = useCallback(async () => {
                 <p className="text-gray-400">Total Bets</p>
                 <p className="text-white font-bold">{group.totalBets}</p>
               </div>
-              {group.totalPaid > 0 ? (
-                <>Paid</>
-              ) : (
-                <>Unpaid</>
-              )}
+    
+             
 
               {/* <div className="bg-green-900/30 p-2 rounded">
                 <p className="text-gray-400">Paid</p>
