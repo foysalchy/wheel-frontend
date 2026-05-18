@@ -8,7 +8,8 @@ export default function ResultHistory() {
   const [groups, setGroups] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-
+const [fromDate, setFromDate] = useState("");
+const [toDate, setToDate] = useState("");
   const navigate = useNavigate();
 
   // =====================
@@ -39,44 +40,39 @@ export default function ResultHistory() {
   // =====================
   // FETCH ROUND DATA
   // =====================
-  const fetchData = useCallback(
-    async (newPage = 1, newType = type) => {
-      try {
-        const res = await axios.get(
-          `https://origensoft.com/api/auth/round-history?type=${newType}&page=${newPage}&limit=30`
-        );
+const fetchData = useCallback(
+  async (newPage = 1, newType = type, from = fromDate, to = toDate) => {
+    try {
+      const res = await axios.get(
+        `https://origensoft.com/api/auth/round-history?type=${newType}&page=${newPage}&limit=30&fromDate=${from}&toDate=${to}`
+      );
 
-        const allRounds = res.data.data.flat();
+      const allRounds = res.data.data.flat();
 
-        // GROUP BY DATE
-        const groupedByDate = {};
+      const groupedByDate = {};
 
-        allRounds.forEach((round) => {
-          const date = new Date(round.created_at).toLocaleDateString("en-GB");
+      allRounds.forEach((round) => {
+        const date = new Date(round.created_at).toLocaleDateString("en-GB");
 
-          if (!groupedByDate[date]) {
-            groupedByDate[date] = [];
-          }
+        if (!groupedByDate[date]) groupedByDate[date] = [];
+        groupedByDate[date].push(round);
+      });
 
-          groupedByDate[date].push(round);
-        });
+      setGroups(
+        Object.entries(groupedByDate).map(([date, rounds]) => ({
+          date,
+          rounds,
+        }))
+      );
 
-        const finalGroups = Object.entries(groupedByDate).map(
-          ([date, rounds]) => ({
-            date,
-            rounds,
-          })
-        );
-
-        setGroups(finalGroups);
-        setPage(res.data.page);
-        setTotalPages(res.data.totalPages);
-      } catch (err) {
-        console.log(err);
-      }
-    },
-    [type]
-  );
+      setPage(res.data.page);
+      setTotalPages(res.data.totalPages);
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  [type, fromDate, toDate]
+);
 
   // =====================
   // LOAD DATA WHEN TYPE CHANGES
@@ -116,7 +112,29 @@ export default function ResultHistory() {
 
         <div className="w-6" />
       </div>
+<div className="flex gap-2 justify-center items-center my-3">
+  From:
+  <input
+    type="date"
+    value={fromDate}
+    onChange={(e) => setFromDate(e.target.value)}
+    className="px-3 py-2 text-black rounded"
+  />
+To:
+  <input
+    type="date"
+    value={toDate}
+    onChange={(e) => setToDate(e.target.value)}
+    className="px-3 py-2 text-black rounded"
+  />
 
+  <button
+    onClick={() => fetchData(1, type, fromDate, toDate)}
+    className="px-3 py-2 bg-yellow-500 text-black rounded"
+  >
+    Filter
+  </button>
+</div>
       {/* GROUPS */}
       <div className="space-y-4">
 
