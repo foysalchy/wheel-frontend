@@ -492,7 +492,10 @@ const placeBet = (num) => {
     { num, amount, time: new Date().toLocaleTimeString() },
   ]);
     setTimeout(() => {
-    animateWallet(wallet - amount, 300); // UI animation
+      if(wallet > amount) {
+          animateWallet(wallet - amount, 300); // UI animation
+      }
+   
         }, 200);
 };
 const cancelBet = () => {
