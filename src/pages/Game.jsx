@@ -19,15 +19,17 @@ const walletRef = useRef(0);
   const [result, setResult] = useState(null);
   const [myWin, setmyWin] = useState(0);
   const [resultTimer, setResultTimer] = useState(0);
+  const isFirstLoad = useRef(true);
 const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [locked, setLocked] = useState(false);
   const [isSpinning, setIsSpinning] = useState(false);
   const [isSpinningWheel, setIsSpinningWheel] = useState(false);
 const [lastResults, setLastResults] = useState([]);
   const [wheelRotation, setWheelRotation] = useState(0);
+  const [spinDuration, setspinDuration] = useState(3);
   
 
-  const spinDuration = 3;
+  
   const [betAmount, setBetAmount] = useState(10);
 const [wallet, setWallet] = useState(0);
  const [showFsAlert, setShowFsAlert] = useState(false);
@@ -208,6 +210,25 @@ useEffect(() => {
 
   return () => socket.off("last_results");
 }, []);
+useEffect(() => {
+  if (lastResults.length > 0) {
+    const lastWin = lastResults[0];
+    const rot = calculateRotation(lastWin);
+
+    setResult(lastWin);
+
+    if (isFirstLoad.current) {
+      // 🚀 refresh / first load → NO animation
+      setspinDuration(0.01)
+      setWheelRotation(rot);
+      isFirstLoad.current = false;
+    } else {
+      // 🎯 normal spin → animation
+      setspinDuration(3);
+      setWheelRotation(rot);
+    }
+  }
+}, [lastResults]);
 const animateWallet = (end, duration = 2000) => {
   const start = walletRef.current;
 
@@ -850,7 +871,7 @@ const toggleFullscreen = () => {
     <div className="score veiw  w-[160px]  h-[50px]  m-auto"
      onClick={() => {
     
-    navigate("/bet-history");
+    navigate("/result-history");
   }}
     style={{
           backgroundImage:

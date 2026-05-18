@@ -9,6 +9,7 @@ import Withdraw from "./pages/Withdraw";
 import BetHistory from "./pages/BetHistory";
 import Profile from "./pages/Profile";
 import Vip from "./pages/Vip";
+import ResultHistory from "./pages/ResultHistory";
 import DepositHistory from "./pages/DepositHistory";
 import WithdrawHistory from "./pages/WithdrawHistory";
 import Register from "./pages/Register";
@@ -107,6 +108,11 @@ export default function App() {
         <Route
           path="/bet-history"
           element={user ? <BetHistory /> : <Navigate to="/login" />}
+        />
+         {/* BET HISTORY */}
+        <Route
+          path="/result-history"
+          element={user ? <ResultHistory /> : <Navigate to="/login" />}
         />
 
         {/* PROFILE */}

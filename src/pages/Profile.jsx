@@ -10,7 +10,8 @@ import {
   ShieldCheck,
   ChevronLeft,
   ChevronRight,
-  File
+  File,
+  BarChart3
 } from "lucide-react";
 import {useNavigate } from "react-router-dom";
 import socket from '../socket';
@@ -58,6 +59,11 @@ const menuItems = [
     icon: File,
     label: "Bet History",
     path: "/bet-history",
+  },
+   {
+    icon: BarChart3,
+    label: "Result History",
+    path: "/result-history",
   },
 
   {
