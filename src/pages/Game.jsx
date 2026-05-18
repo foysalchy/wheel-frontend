@@ -486,11 +486,12 @@ const placeBet = (num) => {
     amount,
   });
  
-
+ if(wallet > amount) {
   setBets((prev) => [
     ...prev,
     { num, amount, time: new Date().toLocaleTimeString() },
   ]);
+}
     setTimeout(() => {
       if(wallet > amount) {
           animateWallet(wallet - amount, 300); // UI animation
