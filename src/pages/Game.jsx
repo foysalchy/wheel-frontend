@@ -515,7 +515,29 @@ const repeatBet = () => {
  
 
 };
+useEffect(() => {
+  socket.on("bet_error", (data) => {
+    Swal.fire({
+      icon: "warning",
+      title: "Bet Failed",
+      text: data.message || "Insufficient balance",
+    });
+  });
 
+  socket.on("repeat_done", () => {
+    Swal.fire({
+      icon: "success",
+      title: "Bet Repeated",
+      timer: 1000,
+      showConfirmButton: false,
+    });
+  });
+
+  return () => {
+    socket.off("bet_error");
+    socket.off("repeat_done");
+  };
+}, []);
 useEffect(() => {
   const handler = (data) => {
     console.log(data,'data')
