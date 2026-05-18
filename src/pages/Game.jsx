@@ -848,6 +848,10 @@ const toggleFullscreen = () => {
 </span></span>
     </div>
     <div className="score veiw  w-[160px]  h-[50px]  m-auto"
+     onClick={() => {
+    
+    navigate("/bet-history");
+  }}
     style={{
           backgroundImage:
             "url('/images/use/result pad.png')",

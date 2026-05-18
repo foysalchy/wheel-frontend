@@ -9,7 +9,8 @@ import {
   KeyRound,
   ShieldCheck,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  File
 } from "lucide-react";
 import {useNavigate } from "react-router-dom";
 import socket from '../socket';
@@ -52,6 +53,11 @@ const menuItems = [
     icon: History,
     label: "Withdraw History",
     path: "/withdraw-history",
+  },
+  {
+    icon: File,
+    label: "Bet History",
+    path: "/bet-history",
   },
 
   {
