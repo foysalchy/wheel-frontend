@@ -488,7 +488,7 @@ const placeBet = (num) => {
   // 🔓 unlock after 2s
   setTimeout(() => {
     placingBetRef.current = false;
-  }, 500);
+  }, 700);
 
   // 🔊 sound
   placeBetSoundRef.current.currentTime = 0;
