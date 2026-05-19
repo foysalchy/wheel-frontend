@@ -393,7 +393,11 @@ console.log(d,'result')
     "newWallet:", newWallet
   );
 
-  animateWallet(newWallet, 2000);
+   setTimeout(() => {
+    animateWallet(newWallet, 2000);
+    
+  }, 2000);
+ 
 }
 
   
