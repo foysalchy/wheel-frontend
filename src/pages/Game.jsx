@@ -14,6 +14,7 @@ const soundUnlockedRef = useRef(false);
   const [isPageActive, setIsPageActive] = useState(true);
 const rotationRef = useRef(0);
   const [time, setTime] = useState(60);
+  const placingBetRef = useRef(false);
   const [betCount, setBetCount] = useState(0);
   const [bets, setBets] = useState([]);
 const walletRef = useRef(0);
@@ -176,7 +177,7 @@ console.log(user,spinDuration)
   socket.emit("get_user", { token });
 
   socket.on("user_data", (data) => {
-    console.log(data,'dat');
+    console.log(data,'walletx2');
     setUser(data);
     setWallet(data.wallet);
   });
@@ -243,27 +244,16 @@ console.log(start,end,'sdfsdfsd')
 };
 useEffect(() => {
   socket.on("wallet_update", (data) => {
-   
-   const storedUser = JSON.parse(localStorage.getItem("user"));
-
-    console.log(data, "dhit1");
-    console.log(storedUser, "storedUser");
+    const storedUser = JSON.parse(localStorage.getItem("user"));
 
     if (data.userId === storedUser?.id) {
       if (data.wallet !== null) {
-         setTimeout(() => {
-     animateWallet(data.wallet, 300);
-        }, 5000);
-        
-      } else {
-        // fallback refresh from server
-        socket.emit("get_user", {
-          token: localStorage.getItem("token"),
-        });
+        animateWallet(data.wallet, 300);
       }
     }
   });
- 
+
+  return () => socket.off("wallet_update");
 }, []);
 
 useEffect(() => {
@@ -394,6 +384,19 @@ console.log(d,'result')
   console.log(uid,myWinx,d.userWins,'userWins')
 
   setBets([]);
+   if (myWinx > 0) {
+  const newWallet = walletRef.current + myWinx;
+
+  console.log(
+    "walletRef:", walletRef.current,
+    "win:", myWinx,
+    "newWallet:", newWallet
+  );
+
+  animateWallet(newWallet, 2000);
+}
+
+  
 
  requestAnimationFrame(() => {
     setWheelRotation(newRot);
@@ -463,7 +466,11 @@ setTimeout(() => {
 // }, [locked, time]);
 const placeBet = (num) => {
   if (locked) return;
-    if (wallet <= 0) {
+
+  // ✅ wait 2 sec before next bet
+  if (placingBetRef.current) return;
+
+  if (wallet <= 0) {
     Swal.fire({
       icon: "error",
       title: "Insufficient Balance",
@@ -472,12 +479,23 @@ const placeBet = (num) => {
       background: "#111",
       color: "#fff",
     });
+
     return;
   }
-  // 🔊 play sound
+
+  placingBetRef.current = true;
+
+  // 🔓 unlock after 2s
+  setTimeout(() => {
+    placingBetRef.current = false;
+  }, 500);
+
+  // 🔊 sound
   placeBetSoundRef.current.currentTime = 0;
   placeBetSoundRef.current.play();
+
   const amount = Number(betAmount);
+
   if (!amount || amount <= 0) return;
 
   socket.emit("place_bet", {
@@ -485,19 +503,15 @@ const placeBet = (num) => {
     number: num,
     amount,
   });
- 
- if(wallet > amount) {
-  setBets((prev) => [
-    ...prev,
-    { num, amount, time: new Date().toLocaleTimeString() },
-  ]);
-}
-    setTimeout(() => {
-      if(wallet > amount) {
-          animateWallet(wallet - amount, 300); // UI animation
-      }
-   
-        }, 200);
+
+  if (wallet >= amount) {
+    setBets((prev) => [
+      ...prev,
+      { num, amount, time: new Date().toLocaleTimeString() },
+    ]);
+
+    animateWallet(wallet - amount, 300);
+  }
 };
 const cancelBet = () => {
   console.log('go')
@@ -574,7 +588,9 @@ useEffect(() => {
 
   return () => socket.off("current_bets");
 }, []);
-
+useEffect(() => {
+  walletRef.current = wallet;
+}, [wallet]);
 const toggleFullscreen = () => {
   const elem = document.documentElement;
 
@@ -1071,6 +1087,11 @@ const toggleFullscreen = () => {
           : "🔴 Betting Closed")
       : "🟢 Betting Open"
 }
+{ placingBetRef.current && !locked && (
+  <span className="ml-2 text-sm font-normal opacity-75">
+    (Placing Bet...)
+  </span>
+)}
  {/* { isSpinning ? "🔴 Betting Closed" : locked ? "🔴 Betting Closed" : "🟢 Betting Open"} */}
 
       </h3>
