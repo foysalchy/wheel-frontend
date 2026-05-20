@@ -468,7 +468,7 @@ body{
     height: 89px !important;
   }
 }
-@media (max-width: 770px) {
+@media (max-width: 770px) and (orientation: landscape) {
 .pointer.glow::before{
   content: '';
   position: absolute;
@@ -689,3 +689,4 @@ position: absolute;
   top: 50%;
   left: 78%;
 }
+
