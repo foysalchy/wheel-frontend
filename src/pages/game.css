@@ -471,7 +471,8 @@ body{
 }
 @media (max-width: 770px) {
   .game-container{
-      background-image: url("../../public/images/bg2.png");
+      background-image: url("../../public/images/bg2.png") !important;
+      background-position: center 0px !important;
   }
 .pointer.glow::before{
   content: '';
@@ -700,7 +701,7 @@ position: absolute;
 {
   .game-container{
     background-position: center 0px !important;
-  background: url("../../public/images/bg2.png");
+  background: url("../../public/images/bg2.png") !important;
 
 
   }
