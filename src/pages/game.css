@@ -694,8 +694,174 @@ position: absolute;
 
 @media screen and   ( max-height: 400px )
 {
-    .game-container {
-    transform: rotate(0deg);
-    
+     .pointer.glow::before{
+  content: '';
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background: url("../../public/images/use/light.webp");
+  background-size: contain;
+  background-repeat: no-repeat;
+left: -24px;
+    top: -25px;
+
+  animation: glowBlink 1s ease-in-out infinite;
+}
+  .score {
+    height: 70px !important;
+    width: 150px !important;
+    background-repeat: no-repeat !important;
+    background-size: contain !important;
+  }
+
+  .veiw {
+    height: 47px !important;
+    width: 110px !important;
+    background-repeat: no-repeat !important;
+    background-size: contain !important;
+    margin-top: -50px !important;
+  }
+
+  .score span {
+    top: -6px !important;
+    font-size: 13px !important;
+  }
+
+  .timer {
+    margin-top: 5px !important;
+  }
+
+  .timer span {
+    top: -11px !important;
+  }
+
+  .last span {
+   top: 0px !important;
+    width: 144px;
+    display: inline-block;
+    left: -13px;
+    font-size: 12px !important;
+  }
+  .last{
+    padding:15px !important
+  }
+
+  .veiw span {
+    top: -34px !important;
+    font-size: 11px !important;
+    width: 104px !important;
+    display: inline-block !important;
+    left: -31px !important;
+  }
+
+  .betamount-tigger img {
+    width: 180px !important;
+  }
+
+  .betamount-tigger .btnn {
+    font-size: 13px !important;
+  }
+
+  .betamount-tigger .number {
+    top: -37px !important;
+    right: 12px !important;
+    left: 15px !important;
+  }
+
+  .betamount-tigger {
+    margin-top: 0 !important;
+  }
+
+  .last {
+    margin-top: -30px !important;
+    height: auto !important; /* FIXED (6px was breaking UI) */
+  }
+
+  .wheel-container {
+    width: 220px !important;
+    height: 220px !important;
+    margin-top: -40px !important;
+  }
+.betamount-tigger2{
+  margin-top: -13px !important;
+}
+.ccn{
+  width: 125px !important;
+}
+  .wheel {
+    width: 200px !important;
+    height: 200px !important;
+  }
+
+  .wheel-border::after {
+    width: 80px !important;
+    height: 80px !important;
+    top: 37% !important;
+    left: 37% !important;
+  }
+
+  .wheel-border {
+    height: 262px !important;
+    width: 270px !important;
+    left: -29px !important;
+    top: -31px !important;
+  }
+
+  .pointer {
+    position: absolute !important;
+    top: -30px !important;
+    left: 37% !important;
+    z-index: 20 !important;
+    width: 60px !important;
+    height: 55px !important;
+  }
+
+  .nm {
+    width: 90% !important;
+  }
+
+  .nm,
+  .number div {
+    height: 60px !important;
+  }
+
+  .prev-centl button,
+  .prev-centl div {
+    height: 30px !important;
+  }
+
+  .cc {
+    bottom: 25% !important;
+  }
+
+  .prev-centl button {
+    width: 100px !important;
+  }
+
+  .prev-centl div img {
+    display: none !important;
+  }
+
+  .prev-centl div {
+    width: 100% !important;
+    background: white !important;
+    border-radius: 15px !important;
+    border: 3px solid #bf7b06 !important;
+  }
+
+  .prev-centl div h3 {
+    position: static !important;
+    margin: 3px 0 0 0 !important;
+    font-size: 13px !important;
+  }
+
+  .prev-centl button span {
+    top: 0px !important;
+    font-size: 12px !important;
+  }
+
+  .bm {
+    top: -3px !important;
+    font-size: 11px !important;
   }
 }
