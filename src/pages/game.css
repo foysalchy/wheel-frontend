@@ -704,7 +704,7 @@ position: absolute;
 
  
 
-@media screen and   ( max-height: 400px )
+@media screen and   ( max-height: 500px )
 {
      .pointer.glow::before{
   content: '';
@@ -886,5 +886,45 @@ left: -24px;
   .bm {
     top: -3px !important;
     font-size: 11px !important;
+  }
+}
+ @media (max-width: 500px) {
+  .game-container {
+    background-position: center -40px !important;
+  }
+}
+@media screen and (max-height: 1080px) {
+  .game-container {
+    background-position: center -82px !important;
+  }
+}
+@media screen and (max-height: 915px) {
+  .game-container {
+    background-position: center -82px !important;
+  }
+}
+@media screen and (max-height: 854px) {
+  .game-container {
+    background-position: center -62px !important;
+  }
+}
+@media screen and (max-height: 846px) {
+  .game-container {
+    background-position: center -60px !important;
+  }
+}
+@media screen and (max-height: 800px) {
+  .game-container {
+    background-position: center -45px !important;
+  }
+}
+@media screen and (max-height: 760px) {
+  .game-container {
+    background-position: center -33px !important;
+  }
+}
+@media screen and (max-height: 760px) {
+  .game-container {
+    background-position: center -33px !important;
   }
 }

@@ -654,7 +654,9 @@ const toggleFullscreen = () => {
   }
 `}
 </style>
-
+  {/* <div className="wheel-borderx">
+          <img src="/images/badge.png" alt="" />
+        </div> */}
    <div className="grid grid-cols-3 gap-3 mb-6 glyout">
         <div>
           {/* <div className="light-group-left">
@@ -838,6 +840,7 @@ const toggleFullscreen = () => {
       {/* WHEEL */}
       <div className="wheel-container relative">
         <div className="wheel-border"></div>
+      
       <div className={`pointer ${
     result == null &&
    
