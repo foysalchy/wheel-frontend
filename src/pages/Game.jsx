@@ -263,12 +263,15 @@ useEffect(() => {
   // POSITION CALC
   // ======================
   const getNumberPosition = (index) => {
- const radius =
-  screenWidth <= 780
-    ? 70
-    : screenWidth <= 1360
-    ? 90
-    : 130;
+const isSmallHeight = window.innerHeight < 400;
+
+const radius = isSmallHeight
+  ? 70
+  : screenWidth <= 780
+  ? 70
+  : screenWidth <= 1360
+  ? 90
+  : 130;
     const segmentSize = 360 / wheelNumbers.length;
     const angle = ((index + 0.5) * segmentSize - 90) * (Math.PI / 180);
 
