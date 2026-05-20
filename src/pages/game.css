@@ -470,10 +470,6 @@ body{
   }
 }
 @media (max-width: 770px) {
-  .game-container{
-      background-image: url("../../public/images/bg2.png") !important;
-      background-position: center 0px !important;
-  }
 .pointer.glow::before{
   content: '';
   position: absolute;
@@ -558,8 +554,8 @@ left: -24px;
   }
 
   .wheel-container {
-    width: 220px !important;
-    height: 220px !important;
+   width: 200px !important;
+    height: 200px !important;
     margin-top: -40px !important;
   }
 .betamount-tigger2{
@@ -569,40 +565,40 @@ left: -24px;
   width: 125px !important;
 }
   .wheel {
-    width: 200px !important;
-    height: 200px !important;
+   width: 160px !important;
+    height: 160px !important;
   }
 
   .wheel-border::after {
-    width: 80px !important;
-    height: 80px !important;
-    top: 37% !important;
-    left: 37% !important;
+   width: 70px !important;
+    height: 70px !important;
+    top: 36% !important;
+    left: 34% !important;
   }
 
   .wheel-border {
-    height: 262px !important;
-    width: 270px !important;
-    left: -29px !important;
-    top: -31px !important;
+   height: 210px !important;
+    width: 220px !important;
+    left: -11px !important;
+    top: -14px !important;
   }
 
   .pointer {
-    position: absolute !important;
-    top: -30px !important;
-    left: 37% !important;
+ position: absolute !important;
+    top: -10px !important;
+    left: 39% !important;
     z-index: 20 !important;
-    width: 60px !important;
-    height: 55px !important;
+    width: 50px !important;
+    height: 40px !important;
   }
 
   .nm {
-    width: 90% !important;
+    width: 80% !important;
   }
 
   .nm,
   .number div {
-    height: 60px !important;
+    height: 50px !important;
   }
 
   .prev-centl button,
@@ -611,9 +607,20 @@ left: -24px;
   }
 
   .cc {
-    bottom: 25% !important;
+    bottom: 22% !important;
   }
-
+.game-container{
+  background-position: center -46px !important;
+}
+.glyout{
+  margin-top: -24px;
+}
+.number-item{
+  font-size: 18px;
+}
+.wheel{
+  border:3px solid #bf7b06 !important;
+}
   .prev-centl button {
     width: 100px !important;
   }
@@ -699,12 +706,6 @@ position: absolute;
 
 @media screen and   ( max-height: 400px )
 {
-  .game-container{
-    background-position: center 0px !important;
-  background: url("../../public/images/bg2.png") !important;
-
-
-  }
      .pointer.glow::before{
   content: '';
   position: absolute;
@@ -789,8 +790,8 @@ left: -24px;
   }
 
   .wheel-container {
-    width: 220px !important;
-    height: 220px !important;
+ width: 200px !important;
+    height: 200px !important;
     margin-top: -40px !important;
   }
 .betamount-tigger2{
@@ -800,40 +801,40 @@ left: -24px;
   width: 125px !important;
 }
   .wheel {
-    width: 200px !important;
-    height: 200px !important;
+   width: 160px !important;
+    height: 160px !important;
   }
 
   .wheel-border::after {
-    width: 80px !important;
-    height: 80px !important;
-    top: 37% !important;
-    left: 37% !important;
+  width: 70px !important;
+    height: 70px !important;
+    top: 36% !important;
+    left: 34% !important;
   }
 
   .wheel-border {
-    height: 262px !important;
-    width: 270px !important;
-    left: -29px !important;
-    top: -31px !important;
+  height: 210px !important;
+    width: 220px !important;
+    left: -11px !important;
+    top: -14px !important;
   }
 
   .pointer {
-    position: absolute !important;
-    top: -30px !important;
-    left: 37% !important;
+  position: absolute !important;
+    top: -10px !important;
+    left: 39% !important;
     z-index: 20 !important;
-    width: 60px !important;
-    height: 55px !important;
+    width: 50px !important;
+    height: 40px !important;
   }
 
   .nm {
-    width: 90% !important;
+    width: 80% !important;
   }
 
   .nm,
   .number div {
-    height: 60px !important;
+    height: 50px !important;
   }
 
   .prev-centl button,
@@ -842,9 +843,20 @@ left: -24px;
   }
 
   .cc {
-    bottom: 25% !important;
+    bottom: 22% !important;
   }
-
+.game-container{
+  background-position: center -46px !important;
+}
+.glyout{
+  margin-top: -24px;
+}
+.wheel{
+  border:3px solid #bf7b06 !important;
+}
+.number-item{
+  font-size: 18px;
+}
   .prev-centl button {
     width: 100px !important;
   }

@@ -266,9 +266,9 @@ useEffect(() => {
 const isSmallHeight = window.innerHeight < 410;
 
 const radius = isSmallHeight
-  ? 70
+  ? 55
   : screenWidth <= 780
-  ? 70
+  ? 55
   : screenWidth <= 1360
   ? 90
   : 130;
@@ -655,7 +655,7 @@ const toggleFullscreen = () => {
 `}
 </style>
 
-   <div className="grid grid-cols-3 gap-3 mb-6">
+   <div className="grid grid-cols-3 gap-3 mb-6 glyout">
         <div>
           {/* <div className="light-group-left">
             <div className="light-1"><img src="/images/use/light.webp" alt="" /> </div>
