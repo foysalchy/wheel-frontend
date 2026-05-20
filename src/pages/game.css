@@ -468,7 +468,7 @@ body{
     height: 89px !important;
   }
 }
-@media (max-width: 770px) and (orientation: landscape) {
+@media (max-width: 770px) {
 .pointer.glow::before{
   content: '';
   position: absolute;
@@ -690,3 +690,12 @@ position: absolute;
   left: 78%;
 }
 
+ 
+
+@media screen and   ( max-height: 400px )
+{
+    .game-container {
+    transform: rotate(0deg);
+    
+  }
+}
