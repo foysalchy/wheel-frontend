@@ -263,7 +263,7 @@ useEffect(() => {
   // POSITION CALC
   // ======================
   const getNumberPosition = (index) => {
-const isSmallHeight = window.innerHeight < 400;
+const isSmallHeight = window.innerHeight < 410;
 
 const radius = isSmallHeight
   ? 70

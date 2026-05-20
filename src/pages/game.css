@@ -355,6 +355,7 @@ body{
     left: 100%;
     overflow: hidden;
     min-height: 45vh  !important;
+    background-position: center -56px !important;
   }
 }
 .pointer.glow::before{
@@ -694,6 +695,10 @@ position: absolute;
 
 @media screen and   ( max-height: 400px )
 {
+  .game-container{
+    background-position: center -56px !important;
+
+  }
      .pointer.glow::before{
   content: '';
   position: absolute;
