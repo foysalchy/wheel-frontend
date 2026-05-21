@@ -1048,53 +1048,36 @@ left: -24px;
     background-position: center -59px !important;
   }
 }
-
-.wheel-borderx{
-  display: none;
-}
-@media(max-width:1330px){
-   .game-container{
-    background-image: url('../../public/images/BGx.png') !important;
-   }
-  .wheel-borderx{
-  display: block;
-  position: absolute;
-  width: 1000px;
-  margin: auto;
+ 
+.wheel-borderx {
+  display: none !important;
+position: absolute;
   left: 0;
-  right: 0;
-  top: 10%;
+  right: 0px;
+  bottom: -161px;
+  width: 700px;
+  margin: auto;
 }
+@media (max-width: 770px){
+   .game-container {
+   background-image: url('../../public/images/BGx.png') !important;
+   }
+ 
+.wheel-border::before {
+  
+content: '';
+    position: absolute;
+    width: 350px;
+    height: 149px;
+    background-image: url("http://localhost:3000/static/media/bgb%20(2).e143b1586a5e7ee79d70.png");
+    background-size: auto;
+    z-index: 10;
+    background-size: cover;
+    top: 59%;
+    left: -69px;
+    z-index: -9;
+  
 }
-@media(max-width:1000px){
-   
-  .wheel-borderx{
-   
-width: 850px;
-    top: 131px;
-}
-}
-@media(max-width:850px){
-   
-  .wheel-borderx{
-   
-width: 850px;
-    top: 131px;
-}
-}
-@media(max-width:800px){
-   
-  .wheel-borderx{
-   
-width: 660px;
-    top: 0px;
-}
-}
-@media(max-width:767){
-   
-  .wheel-borderx{
-   
-width: 660px;
-    top: 0px;
-}
+
+ 
 }
