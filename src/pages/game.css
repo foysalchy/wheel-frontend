@@ -1048,3 +1048,53 @@ left: -24px;
     background-position: center -59px !important;
   }
 }
+
+.wheel-borderx{
+  display: none;
+}
+@media(max-width:1330px){
+   .game-container{
+    background-image: url('../../public/images/BGx.png') !important;
+   }
+  .wheel-borderx{
+  display: block;
+  position: absolute;
+  width: 1000px;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 10%;
+}
+}
+@media(max-width:1000px){
+   
+  .wheel-borderx{
+   
+width: 850px;
+    top: 131px;
+}
+}
+@media(max-width:850px){
+   
+  .wheel-borderx{
+   
+width: 850px;
+    top: 131px;
+}
+}
+@media(max-width:800px){
+   
+  .wheel-borderx{
+   
+width: 660px;
+    top: 0px;
+}
+}
+@media(max-width:767){
+   
+  .wheel-borderx{
+   
+width: 660px;
+    top: 0px;
+}
+}

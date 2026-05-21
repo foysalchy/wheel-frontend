@@ -638,7 +638,7 @@ const toggleFullscreen = () => {
     <div className="game-container"
         style={{
           backgroundImage:
-            "url('/images/BG.png')",
+            "url('/images/BGs.png')",
           backgroundSize: "cover",
           backgroundPosition: "center bottom",
           height:'100vh'
@@ -654,9 +654,9 @@ const toggleFullscreen = () => {
   }
 `}
 </style>
-  {/* <div className="wheel-borderx">
-          <img src="/images/badge.png" alt="" />
-        </div> */}
+  <div className="wheel-borderx">
+          <img src="/images/bgb.png" alt="" />
+        </div>
    <div className="grid grid-cols-3 gap-3 mb-6 glyout">
         <div>
           {/* <div className="light-group-left">
