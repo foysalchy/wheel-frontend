@@ -1005,7 +1005,7 @@ const toggleFullscreen = () => {
 
      
       </div>
-
+<div>
   <div className="prev-centl cc flex  w-[80%] m-auto px-4 bottom-[20%] absolute left-0 right-0 justify-between">
   
   <button onClick={repeatBet} className="w-[200px] h-[80px]">
@@ -1118,7 +1118,7 @@ const toggleFullscreen = () => {
   </button>
 
 </div>
-     
+     </div>
     </div>
   );
 }
