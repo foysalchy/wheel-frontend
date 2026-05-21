@@ -1109,3 +1109,21 @@ content: '';
 
  
 }
+
+@media (max-width: 470px) {
+  .wheel-border::before {
+   
+    width: 280px;
+    height: 120px;
+  
+    top: 67%;
+    left: -36px;}
+  }
+  @media (max-width: 370px) {
+  .wheel-border::before {
+  width: 250px;
+    height: 110px;
+    top: 69%;
+    left: -23px;
+  }
+}
