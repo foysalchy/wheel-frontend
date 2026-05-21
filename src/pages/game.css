@@ -969,6 +969,11 @@ left: -24px;
     background-position: center -95px !important;
   }
 }
+@media screen and (max-width: 767px) and (max-height: 932px) {
+  .game-container {
+    background-position: center -87px !important;
+  }
+}
 
 @media screen and (max-width: 767px) and (max-height: 926px) {
   .game-container {
