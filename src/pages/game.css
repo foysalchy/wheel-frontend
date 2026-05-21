@@ -1095,14 +1095,14 @@ content: '';
   
 content: '';
     position: absolute;
-    width: 350px;
-    height: 149px;
+   width: 320px;
+    height: 140px;
     background-image: url("../../public/images/bgb (2).png");
     background-size: auto;
     z-index: 10;
     background-size: cover;
-    top: 59%;
-    left: -69px;
+top: 62%;
+    left: -55px;
     z-index: -9;
   
 }
