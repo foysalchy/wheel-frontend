@@ -1081,3 +1081,27 @@ content: '';
 
  
 }
+@media screen and (max-width: 500px) and (max-height: 780px) {
+
+   .game-container {
+   background-image: url('../../public/images/BGx.png') !important;
+   }
+ 
+.wheel-border::before {
+  
+content: '';
+    position: absolute;
+    width: 350px;
+    height: 149px;
+    background-image: url("../../public/images/bgb (2).png");
+    background-size: auto;
+    z-index: 10;
+    background-size: cover;
+    top: 59%;
+    left: -69px;
+    z-index: -9;
+  
+}
+
+ 
+}
