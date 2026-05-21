@@ -1067,13 +1067,13 @@ position: absolute;
   
 content: '';
     position: absolute;
-    width: 170%;
-    height: 160px;
-    background-image: url("http://localhost:3000/static/media/bgb%20(2).e143b1586a5e7ee79d70.png");
+    width: 350px;
+    height: 149px;
+    background-image: url("../../public/images/bgb (2).png");
     background-size: auto;
     z-index: 10;
     background-size: cover;
-    top: 56%;
+    top: 59%;
     left: -69px;
     z-index: -9;
   
