@@ -1,7 +1,7 @@
 
 .game-container {
   text-align: center;
-  background: #0f172a;
+ 
   min-height: 100vh;
   color: white;
   padding: 20px;
@@ -345,6 +345,7 @@ body{
   margin: auto;
 }
 @media screen and (max-width: 768px) {
+  
   .game-container {
     transform: rotate(90deg);
     transform-origin: left top;
@@ -1081,10 +1082,13 @@ content: '';
 
  
 }
-@media screen and (max-width: 500px) and (max-height: 780px) {
+@media screen and (max-width: 1000px) and (max-height: 500px) {
+  
 
    .game-container {
    background-image: url('../../public/images/BGx.png') !important;
+   position: relative;
+   z-index: 9;
    }
  
 .wheel-border::before {
