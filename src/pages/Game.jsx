@@ -399,7 +399,7 @@ console.log(d,'result')
    setTimeout(() => {
     animateWallet(newWallet, 2000);
     
-  }, 2000);
+  }, 6500);
  
 }
 
@@ -495,7 +495,7 @@ const placeBet = (num) => {
   // 🔓 unlock after 2s
   setTimeout(() => {
     placingBetRef.current = false;
-  }, 700);
+  }, 200);
 
   // 🔊 sound
   placeBetSoundRef.current.currentTime = 0;
