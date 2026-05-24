@@ -12,57 +12,30 @@ export default function VipHistory() {
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
-
+const [page, setPage] = useState(1);
+const [total, setTotal] = useState(0);
+const limit = 5;
 const fetchData = useCallback(async () => {
   setLoading(true);
   try {
     const res = await axios.get(
-      "https://origensoft.com/api/auth/vip-history",
+      "http://origensoft.com/api/auth/vip-history",
       {
         headers: { Authorization: `Bearer ${token}` },
-        params: { from, to },
+        params: { from, to, page, limit },
       }
     );
-    setData(res.data);
+
+    setData(res.data.data);
+    setTotal(res.data.total);
   } catch (err) {
     console.error(err);
   } finally {
     setLoading(false);
   }
-}, [from, to, token]);
+}, [from, to, token, page]);
 
-  const groupedData = useMemo(() => {
-    const map = {};
-
-    data.forEach((item) => {
-      const date = new Date(item.created_at).toISOString().split("T")[0];
-
-      if (!map[date]) {
-        map[date] = {
-          date,
-          totalBet: 0,
-          totalPaid: 0,
-          totalUnpaid: 0,
-          totalBets: 0,
-        };
-      }
-
-      const amount = Number(item.amount) || 0;
-
-      map[date].totalBet += amount;
-      map[date].totalBets += 1;
-
-      if (Number(item.is_paid) === 1) {
-        map[date].totalPaid += amount;
-      } else {
-        map[date].totalUnpaid += amount;
-      }
-    });
-
-    return Object.values(map).sort(
-      (a, b) => new Date(b.date) - new Date(a.date)
-    );
-  }, [data]);
+ 
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
@@ -125,13 +98,13 @@ const fetchData = useCallback(async () => {
 
       {/* LIST */}
       <div className="px-4 mt-4 space-y-4">
-        {groupedData.length === 0 && !loading && (
+        {data?.length === 0 && !loading && (
           <p className="text-gray-400 text-center text-sm mt-10">
             No data found
           </p>
         )}
 
-        {groupedData.map((group) => (
+    {data?.map((group) => (
           <div
             key={group.date}
             className="rounded-2xl p-4"
@@ -143,7 +116,9 @@ const fetchData = useCallback(async () => {
           >
             {/* DATE */}
             <h3 className="flex justify-between text-center text-yellow-300 font-bold text-sm mb-3">
-             <span> {group.date}</span>
+          <span>
+  {new Date(group.date).toISOString().split("T")[0]}
+</span>
               <span>
                  {group.totalPaid > 0 ? (
                <span className="text-green-400">Paid</span>
@@ -185,6 +160,27 @@ const fetchData = useCallback(async () => {
             </div>
           </div>
         ))}
+        <div className="flex justify-between items-center px-4 mt-4 text-sm">
+  <button
+    disabled={page === 1}
+    onClick={() => setPage((p) => p - 1)}
+    className="px-3 py-1 bg-gray-700 rounded disabled:opacity-40"
+  >
+    Prev
+  </button>
+
+  <span className="text-gray-300">
+    Page {page} / {Math.ceil(total / limit) || 1}
+  </span>
+
+  <button
+    disabled={page * limit >= total}
+    onClick={() => setPage((p) => p + 1)}
+    className="px-3 py-1 bg-gray-700 rounded disabled:opacity-40"
+  >
+    Next
+  </button>
+</div>
       </div>
 
       {/* NAV */}
