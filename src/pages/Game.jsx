@@ -14,6 +14,7 @@ const soundUnlockedRef = useRef(false);
   const [isPageActive, setIsPageActive] = useState(true);
 const rotationRef = useRef(0);
   const [time, setTime] = useState(60);
+  const lastBetTimeRef = useRef(0);
   const placingBetRef = useRef(false);
   const [betCount, setBetCount] = useState(0);
   const [bets, setBets] = useState([]);
@@ -176,11 +177,19 @@ console.log(user,spinDuration)
 
   socket.emit("get_user", { token });
 
-  socket.on("user_data", (data) => {
-    console.log(data,'walletx2');
-    setUser(data);
-    setWallet(data.wallet);
-  });
+ socket.on("user_data", (data) => {
+  console.log(data, 'walletx2');
+  setUser(data);
+  
+  const timeSinceBet = Date.now() - lastBetTimeRef.current;
+  if (timeSinceBet < 3000) {
+    // ✅ recent bet আছে — wallet touch করবো না
+    return;
+  }
+  
+  setWallet(data.wallet);
+  walletRef.current = data.wallet;
+});
 
   socket.on("bet_count", (d) => {
     setBetCount(d.total);
@@ -214,51 +223,43 @@ useEffect(() => {
 }, []);
 
 const animateWallet = (end, duration = 2000) => {
-  if(walletRef.current === end) return; // no change
-  const start = walletRef.current;
-console.log(start,end,'sdfsdfsd')
+  const start = walletRef.current; // ref থেকে নাও
+  if (start === end) return;
+  
   let startTime = null;
-
   const animate = (currentTime) => {
     if (!startTime) startTime = currentTime;
-
-    const progress = Math.min(
-      (currentTime - startTime) / duration,
-      1
-    );
-
-    const currentValue = Math.floor(
-      start + (end - start) * progress
-    );
-
+    const progress = Math.min((currentTime - startTime) / duration, 1);
+    const currentValue = Math.floor(start + (end - start) * progress);
     setWallet(currentValue);
-
     if (progress < 1) {
       requestAnimationFrame(animate);
     } else {
-      walletRef.current = end;
+      walletRef.current = end; // ✅ শুধু এখানে update
+      setWallet(end);
     }
   };
-
   requestAnimationFrame(animate);
 };
 useEffect(() => {
-  socket.on("wallet_update", (data) => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-
-    if (data.userId === storedUser?.id) {
-      if (data.wallet !== null) {
-        animateWallet(data.wallet, 300);
-      }
+socket.on("wallet_update", (data) => {
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+  if (data.userId === storedUser?.id && data.wallet !== null) {
+    const timeSinceBet = Date.now() - lastBetTimeRef.current;
+    if (timeSinceBet < 3000) {
+      return;
     }
-  });
+    walletRef.current = data.wallet;
+    setWallet(data.wallet);
+  }
+});
 
   return () => socket.off("wallet_update");
 }, []);
 
-useEffect(() => {
-  walletRef.current = wallet;
-}, [wallet]);
+// useEffect(() => {
+//   walletRef.current = wallet;
+// }, [wallet]);
   // ======================
   // POSITION CALC
   // ======================
@@ -471,14 +472,61 @@ setTimeout(() => {
 //   }
 
 // }, [locked, time]);
+// const placeBet = (num) => {
+//   if (locked) return;
+
+//   // ✅ wait 2 sec before next bet
+//   if (placingBetRef.current) return;
+
+//   if (wallet <= 0) {
+//     Swal.fire({
+//       icon: "error",
+//       title: "Insufficient Balance",
+//       text: "You don't have enough balance to place a bet.",
+//       confirmButtonColor: "#d33",
+//       background: "#111",
+//       color: "#fff",
+//     });
+
+//     return;
+//   }
+
+//   placingBetRef.current = true;
+
+//   // 🔓 unlock after 2s
+//   setTimeout(() => {
+//     placingBetRef.current = false;
+//   }, 800);
+
+//   // 🔊 sound
+//   placeBetSoundRef.current.currentTime = 0;
+//   placeBetSoundRef.current.play();
+
+//   const amount = Number(betAmount);
+
+//   if (!amount || amount <= 0) return;
+
+//   socket.emit("place_bet", {
+//     token: localStorage.getItem("token"),
+//     number: num,
+//     amount,
+//   });
+
+//   if (wallet >= amount) {
+//     setBets((prev) => [
+//       ...prev,
+//       { num, amount, time: new Date().toLocaleTimeString() },
+//     ]);
+
+//     animateWallet(wallet - amount, 300);
+//   }
+// };
 const placeBet = (num) => {
   if (locked) return;
-
-  // ✅ wait 2 sec before next bet
   if (placingBetRef.current) return;
-
-  if (wallet <= 0) {
-    Swal.fire({
+  
+  if (walletRef.current <= 0) { // ✅ wallet state না, ref দিয়ে check
+  Swal.fire({
       icon: "error",
       title: "Insufficient Balance",
       text: "You don't have enough balance to place a bet.",
@@ -486,23 +534,16 @@ const placeBet = (num) => {
       background: "#111",
       color: "#fff",
     });
-
     return;
   }
 
   placingBetRef.current = true;
+  setTimeout(() => { placingBetRef.current = false; }, 300);
 
-  // 🔓 unlock after 2s
-  setTimeout(() => {
-    placingBetRef.current = false;
-  }, 800);
-
-  // 🔊 sound
   placeBetSoundRef.current.currentTime = 0;
   placeBetSoundRef.current.play();
 
   const amount = Number(betAmount);
-
   if (!amount || amount <= 0) return;
 
   socket.emit("place_bet", {
@@ -511,13 +552,11 @@ const placeBet = (num) => {
     amount,
   });
 
-  if (wallet >= amount) {
-    setBets((prev) => [
-      ...prev,
-      { num, amount, time: new Date().toLocaleTimeString() },
-    ]);
-
-    animateWallet(wallet - amount, 300);
+  if (walletRef.current >= amount) {
+    walletRef.current -= amount;
+    lastBetTimeRef.current = Date.now();
+    setWallet(walletRef.current); // ✅ এখন ref overwrite হবে না
+    setBets((prev) => [...prev, { num, amount, time: new Date().toLocaleTimeString() }]);
   }
 };
 const cancelBet = () => {
@@ -595,9 +634,9 @@ useEffect(() => {
 
   return () => socket.off("current_bets");
 }, []);
-useEffect(() => {
-  walletRef.current = wallet;
-}, [wallet]);
+// useEffect(() => {
+//   walletRef.current = wallet;
+// }, [wallet]);
 const toggleFullscreen = () => {
   const elem = document.documentElement;
 
