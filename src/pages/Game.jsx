@@ -186,7 +186,7 @@ console.log(user,spinDuration)
     // ✅ recent bet আছে — wallet touch করবো না
     return;
   }
-  
+  console.log("wallet_update2", data.wallet);
   setWallet(data.wallet);
   walletRef.current = data.wallet;
 });
@@ -221,6 +221,11 @@ useEffect(() => {
 
   return () => socket.off("last_results");
 }, []);
+const isSpinningRef = useRef(false);
+
+useEffect(() => {
+  isSpinningRef.current = isSpinning;
+}, [isSpinning]);
 
 const animateWallet = (end, duration = 2000) => {
   const start = walletRef.current; // ref থেকে নাও
@@ -242,19 +247,29 @@ const animateWallet = (end, duration = 2000) => {
   requestAnimationFrame(animate);
 };
 useEffect(() => {
-socket.on("wallet_update", (data) => {
-  const storedUser = JSON.parse(localStorage.getItem("user"));
-  if (data.userId === storedUser?.id && data.wallet !== null) {
-    const timeSinceBet = Date.now() - lastBetTimeRef.current;
-    if (timeSinceBet < 3000) {
-      return;
-    }
-    walletRef.current = data.wallet;
-    setWallet(data.wallet);
-  }
-});
+  const handler = (data) => {
+    console.log("wallet_update1", data.wallet,isSpinningRef.current);
 
-  return () => socket.off("wallet_update");
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+
+    if (data.userId === storedUser?.id && data.wallet !== null) {
+      const timeSinceBet = Date.now() - lastBetTimeRef.current;
+
+      if (timeSinceBet < 3000) return;
+
+      if (isSpinningRef.current) {
+        console.log("wallet update blocked during spin");
+        return;
+      }
+
+      walletRef.current = data.wallet;
+      setWallet(data.wallet);
+    }
+  };
+
+  socket.on("wallet_update", handler);
+
+  return () => socket.off("wallet_update", handler);
 }, []);
 
 // useEffect(() => {
@@ -386,7 +401,12 @@ console.log(d,'result')
   console.log("myWin:", myWinx);
 
   console.log(uid,myWinx,d.userWins,'userWins')
-
+console.log("wallet_update3",
+  "wallet before win",
+  walletRef.current,
+  "win",
+  myWinx
+);
   setBets([]);
    if (myWinx > 0) {
   const newWallet = walletRef.current + myWinx;
