@@ -1095,12 +1095,16 @@ const formatTime = (seconds) => {
             >
               {lastResults.slice(0,6).map((item, index, slicedArray) => {
                 const date = new Date(item.time);
-
+ date.setMinutes(Math.floor(minutes / 15) * 15);
+  date.setSeconds(0);
+  date.setMilliseconds(0);
                 const formattedTime = date.toLocaleTimeString("en-US", {
                   hour: "2-digit",
                   minute: "2-digit",
                   hour12: false,
                 });
+
+                
 
                 return (
                     <span key={index} className=""

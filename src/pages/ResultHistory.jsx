@@ -84,15 +84,21 @@ const fetchData = useCallback(
   // =====================
   // FORMAT TIME
   // =====================
-  const formatTime = (dateString) => {
-    const date = new Date(dateString);
+ const formatTime = (dateString) => {
+  const date = new Date(dateString);
 
-    return date.toLocaleTimeString("en-GB", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    });
-  };
+  // 15 মিনিটের slot এ floor করা
+  const minutes = date.getMinutes();
+  date.setMinutes(Math.floor(minutes / 15) * 15);
+  date.setSeconds(0);
+  date.setMilliseconds(0);
+
+  return date.toLocaleTimeString("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+};
 
   return (
     <div className="min-h-screen w-full lg:px-16 px-4 bg-[#020814] text-white flex flex-col">
@@ -163,10 +169,10 @@ To:
                   className="text-sm text-center flex flex-col items-center   lg:w-[5.55%]"
                 >
                  {gameModeType !== "1min" && (
-  <div className="mb-1 text-xs">
-    {formatTime(round.created_at)}
-  </div>
-)}
+                    <div className="mb-1 text-xs">
+                      {formatTime(round.created_at)}
+                    </div>
+                  )}
 
                   <div className="bg-white/5 rounded-full w-[30px] h-[30px] border border-yellow-500 flex items-center justify-center text-green-400 text-lg">
                     {round.result}
