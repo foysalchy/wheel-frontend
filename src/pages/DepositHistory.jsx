@@ -18,7 +18,7 @@ export default function DepositHistory() {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get(
-        "https://origensoft.com/api/auth/deposit-history",
+        "https://api.luckynumber.fun/api/auth/deposit-history",
         {
           headers: {
             Authorization: `Bearer ${token}`,

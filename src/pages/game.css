@@ -370,7 +370,7 @@ body{
   left: -30px;
   top: -35px;
 
-  animation: glowBlink 1s ease-in-out infinite;
+  animation: glowBlink 2s ease-in-out infinite;
 }
 @media (max-width: 1360px) {
 .pointer.glow::before{
@@ -384,7 +384,7 @@ body{
  left: -43px;
     top: -39px;
 
-  animation: glowBlink 1s ease-in-out infinite;
+  animation: glowBlink 2s ease-in-out infinite;
 }
   .score {
     height: 110px !important;
@@ -482,7 +482,7 @@ body{
 left: -24px;
     top: -25px;
 
-  animation: glowBlink 1s ease-in-out infinite;
+  animation: glowBlink 2s ease-in-out infinite;
 }
   .score {
     height: 70px !important;
@@ -518,6 +518,23 @@ left: -24px;
     display: inline-block;
     left: -13px;
     font-size: 12px !important;
+  }
+  .last span.result_item {
+    top: 0px !important;
+    width: 144px;
+    display: inline-block;
+    left: -13px;
+    font-size: 10px !important;
+  }
+
+  /* 5th item থেকে সব hide */
+  .result_item span:nth-child(n+4) {
+    display: none !important;
+  }
+  .result_item span{
+    padding:0 !important;
+    line-height: 10px !important;
+
   }
   .last{
     padding:15px !important
@@ -718,7 +735,7 @@ position: absolute;
 left: -24px;
     top: -25px;
 
-  animation: glowBlink 1s ease-in-out infinite;
+  animation: glowBlink 2s ease-in-out infinite;
 }
   .score {
     height: 70px !important;

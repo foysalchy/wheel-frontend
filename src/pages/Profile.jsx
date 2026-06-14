@@ -102,7 +102,7 @@ const [newPassword, setNewPassword] = useState("");
 const passChange = async () => {
   try {
     const res = await axios.post(
-      "https://origensoft.com/api/auth/change-password",
+      "https://api.luckynumber.fun/api/auth/change-password",
       {
         userId: profile.id,
         oldPassword,
@@ -155,7 +155,7 @@ const passChange = async () => {
             <div className="flex-shrink-0">
               <div className="  flex items-center justify-center shadow-lg">
              <img className='w-16 h-16 rounded-full'
-  src={`https://origensoft.com/uploads/deposits/${profile.photo}`}
+  src={`https://api.luckynumber.fun/uploads/deposits/${profile.photo}`}
   alt=""
 />
               </div>

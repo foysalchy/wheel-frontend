@@ -18,7 +18,7 @@ export default function WithdrawHistory() {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get(
-        "https://origensoft.com/api/auth/withdraw-history",
+        "https://api.luckynumber.fun/api/auth/withdraw-history",
         {
           headers: {
             Authorization: `Bearer ${token}`,

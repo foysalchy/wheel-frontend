@@ -19,7 +19,7 @@ const fetchData = useCallback(async () => {
   setLoading(true);
   try {
     const res = await axios.get(
-      "https://origensoft.com/api/auth/vip-history",
+      "https://api.luckynumber.fun/api/auth/vip-history",
       {
         headers: { Authorization: `Bearer ${token}` },
         params: { from, to, page, limit },

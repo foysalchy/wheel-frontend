@@ -14,6 +14,7 @@ import DepositHistory from "./pages/DepositHistory";
 import WithdrawHistory from "./pages/WithdrawHistory";
 import Register from "./pages/Register";
 import Privacy from "./pages/Privacy";
+import GameClose from "./pages/GameClose";
 
 export default function App() {
 
@@ -49,17 +50,22 @@ export default function App() {
           path="/login"
           element={user ? <Navigate to="/dashboard" /> : <Login />}
         />
+         
 
         {/* REGISTER */}
         <Route
-          path="/register"
+          path="/register-x"
           element={user ? <Navigate to="/dashboard" /> : <Register />}
         />
 
-        {/* GAME */}
+        {/* GAME */} 
         <Route
           path="/game"
           element={user ? <Game /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/game-close"
+          element={user ? <GameClose /> : <Navigate to="/login" />}
         />
 
         {/* PRIVACY */}

@@ -3,6 +3,7 @@ import socket from "../socket";
 import Swal from "sweetalert2";
 import "./game.css";
 import {  useNavigate } from "react-router-dom";
+import axios from "axios";
   const wheelNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9,0];
 export default function Game() {
   const navigate = useNavigate();
@@ -31,12 +32,47 @@ const [lastResults, setLastResults] = useState([]);
   const [wheelRotation, setWheelRotation] = useState(0);
   const [spinDuration, setspinDuration] = useState(3);
   
-
+  const [gameModeType, setGameModeType] = useState("1min");
+ 
   
   const [betAmount, setBetAmount] = useState(10);
 const [wallet, setWallet] = useState(0);
  const [showFsAlert, setShowFsAlert] = useState(false);
 const [user, setUser] = useState(null);
+
+
+
+useEffect(() => {
+  const checkGameTime = () => {
+    const now = new Date();
+
+    const bdTime = new Date(
+      now.toLocaleString("en-US", {
+         timeZone: "Asia/Kolkata",
+      })
+    );
+
+    const minutes =
+      bdTime.getHours() * 60 + bdTime.getMinutes();
+
+    const open = 9 * 60 + 15; // 9:15 AM
+    const close = 18 * 60; // 6:00 PM
+
+    const isOpen =
+      minutes >= open && minutes < close;
+
+    if (!isOpen) {
+      navigate("/game-close", { replace: true });
+    }
+  };
+
+  checkGameTime();
+
+  const interval = setInterval(checkGameTime, 30000);
+
+  return () => clearInterval(interval);
+}, [navigate]);
+
 
  useEffect(() => {
   const handleResize = () => setScreenWidth(window.innerWidth);
@@ -45,6 +81,31 @@ const [user, setUser] = useState(null);
 
   return () => window.removeEventListener("resize", handleResize);
 }, []);
+
+
+  const fetchSettings = async () => {
+    try {
+      const res = await axios.get(
+        "https://api.luckynumber.fun/api/auth/settings"
+      );
+
+      const data = res.data;
+
+     if (data.game_time_mode === "1") {
+      setGameModeType("1min");
+    } else {
+      setGameModeType("15min");
+    }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchSettings();
+  }, []);
+
+
  
 const stopAllSounds = () => {
   [wheelSoundRef, placeBetSoundRef, timerSoundRef].forEach((ref) => {
@@ -579,15 +640,17 @@ const placeBet = (num) => {
     setBets((prev) => [...prev, { num, amount, time: new Date().toLocaleTimeString() }]);
   }
 };
+ 
 const cancelBet = () => {
-  console.log('go')
-   if (locked) return;
+  if (locked) return;
+
+  lastBetTimeRef.current = 0;
+
   socket.emit("cancel_bet", {
     token: localStorage.getItem("token"),
   });
-  console.log('end')
 
-  setBets([]); // UI clear
+  setBets([]);
 };
 const repeatBet = () => {
   if (locked) return;
@@ -693,6 +756,11 @@ const toggleFullscreen = () => {
 
 //   document.addEventListener("click", handler);
 // }, []);
+const formatTime = (seconds) => {
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${mins}:${String(secs).padStart(2, "0")}`;
+};
   return (
     <div className="game-container"
         style={{
@@ -845,7 +913,7 @@ const toggleFullscreen = () => {
           textAlign: "center",
           fontSize:"22px"
                 }}
-        >⏱ {time}s</span>
+        >⏱ {gameModeType === "1min" ? formatTime(time) : formatTime(time)}s</span>
     </div>
    <div 
    className="flex betamount-tigger mt-6  m-auto"
@@ -983,20 +1051,81 @@ const toggleFullscreen = () => {
           padding:'37px',
         }}
     >
-     
-        <span
-        style={{
-         color: "black",
-  fontWeight: "800",
-  padding: "25px 0px",
-  position: "relative",
-  top: "-4px",
-  textAlign: "center",
-  fontSize:"22px"
-        }}
-        >  <span>
-  {lastResults.join(", ")}
-</span></span>
+      {gameModeType === "1min" ? (
+          <>
+            <span
+              style={{
+                color: "black",
+                fontWeight: "800",
+                padding: "25px 0px",
+                position: "relative",
+                top: "-4px",
+                textAlign: "center",
+                fontSize: "22px"
+              }}
+            >
+              {/* .slice(0, 8) ensures only the first 8 items are rendered */}
+              {lastResults.slice(0, 10).map((item, index, slicedArray) => {
+                const date = new Date(item.time);
+
+               
+                return (
+                  <span key={index}>
+                    {item.result}
+                    {/* Check against the length of the sliced array for the comma */}
+                    {index !== slicedArray.length - 1 ? ", " : ""}
+                  </span>
+                );
+              })}
+            </span>
+          </>
+        ) : (
+          <>
+            <span
+              style={{
+                color: "black",
+                display: "flex",
+                padding: "25px 0px",
+                position: "relative",
+                top: "-25px",
+                textAlign: "center",
+              
+              }}
+              className="result_item"
+            >
+              {lastResults.slice(0,6).map((item, index, slicedArray) => {
+                const date = new Date(item.time);
+
+                const formattedTime = date.toLocaleTimeString("en-US", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: false,
+                });
+
+                return (
+                    <span key={index} className=""
+                      style={{
+                        lineHeight: "15px",
+                        borderRight: index !== slicedArray.length - 1 ? "1px solid #000" : "none",
+                        padding: index !== slicedArray.length - 1 ? "0px 5px" : "0",
+                        }}
+                    >
+                      <div>{formattedTime}</div>
+                      <div
+                       style={{
+                       
+                        borderTop: "1px solid #000" ,
+                       
+                        }}
+                      ><b>{item.result}</b>  </div>
+                      
+                    </span>
+                );
+              })}
+                 
+            </span>
+          </>
+        )}
     </div>
     <div className="score veiw  w-[160px]  h-[50px]  m-auto"
      onClick={() => {

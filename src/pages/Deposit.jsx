@@ -27,7 +27,7 @@ export default function Deposit() {
       formData.append("screenshot", screenshot);
 
      await axios.post(
-  "https://origensoft.com/api/auth/deposit",
+  "https://api.luckynumber.fun/api/auth/deposit",
   formData,
   {
     headers: {

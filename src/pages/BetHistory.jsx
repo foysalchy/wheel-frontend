@@ -26,7 +26,7 @@ export default function BetHistory() {
         const token = localStorage.getItem("token");
 
         const res = await fetch(
-          `https://origensoft.com/api/auth/bet-history?page=${page}&limit=${limit}&status=${filterStatus}&from=${filterDate}&to=${filterDate}`,
+          `https://api.luckynumber.fun/api/auth/bet-history?page=${page}&limit=${limit}&status=${filterStatus}&from=${filterDate}&to=${filterDate}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

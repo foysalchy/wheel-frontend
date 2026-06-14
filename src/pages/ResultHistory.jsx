@@ -4,7 +4,7 @@ import { ChevronLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export default function ResultHistory() {
-  const [type, setType] = useState("1min");
+  const [gameModeType, setGameModeType] = useState("1min");
   const [groups, setGroups] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -18,15 +18,15 @@ const [toDate, setToDate] = useState("");
   const fetchSettings = async () => {
     try {
       const res = await axios.get(
-        "https://origensoft.com/api/auth/settings"
+        "https://api.luckynumber.fun/api/auth/settings"
       );
 
       const data = res.data;
 
      if (data.game_time_mode === "1") {
-      setType("1min");
+      setGameModeType("1min");
     } else {
-      setType("15min");
+      setGameModeType("15min");
     }
     } catch (err) {
       console.log(err);
@@ -41,10 +41,10 @@ const [toDate, setToDate] = useState("");
   // FETCH ROUND DATA
   // =====================
 const fetchData = useCallback(
-  async (newPage = 1, newType = type, from = fromDate, to = toDate) => {
+  async (newPage = 1, newType = gameModeType, from = fromDate, to = toDate) => {
     try {
       const res = await axios.get(
-        `https://origensoft.com/api/auth/round-history?type=${newType}&page=${newPage}&limit=30&fromDate=${from}&toDate=${to}`
+        `https://api.luckynumber.fun/api/auth/round-history?type=${newType}&page=${newPage}&limit=30&fromDate=${from}&toDate=${to}`
       );
 
       const allRounds = res.data.data.flat();
@@ -71,7 +71,7 @@ const fetchData = useCallback(
       console.log(err);
     }
   },
-  [type, fromDate, toDate]
+  [gameModeType, fromDate, toDate]
 );
 
   // =====================
@@ -129,7 +129,7 @@ To:
   />
 
   <button
-    onClick={() => fetchData(1, type, fromDate, toDate)}
+    onClick={() => fetchData(1, gameModeType, fromDate, toDate)}
     className="px-3 py-2 bg-yellow-500 text-black rounded"
   >
     Filter
@@ -162,7 +162,7 @@ To:
                   key={round.id}
                   className="text-sm text-center flex flex-col items-center   lg:w-[5.55%]"
                 >
-                 {type !== "1min" && (
+                 {gameModeType !== "1min" && (
   <div className="mb-1 text-xs">
     {formatTime(round.created_at)}
   </div>

@@ -16,7 +16,7 @@ export default function Login() {
       setLoading(true);
 
       const res = await axios.post(
-        "https://origensoft.com/api/auth/login",
+        "https://api.luckynumber.fun/api/auth/login",
         {
           username,
           password,
@@ -120,14 +120,7 @@ window.dispatchEvent(new Event("authChange"));
           </form>
 
           {/* REGISTER */}
-          <p className="text-center text-gray-500 text-sm mt-5">
-            <button
-              onClick={() => nav("/register")}
-              className="hover:text-yellow-400 transition"
-            >
-              Register New Account
-            </button>
-          </p>
+        
 
         </div>
       </div>

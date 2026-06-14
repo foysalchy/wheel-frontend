@@ -42,7 +42,7 @@ export default function Register() {
       formData.append("photo", photo);
 
       const res = await axios.post(
-        "https://origensoft.com/api/auth/register",
+        "https://api.luckynumber.fun/api/auth/register",
         formData,
         {
           headers: {
